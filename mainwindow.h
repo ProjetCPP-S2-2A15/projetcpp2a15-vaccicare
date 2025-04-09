@@ -24,29 +24,29 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_Ajouter_clicked();    // Ajouter un patient
-    void on_Modifier_clicked();   // Modifier un patient
-    void on_Supprimer_clicked();  // Supprimer un patient
-    void on_Rechercher_clicked(); // Rechercher un patient
+
+    void on_Pat_Button_Ajouter_clicked();
+
+    void on_Pat_Button_Modifier_clicked();
+
+    void on_Pat_Button_Supprimer_clicked();
+
+    void on_Pat_Combo_IDs_currentIndexChanged(int index);
+
+    void on_Pat_Button_Tri_Nom_clicked();
+
+    void on_Pat_Button_Tri_Statut_clicked();
+
+    void on_Pat_Button_Tri_Type_clicked();
+
+    void on_Pat_Line_Recherche_textChanged(const QString &arg1);
+
+    void on_Pat_Button_ExportPDF_clicked();
 
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;
-    Patient patient;
-
-    void connectToDatabase();
-    void updateTable();
-
-    // Fonctions de validation
-    bool validateID();
-    bool validateName(const QString& name);
-    bool validateDate(const QString& date);
-    bool validateSexe();
-    bool validateAdresse();
-    bool validatePhoneOrCIN(const QString& input);
-    bool validateGroupeSanguin();
-    bool validateStatutVaccinal();
-    bool validateDateVaccin();
+    Patient P;
 };
 
 #endif // MAINWINDOW_H

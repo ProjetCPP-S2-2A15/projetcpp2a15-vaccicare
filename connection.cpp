@@ -1,23 +1,31 @@
 #include "connection.h"
+#include <QSqlError>
+#include <QDebug>
 
-Connection::Connection()
-{
+Connection::Connection() {
 
+    db = QSqlDatabase::addDatabase("QODBC"); // Initialize the database connection only once
+    db.setDatabaseName("ProjetCPP");
+    db.setUserName("Slim");
+    db.setPassword("Slim");
 }
 
-bool Connection::createconnect()
-{bool test=false;
-    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-    db.setDatabaseName("VACCICARE");//inserer le nom de la source de données
-    db.setUserName("SYSTEM");//inserer nom de l'utilisateur
-    db.setPassword("1234");//inserer mot de passe de cet utilisateur
+bool Connection::CreateConnexion() {
+    bool test = false;
+    if (db.open()) {
+        test = true;
+    } else {
+        qDebug() << "Database Error: " << db.lastError().text();
+    }
+    return test;
+}
 
-    if (db.open())
-        test=true;
+void Connection::FermerConnexion() {
+    if (db.isOpen()) {
+        db.close();
+    }
+}
 
-
-
-
-
-    return  test;
+bool Connection::OuvrirConnexion() {
+    return db.open();
 }
