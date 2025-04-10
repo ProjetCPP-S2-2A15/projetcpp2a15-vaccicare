@@ -18,6 +18,125 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setStyleSheet(R"(
+
+    /* --- Base de l'application --- */
+    QWidget {
+        background-color: #2c3e50; /* bleu-gris foncé */
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 13px;
+        color: #ecf0f1; /* gris très clair */
+    }
+
+    /* --- Champ de recherche --- */
+    QLineEdit#lineEdit_rechercher {
+        background-color: #34495e; /* bleu foncé */
+        border: 1px solid #1abc9c; /* turquoise */
+        border-radius: 6px;
+        padding: 6px;
+        color: #ecf0f1;
+    }
+
+    QLineEdit#lineEdit_rechercher:focus {
+        border: 1px solid #3498db;
+        background-color: #3c5a72;
+    }
+
+    /* --- ComboBox --- */
+    QComboBox#comboBox, QComboBox#comboBox_tri {
+        background-color: #34495e;
+        color: #ecf0f1;
+        border: 1px solid #1abc9c;
+        border-radius: 6px;
+        padding: 6px;
+    }
+
+    QComboBox:hover {
+        border: 1px solid #3498db;
+    }
+
+    /* --- Table --- */
+    QTableView {
+        background-color: #3c5a72;
+        border: 1px solid #1abc9c;
+        border-radius: 6px;
+        gridline-color: #16a085;
+        color: #ecf0f1;
+        selection-background-color: #27ae60;
+    }
+
+    QHeaderView::section {
+        background-color: #2980b9;
+        color: #ecf0f1;
+        padding: 5px;
+        border: 1px solid #1abc9c;
+    }
+
+    /* --- Bouton Supprimer (ROUGE) --- */
+    QPushButton#pushButton_2 {
+        background-color: #e74c3c;
+        color: #ecf0f1;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-weight: bold;
+    }
+
+    QPushButton#pushButton_2:hover {
+        background-color: #c0392b;
+    }
+
+    /* --- Bouton PDF (VERT) --- */
+    QPushButton#pushButton_pdf {
+        background-color: #27ae60;
+        color: #ecf0f1;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-weight: bold;
+    }
+
+    QPushButton#pushButton_pdf:hover {
+        background-color: #1e8449;
+    }
+
+    /* --- Tous les autres boutons (BLEU) --- */
+    QPushButton {
+        background-color: #3498db;
+        color: #ecf0f1;
+        border: none;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-weight: bold;
+    }
+
+    QPushButton:hover {
+        background-color: #2980b9;
+    }
+
+    /* --- Onglets --- */
+    QTabWidget::pane {
+        border: none;
+    }
+
+    QTabBar::tab {
+        background: #16a085;
+        border: 1px solid #1abc9c;
+        padding: 6px 12px;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        color: #ecf0f1;
+    }
+
+    QTabBar::tab:selected {
+        background: #1abc9c;
+        color: #2c3e50;
+    }
+
+)");
+
+
+
     connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_pushButton3_ajouter_clicked);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::on_pushButton_2_supprimer_clicked);
     connect(ui->pushButton_4, &QPushButton::clicked, this, &MainWindow::on_pushButton_modifier_clicked);
