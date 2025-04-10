@@ -19,12 +19,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
 private:
+
     Connection Cnx;
     Ui::MainWindow *ui;
     void SetupTable();
-    void FillTable();
+    void FillTable(bool AFFICHER_CLOTURER,QString NomChercheur);
     void AddProject();
     void ModifyProject();
     void DeleteProject();
@@ -33,3 +33,4 @@ private:
     void ExportProjectList();
 };
 #endif // MAINWINDOW_H
+

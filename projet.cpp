@@ -5,10 +5,22 @@ Projet::Projet()
 
 }
 
-std::vector<Projet> Projet::ReadProjectListFromDB(){
+std::vector<Projet> Projet::ReadProjectListFromDB(bool AFFICHER_CLOTURER,QString NomMedecin){
     std::vector<Projet> ProjectList;
     QSqlQuery Querry;
-    Querry.prepare("Select * from Projet where ID_PROJET > 0;");
+    QString STATUT_VALUES = "('EN COURS','ARRETER')";
+    if (AFFICHER_CLOTURER) {
+        STATUT_VALUES = "('EN COURS','ARRETER','CLOTURER')";
+
+
+    QString QuerryDetail = "SELECT P.ID_PROJET, P.NOM, P.DATE_DEBUT, P.RESPONSABLE "
+                           "FROM Projet P "
+                           "JOIN MEDECIN M ON P.RESPONSABLE = M.ID_CHERCHEUR "
+                           "WHERE P.ID_PROJET > 0 "
+                           "AND P.STATUT IN " + STATUT_VALUES + " "
+                           "AND LOWER(M.NOM) LIKE '%" + NomMedecin.toLower() + "%'";
+
+    Querry.prepare(QuerryDetail);
     if(!Querry.exec()){
         return ProjectList;
     }

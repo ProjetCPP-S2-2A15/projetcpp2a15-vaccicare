@@ -12,12 +12,7 @@ bool Connection::createconnect()
     db.setUserName("VacciDB");//inserer nom de l'utilisateur
     db.setPassword("1234");//inserer mot de passe de cet utilisateur
 
-    if (db.open())
-        test=true;
-
-
-
-
+    if (db.open()){test=true;}
 
     return  test;
 }
