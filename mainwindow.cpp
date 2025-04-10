@@ -11,10 +11,13 @@ MainWindow::MainWindow(QWidget *parent) :
     Cnx.createconnect();
     UpdateTable(v);
 
-    connect(ui->pushButtonAjouter,&QPushButton::clicked,this,&MainWindow::on_ajouterButton_clicked);
-    connect(ui->PushButtonModifier,&QPushButton::clicked,this,&MainWindow::on_ModifierButton_clicked);
-    connect(ui->PushButtonSupprimer,&QPushButton::clicked,this,&MainWindow::on_SupprimerButton_clicked);
+    ui->comboBoxAgent->addItems({"Virus","Bactérie","Parasite","Champignon","Autre"});
+    ui->comboBoxStatut->addItems({"En recherche","PhaseI","PhaseII","PhaseIII","Approuvé","Suspendu"});
+    ui->comboBoxAutorisation->addItems({"FDA","EMA","OMS","ANSM","Autre"});
 
+    connect(ui->pushButtonAjouter, &QPushButton::clicked, this, &MainWindow::on_ajouterButton_clicked);
+    connect(ui->PushButtonModifier, &QPushButton::clicked, this, &MainWindow::on_ModifierButton_clicked);
+    connect(ui->PushButtonSupprimer, &QPushButton::clicked, this, &MainWindow::on_SupprimerButton_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -23,49 +26,43 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::on_ajouterButton_clicked() {
-    int id = ui->lineEditID->text().toInt();
+    int id = ui->lineEdit->text().toInt();
     QString nom = ui->lineEditNom->text();
-    //int idType = ui->lineEditType->text().toInt();
     int idType = 0;
-    QString agent = ui->lineEditAgent->text();
-    QString statut = ui->lineEditStatut->text();
-    //int dateDev = ui->lineEditDateDev->text().toInt();
-    int dateDev = 100;
+    QString agent = ui->comboBoxAgent->currentText();
+    QString statut = ui->comboBoxStatut->currentText();
+    QDate dateDev = ui->dateEditDateDev->date();
     QString pays = ui->lineEditPays->text();
     float temp = ui->lineEditTemp->text().toFloat();
     int stock = ui->lineEditStock->text().toInt();
-    //int datePer = ui->lineEditPeremption->text().toInt();
-    int datePer = 200;
-    QString autorisation = ui->lineEditAutorisation->text();
+    QDate datePer = ui->dateEditPeremption->date();
+    QString autorisation = ui->comboBoxAutorisation->currentText();
 
     Vaccin v(id, nom, idType, agent, statut, dateDev, pays, temp, stock, datePer, autorisation);
     if (v.ajouter()) {
-        QMessageBox::warning(this, "Success", "Ajout Success !");
+        QMessageBox::information(this, "Success", "Ajout Success !");
         UpdateTable(v);
     } else {
         QMessageBox::warning(this, "Erreur", "Ajout échoué !");
     }
 }
 
-void MainWindow::UpdateTable(Vaccin v){
+void MainWindow::UpdateTable(Vaccin v) {
     ui->tableViewVaccins->setModel(v.afficher());
 }
 
-void MainWindow::on_ModifierButton_clicked(){
-    int id = ui->lineEditID->text().toInt();
+void MainWindow::on_ModifierButton_clicked() {
+    int id = ui->lineEdit->text().toInt();
     QString nom = ui->lineEditNom->text();
-    //int idType = ui->lineEditType->text().toInt();
     int idType = 0;
-    QString agent = ui->lineEditAgent->text();
-    QString statut = ui->lineEditStatut->text();
-    //int dateDev = ui->lineEditDateDev->text().toInt();
-    int dateDev = 100;
+    QString agent = ui->comboBoxAgent->currentText();
+    QString statut = ui->comboBoxStatut->currentText();
+    QDate dateDev = ui->dateEditDateDev->date();
     QString pays = ui->lineEditPays->text();
     float temp = ui->lineEditTemp->text().toFloat();
     int stock = ui->lineEditStock->text().toInt();
-    //int datePer = ui->lineEditPeremption->text().toInt();
-    int datePer = 200;
-    QString autorisation = ui->lineEditAutorisation->text();
+    QDate datePer = ui->dateEditPeremption->date();
+    QString autorisation = ui->comboBoxAutorisation->currentText();
 
     Vaccin v;
     if (!v.existe(id)) {
@@ -75,20 +72,20 @@ void MainWindow::on_ModifierButton_clicked(){
 
     v = Vaccin(id, nom, idType, agent, statut, dateDev, pays, temp, stock, datePer, autorisation);
     if (v.modifier()) {
-        QMessageBox::warning(this, "Success", "Modifier Success !");
+        QMessageBox::information(this, "Success", "Modification Success !");
         UpdateTable(v);
     } else {
-        QMessageBox::warning(this, "Erreur", "Modifier échoué !");
+        QMessageBox::warning(this, "Erreur", "Modification échouée !");
     }
 }
 
-void MainWindow::on_SupprimerButton_clicked(){
-    int id = ui->lineEditID->text().toInt();
-    Vaccin v(id, "", 0, "", "", 0, "", 0, 0, 0, "");
+void MainWindow::on_SupprimerButton_clicked() {
+    int id = ui->lineEdit->text().toInt();
+    Vaccin v(id, "", 0, "", "", QDate(), "", 0, 0, QDate(), "");
     if (v.supprimer(id)) {
-        QMessageBox::warning(this, "Success", "Supprimer Success !");
+        QMessageBox::information(this, "Success", "Suppression Success !");
         UpdateTable(v);
     } else {
-        QMessageBox::warning(this, "Erreur", "Supprimer échoué !");
+        QMessageBox::warning(this, "Erreur", "Suppression échouée !");
     }
 }

@@ -1,17 +1,15 @@
 #include "vaccin.h"
 
-Vaccin::Vaccin(){
+Vaccin::Vaccin() {}
 
-}
-
-Vaccin::Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QString statutDev, int deteDev, QString paysOrigine,
-               float tempConservation,int stockDisponible, int datePeremption, QString autorisation){
+Vaccin::Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QString statutDev, QDate dateDev, QString paysOrigine,
+               float tempConservation, int stockDisponible, QDate datePeremption, QString autorisation) {
     this->id = id;
     this->nom = nom;
-    this->idTypeVaccin = idTypeVaccin;
+    this->idTypeVaccin = 0;
     this->agentCible = agentCible;
     this->statutDev = statutDev;
-    this->dateDev = deteDev;
+    this->dateDev = dateDev;
     this->paysOrigine = paysOrigine;
     this->tempConservation = tempConservation;
     this->stockDisponible = stockDisponible;
@@ -20,30 +18,38 @@ Vaccin::Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QStrin
 }
 
 bool Vaccin::verifierSaisie(QString &messageErreur) {
+
     if (id <= 0) {
         messageErreur = "L'ID du vaccin doit être un nombre positif.";
         return false;
     }
+
     if (nom.isEmpty() || nom.length() > 30) {
         messageErreur = "Le nom du vaccin doit contenir entre 1 et 30 caractères.";
         return false;
     }
-    if (idTypeVaccin < 0) {
-        messageErreur = "L'ID du type de vaccin doit être positif.";
+
+    if (statutDev.isEmpty()) {
+        messageErreur = "Veuillez sélectionner un statut de développement.";
         return false;
     }
-    if (agentCible.isEmpty() || agentCible.length() > 30) {
-        messageErreur = "L'agent pathogène ciblé doit contenir entre 1 et 30 caractères.";
+
+    if (agentCible.isEmpty()) {
+        messageErreur = "Veuillez sélectionner un agent pathogène ciblé.";
         return false;
     }
-    if (statutDev.isEmpty() || statutDev.length() > 20) {
-        messageErreur = "Le statut de développement doit contenir entre 1 et 20 caractères.";
+
+    if (autorisation.isEmpty()) {
+        messageErreur = "Veuillez sélectionner un type d'autorisation.";
         return false;
     }
-    if (dateDev <= 0) {
-        messageErreur = "La date de développement doit être un nombre positif.";
+
+
+    if (dateDev.isNull()) {
+        messageErreur = "La date de développement doit être valide.";
         return false;
     }
+
     if (paysOrigine.isEmpty() || paysOrigine.length() > 20) {
         messageErreur = "Le pays d'origine doit contenir entre 1 et 20 caractères.";
         return false;
@@ -56,21 +62,18 @@ bool Vaccin::verifierSaisie(QString &messageErreur) {
         messageErreur = "Le stock disponible ne peut pas être négatif.";
         return false;
     }
-    if (datePeremption <= 0) {
-        messageErreur = "La date de péremption doit être un nombre positif.";
+    if (datePeremption.isNull()) {
+        messageErreur = "La date de péremption doit être valide.";
         return false;
     }
-    if (autorisation.length() > 30) {
-        messageErreur = "L'autorisation réglementaire doit contenir au maximum 30 caractères.";
-        return false;
-    }
+
     return true;
 }
 
 bool Vaccin::ajouter() {
     QString erreur;
     if (!verifierSaisie(erreur)) {
-        QMessageBox::warning(NULL, "Echoué",erreur);
+        QMessageBox::warning(NULL, "Echoué", erreur);
         return false;
     }
 
@@ -82,11 +85,11 @@ bool Vaccin::ajouter() {
     query.bindValue(":idTypeVaccin", idTypeVaccin);
     query.bindValue(":agentCible", agentCible);
     query.bindValue(":statutDev", statutDev);
-    query.bindValue(":dateDev", dateDev);
+    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev.toString("dd/MM/yyyy")));
     query.bindValue(":paysOrigine", paysOrigine);
     query.bindValue(":tempConservation", tempConservation);
     query.bindValue(":stockDisponible", stockDisponible);
-    query.bindValue(":datePeremption", datePeremption);
+    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption.toString("dd/MM/yyyy")));
     query.bindValue(":autorisation", autorisation);
 
     return query.exec();
@@ -95,9 +98,8 @@ bool Vaccin::ajouter() {
 bool Vaccin::modifier() {
     QString erreur;
     if (!verifierSaisie(erreur)) {
-        QMessageBox::warning(NULL, "Echoué",erreur);
-        return false;
-    }
+        QMessageBox::warning(NULL, "Echoué", erreur);
+        return false;    }
 
     QSqlQuery query;
     query.prepare("UPDATE VACCIN SET NOM=:nom, ID_TYPE_VACCIN=:idTypeVaccin, AGENT_CIBLE=:agentCible, STATUT_DEVELOPPEMENT=:statutDev, DATE_DEVELOPPEMENT=:dateDev, PAYS_ORIGINE=:paysOrigine, TEMP_CONSERVATION=:tempConservation, STOCK_DISPONIBLE=:stockDisponible, DATE_PEREMPTION=:datePeremption, AUTORISATION=:autorisation WHERE ID_VACCIN=:id");
@@ -106,11 +108,11 @@ bool Vaccin::modifier() {
     query.bindValue(":idTypeVaccin", idTypeVaccin);
     query.bindValue(":agentCible", agentCible);
     query.bindValue(":statutDev", statutDev);
-    query.bindValue(":dateDev", dateDev);
+    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev.toString("dd/MM/yyyy")));
     query.bindValue(":paysOrigine", paysOrigine);
     query.bindValue(":tempConservation", tempConservation);
     query.bindValue(":stockDisponible", stockDisponible);
-    query.bindValue(":datePeremption", datePeremption);
+    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption.toString("dd/MM/yyyy")));
     query.bindValue(":autorisation", autorisation);
 
     return query.exec();
@@ -118,7 +120,7 @@ bool Vaccin::modifier() {
 
 bool Vaccin::supprimer(int id) {
     if (id <= 0) {
-        QMessageBox::warning(NULL, "Echoué","Erreur : ID invalide.");
+        QMessageBox::warning(NULL, "Echoué", "Erreur : ID invalide.");
         return false;
     }
 
@@ -128,9 +130,9 @@ bool Vaccin::supprimer(int id) {
     return query.exec();
 }
 
-QSqlQueryModel* Vaccin::afficher(){
+QSqlQueryModel* Vaccin::afficher() {
     QSqlQueryModel* model = new QSqlQueryModel();
-    model->setQuery("SELECT * FROM VACCIN");
+    model->setQuery("SELECT * FROM VACCIN WHERE ID_VACCIN > 0");
     return model;
 }
 
@@ -140,7 +142,7 @@ bool Vaccin::existe(int id) {
     query.bindValue(":id", id);
 
     if (query.exec() && query.next()) {
-        return query.value(0).toInt() > 0;  // Retourne true si l'ID existe
+        return query.value(0).toInt() > 0;
     }
     return false;
 }

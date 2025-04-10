@@ -10,18 +10,19 @@ CONFIG += c++17
 
 SOURCES += \
     connection.cpp \
+    date.cpp \
     main.cpp \
     mainwindow.cpp \
     vaccin.cpp
 
 HEADERS += \
     connection.h \
+    date.h \
     mainwindow.h \
     vaccin.h
 
 FORMS += \
-    mainwindow.ui \
-    vaccin.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

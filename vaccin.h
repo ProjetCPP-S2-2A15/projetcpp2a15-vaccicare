@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include "QMessageBox"
+#include "date.h"
 
 class Vaccin {
 private:
@@ -14,23 +15,22 @@ private:
     int idTypeVaccin;
     QString agentCible;
     QString statutDev;
-    int dateDev;
+    QDate dateDev;
     QString paysOrigine;
     float tempConservation;
     int stockDisponible;
-    int datePeremption;
+    QDate datePeremption;
     QString autorisation;
 
 public:
     Vaccin();
-    Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QString statutDev, int deteDev, QString paysOrigine, float tempConservation, int stockDisponible, int datePeremption, QString autorisation);
+    Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QString statutDev, QDate dateDev, QString paysOrigine, float tempConservation, int stockDisponible, QDate datePeremption, QString autorisation);
 
     bool ajouter();
     QSqlQueryModel* afficher();
     bool supprimer(int);
     bool modifier();
     bool existe(int id);
-    // Méthode de validation
     bool verifierSaisie(QString &messageErreur);
 };
 
