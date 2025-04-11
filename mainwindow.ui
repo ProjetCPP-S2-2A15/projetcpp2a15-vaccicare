@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>896</width>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>801</width>
-      <height>571</height>
+      <width>901</width>
+      <height>671</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -246,16 +246,6 @@
        </rect>
       </property>
      </widget>
-     <widget class="QTableView" name="tableViewVaccins">
-      <property name="geometry">
-       <rect>
-        <x>410</x>
-        <y>90</y>
-        <width>256</width>
-        <height>321</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QLineEdit" name="lineEditPays">
       <property name="geometry">
        <rect>
@@ -282,8 +272,8 @@
      <widget class="QPushButton" name="pushButton_4">
       <property name="geometry">
        <rect>
-        <x>790</x>
-        <y>390</y>
+        <x>740</x>
+        <y>280</y>
         <width>93</width>
         <height>29</height>
        </rect>
@@ -322,6 +312,55 @@
        </rect>
       </property>
      </widget>
+     <widget class="QTableWidget" name="tableViewVaccins">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>30</y>
+        <width>256</width>
+        <height>381</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>550</y>
+        <width>151</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Tri Par Date Prem</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="checkBox_2">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>510</y>
+        <width>171</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Tri Par Date Dev</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="PushButtonRefresh">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>530</y>
+        <width>93</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Refresh</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -335,7 +374,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>896</width>
      <height>26</height>
     </rect>
    </property>

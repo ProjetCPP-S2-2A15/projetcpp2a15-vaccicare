@@ -16,6 +16,17 @@ Vaccin::Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QStrin
     this->datePeremption = datePeremption;
     this->autorisation = autorisation;
 }
+bool Vaccin::idExists(int id) {
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(*) FROM VACCIN WHERE ID_VACCIN = :id");
+    query.bindValue(":id", id);
+    query.exec();
+
+    if (query.next()) {
+        return query.value(0).toInt() > 0;
+    }
+    return false;
+}
 
 bool Vaccin::verifierSaisie(QString &messageErreur) {
 
@@ -130,11 +141,89 @@ bool Vaccin::supprimer(int id) {
     return query.exec();
 }
 
-QSqlQueryModel* Vaccin::afficher() {
-    QSqlQueryModel* model = new QSqlQueryModel();
-    model->setQuery("SELECT * FROM VACCIN WHERE ID_VACCIN > 0");
-    return model;
+std::vector<Vaccin> Vaccin::afficher() {
+    QSqlQuery Querry;
+    QString QuerryDetail = "SELECT * FROM VACCIN WHERE ID_VACCIN > 0";
+    Querry.prepare(QuerryDetail);
+    Querry.exec();
+
+    std::vector<Vaccin> ListVaccin;
+
+    Vaccin Temp;
+    while(Querry.next()){
+        Temp.id = Querry.value("ID_VACCIN").toInt();
+        Temp.nom = Querry.value("NOM").toString();
+        Temp.agentCible = Querry.value("AGENT_CIBLE").toString();
+        Temp.statutDev = Querry.value("STATUT_DEVELOPPEMENT").toString();
+        Temp.dateDev = Date::ConvertIntToDate(Querry.value("DATE_DEVELOPPEMENT").toInt());
+        Temp.paysOrigine = Querry.value("PAYS_ORIGINE").toString();
+        Temp.tempConservation = Querry.value("TEMP_CONSERVATION").toFloat();
+        Temp.stockDisponible = Querry.value("STOCK_DISPONIBLE").toInt();
+        Temp.datePeremption = Date::ConvertIntToDate(Querry.value("DATE_PEREMPTION").toInt());
+        Temp.autorisation = Querry.value("AUTORISATION").toString();
+
+        ListVaccin.push_back(Temp);
+    }
+
+    return ListVaccin;
 }
+
+std::vector<Vaccin> Vaccin::afficherTriParDateDev() {
+    QSqlQuery Querry;
+    QString QuerryDetail = "SELECT * FROM vaccin ORDER BY DATE_DEVELOPPEMENT ASC";
+    Querry.prepare(QuerryDetail);
+    Querry.exec();
+
+    std::vector<Vaccin> ListVaccin;
+
+    Vaccin Temp;
+    while(Querry.next()){
+        Temp.id = Querry.value("ID_VACCIN").toInt();
+        Temp.nom = Querry.value("NOM").toString();
+        Temp.agentCible = Querry.value("AGENT_CIBLE").toString();
+        Temp.statutDev = Querry.value("STATUT_DEVELOPPEMENT").toString();
+        Temp.dateDev = Date::ConvertIntToDate(Querry.value("DATE_DEVELOPPEMENT").toInt());
+        Temp.paysOrigine = Querry.value("PAYS_ORIGINE").toString();
+        Temp.tempConservation = Querry.value("TEMP_CONSERVATION").toFloat();
+        Temp.stockDisponible = Querry.value("STOCK_DISPONIBLE").toInt();
+        Temp.datePeremption = Date::ConvertIntToDate(Querry.value("DATE_PEREMPTION").toInt());
+        Temp.autorisation = Querry.value("AUTORISATION").toString();
+
+        ListVaccin.push_back(Temp);
+    }
+
+    return ListVaccin;
+}
+
+
+
+std::vector<Vaccin> Vaccin::afficherTriParDatePrem() {
+    QSqlQuery Querry;
+    QString QuerryDetail = "SELECT * FROM vaccin ORDER BY DATE_PEREMPTION ASC";
+    Querry.prepare(QuerryDetail);
+    Querry.exec();
+
+    std::vector<Vaccin> ListVaccin;
+
+    Vaccin Temp;
+    while(Querry.next()){
+        Temp.id = Querry.value("ID_VACCIN").toInt();
+        Temp.nom = Querry.value("NOM").toString();
+        Temp.agentCible = Querry.value("AGENT_CIBLE").toString();
+        Temp.statutDev = Querry.value("STATUT_DEVELOPPEMENT").toString();
+        Temp.dateDev = Date::ConvertIntToDate(Querry.value("DATE_DEVELOPPEMENT").toInt());
+        Temp.paysOrigine = Querry.value("PAYS_ORIGINE").toString();
+        Temp.tempConservation = Querry.value("TEMP_CONSERVATION").toFloat();
+        Temp.stockDisponible = Querry.value("STOCK_DISPONIBLE").toInt();
+        Temp.datePeremption = Date::ConvertIntToDate(Querry.value("DATE_PEREMPTION").toInt());
+        Temp.autorisation = Querry.value("AUTORISATION").toString();
+
+        ListVaccin.push_back(Temp);
+    }
+
+    return ListVaccin;
+}
+
 
 bool Vaccin::existe(int id) {
     QSqlQuery query;

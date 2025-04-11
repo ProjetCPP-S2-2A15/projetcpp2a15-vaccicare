@@ -10,6 +10,9 @@
 
 class Vaccin {
 private:
+
+
+public:
     int id;
     QString nom;
     int idTypeVaccin;
@@ -21,13 +24,13 @@ private:
     int stockDisponible;
     QDate datePeremption;
     QString autorisation;
-
-public:
     Vaccin();
     Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QString statutDev, QDate dateDev, QString paysOrigine, float tempConservation, int stockDisponible, QDate datePeremption, QString autorisation);
-
+    bool idExists(int id);
     bool ajouter();
-    QSqlQueryModel* afficher();
+    static std::vector<Vaccin> afficher();
+    static std::vector<Vaccin> afficherTriParDateDev();
+    static std::vector<Vaccin> afficherTriParDatePrem();
     bool supprimer(int);
     bool modifier();
     bool existe(int id);

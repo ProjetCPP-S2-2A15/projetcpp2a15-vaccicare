@@ -5,6 +5,7 @@
 #include "QMessageBox"
 #include "connection.h"
 #include "vaccin.h"
+#include <QSqlTableModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,9 +23,12 @@ public:
     void on_ajouterButton_clicked();
     void on_ModifierButton_clicked();
     void on_SupprimerButton_clicked();
+    void onRowClicked(const QModelIndex &index);
+    void onClickRefreshTable();
 
 private:
-    void UpdateTable(Vaccin v);
+    void FillTable(bool triParDateDev,bool triParDatePrem);
+    void SetupTable();
     Ui::MainWindow *ui;
     Connection Cnx;
 };
