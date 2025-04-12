@@ -17,6 +17,10 @@ class FicheProjet : public QDialog
 
 public:
     enum Result { Accepted, Canceled };
+    typedef struct DoctorData{
+        QString Name;
+        int ID;
+    } DoctorData;
     explicit FicheProjet(int projectID,bool IsModeAjouter, QWidget *parent);
     ~FicheProjet();
     Result getResult() const { return result_; }
@@ -33,6 +37,8 @@ private:
     bool m_IsModeAjout;
     void SetupUI(int ID,bool IsModeAjout);
     void CheckBoxChecked();
+    void SetupTableTeam();
+    bool CheckDocrotInTeam(int Id,std::vector<int> DoctorList);
 };
 
 #endif // FICHEPROJET_H

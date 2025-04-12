@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonCloturer,&QPushButton::clicked,this,&MainWindow::CloseProject);
     connect(ui->ButtonExport,&QPushButton::clicked,this,&MainWindow::ExportProjectList);
     connect(ui->ButtonRechercher,&QPushButton::clicked,this,&MainWindow::SearchProjects);
+    connect(ui->ButtonStatistics,&QPushButton::clicked,this,&MainWindow::ShowStatistics);
+
 
     //Connect To Database
     bool Connected_To_DB;
@@ -199,3 +201,8 @@ void MainWindow::ExportProjectList(){
 
 }
 
+void MainWindow::ShowStatistics(){
+    // Open FicheProjet window
+    StatsScreen *StatScreen = new StatsScreen(this);
+    StatScreen->exec();
+}

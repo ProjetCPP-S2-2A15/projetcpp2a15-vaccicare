@@ -223,6 +223,16 @@
     </rect>
    </property>
   </widget>
+  <widget class="QTableWidget" name="tableWidget">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>40</y>
+     <width>256</width>
+     <height>371</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>

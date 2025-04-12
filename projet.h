@@ -27,7 +27,7 @@ public:
         Statut_Projet Status;
         int Budget;
         int Id_Responsable;
-        //int Id_Membre_Equipe[5];
+        std::vector<int>Team;
     }ProjectData;
 
 
@@ -40,6 +40,7 @@ public:
     ProjectData LoadProjetData(int ID);
     bool AddProjectToDB();
     bool ModifyProjectDataInDB();
+    bool AddTeamToDb(std::vector<int> Team,int Id_Projet);
     static bool CloseProject(int ID);
     static bool DeleteProjectFromDb(int ID);
     static int GetIdResponsable(QString Name);

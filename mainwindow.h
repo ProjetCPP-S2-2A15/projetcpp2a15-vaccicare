@@ -5,6 +5,7 @@
 #include "connection.h"
 #include "ficheprojet.h"
 #include "date.h"
+#include "statsscreen.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,6 +32,7 @@ private:
     void CloseProject();
     void SearchProjects();
     void ExportProjectList();
+    void ShowStatistics();
 };
 #endif // MAINWINDOW_H
 

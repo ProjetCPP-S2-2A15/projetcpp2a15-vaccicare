@@ -11,7 +11,7 @@ std::vector<Projet> Projet::ReadProjectListFromDB(bool AFFICHER_CLOTURER,QString
     QString STATUT_VALUES = "('EN COURS','ARRETER')";
     if (AFFICHER_CLOTURER) {
         STATUT_VALUES = "('EN COURS','ARRETER','CLOTURER')";
-
+    }
 
     QString QuerryDetail = "SELECT P.ID_PROJET, P.NOM, P.DATE_DEBUT, P.RESPONSABLE "
                            "FROM Projet P "
@@ -116,7 +116,9 @@ bool Projet::AddProjectToDB(){
     Querry.bindValue(":budget",Data.Budget);
     Querry.bindValue(":responsable",Data.Id_Responsable);
 
-
+    if(!AddTeamToDb(Data.Team,Data.ID_Projet)){
+        return false;
+    }
     return Querry.exec();
 }
 
@@ -133,8 +135,31 @@ bool Projet::ModifyProjectDataInDB(){
     Querry.bindValue(":budget",Data.Budget);
     Querry.bindValue(":responsable",Data.Id_Responsable);
 
-
+    if(!AddTeamToDb(Data.Team,Data.ID_Projet)){
+        return false;
+    }
     return Querry.exec();
+}
+
+bool Projet::AddTeamToDb(std::vector<int> Team,int Id_Projet){
+    QSqlQuery DeleteQuerry;
+    DeleteQuerry.prepare("DELETE FROM EQUIPE_PROJET WHERE ID_PROJET = :id_projet");
+    DeleteQuerry.bindValue(":id_projet",Id_Projet);
+    DeleteQuerry.exec();
+
+    // Build the INSERT query dynamically
+    if (Team.empty()) return true; // No team to insert is not a failure
+
+    for (int id : Team) {
+            QSqlQuery InsertQuery;
+            InsertQuery.prepare("INSERT INTO EQUIPE_PROJET (ID_CHERCHEUR, ID_PROJET) VALUES (:id_chercheur, :id_projet)");
+            InsertQuery.bindValue(":id_chercheur", id);
+            InsertQuery.bindValue(":id_projet", Id_Projet);
+            if (!InsertQuery.exec()) {
+                return false;
+            }
+        }
+        return true;
 }
 
 bool Projet::CloseProject(int ID){
