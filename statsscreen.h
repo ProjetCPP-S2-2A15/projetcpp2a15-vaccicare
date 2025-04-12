@@ -2,9 +2,15 @@
 #define STATSSCREEN_H
 
 #include <QDialog>
-#include <QtCharts/QChartView>
-#include <QtCharts/QLineSeries>
+#include "connection.h"
+#include "projet.h"
+#include <QMessageBox>
 #include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QBarCategoryAxis>
+#include <QPainter>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -21,7 +27,14 @@ public:
     ~StatsScreen();
 
 private:
+    void SetupUI();
+    void CalculateStatistics();
     Ui::StatsScreen *ui;
+    double RetourTotal;
+    double RetourMensuelle;
+    int NbrPatient;
+    int Budget;
+    int CoutTotal;
     QChartView *chartView;
 };
 

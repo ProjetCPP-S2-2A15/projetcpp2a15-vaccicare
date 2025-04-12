@@ -124,7 +124,7 @@ void MainWindow::ModifyProject(){
     fiche->exec();  // Show as a modal dialog
 
     if(fiche->getResult() == FicheProjet::Accepted){
-        (ui->CheckBoxAfficherProjetCloturer->isChecked(),
+        FillTable(ui->CheckBoxAfficherProjetCloturer->isChecked(),
                           ui->lineEditNom->text());
     }
 }
@@ -154,7 +154,7 @@ void MainWindow::DeleteProject(){
     if(reply ==QMessageBox::Ok){
         if(Projet::DeleteProjectFromDb(projectID)){
             QMessageBox::warning(this, "Success", "Project Deleted Successfuly", QMessageBox::Ok);
-            (ui->CheckBoxAfficherProjetCloturer->isChecked(),
+            FillTable(ui->CheckBoxAfficherProjetCloturer->isChecked(),
                               ui->lineEditNom->text());
         }
     }
@@ -184,7 +184,7 @@ void MainWindow::CloseProject(){
     if(reply ==QMessageBox::Ok){
         if(Projet::CloseProject(projectID)){
             QMessageBox::warning(this, "Success", "Project Status changed to Closed", QMessageBox::Ok);
-            (ui->CheckBoxAfficherProjetCloturer->isChecked(),
+            FillTable(ui->CheckBoxAfficherProjetCloturer->isChecked(),
                               ui->lineEditNom->text());
         }
     }

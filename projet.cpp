@@ -116,10 +116,15 @@ bool Projet::AddProjectToDB(){
     Querry.bindValue(":budget",Data.Budget);
     Querry.bindValue(":responsable",Data.Id_Responsable);
 
+    if(!Querry.exec()){
+            return   false;
+    }
+
     if(!AddTeamToDb(Data.Team,Data.ID_Projet)){
         return false;
     }
-    return Querry.exec();
+
+    return true;
 }
 
 bool Projet::ModifyProjectDataInDB(){
@@ -168,7 +173,7 @@ bool Projet::CloseProject(int ID){
                    " WHERE ID_PROJET= :id;");
 
     QDate Today = QDate::currentDate();
-    int DateFin = Date::ConvertDateToInt(Today.toString("yyyy-MM-dd"));
+    int DateFin = Date::ConvertDateToInt(Today.toString("dd/MM/yyyy"));
     Querry.bindValue(":id",ID);
     Querry.bindValue(":date_fin",DateFin);
     Querry.bindValue(":statut",Projet::ConvertEnumToString(Statut_Projet::CLOTURER));
