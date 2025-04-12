@@ -241,3 +241,5 @@ void FicheProjet::cancel() {
     result_ = Canceled;
     QDialog::reject();
 }
+
+//

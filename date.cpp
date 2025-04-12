@@ -31,3 +31,5 @@ QDate Date::ConvertIntToDate(int daysSince2000) {
     // Convert the QDate to a string in SQL format ("yyyy-MM-dd")
     return resultDate;
 }
+
+//
