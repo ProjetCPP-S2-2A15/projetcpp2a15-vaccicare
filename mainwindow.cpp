@@ -67,13 +67,13 @@ void MainWindow::SetupTable(){
         ui->tableWidget->resize(500, 400);
 
         //Fill Table data from database
-        FillTable(false,"");
+        FillTable(false,"","");
 }
 
 //Function to Import table data from database and fill the table rows
-void MainWindow::FillTable(bool AFFICHER_CLOTURER,QString NomChercheur){
+void MainWindow::FillTable(bool AFFICHER_CLOTURER,QString NomChercheur,QString NomProjet){
     std::vector<Projet> ListProjet;
-    ListProjet = Projet::ReadProjectListFromDB(AFFICHER_CLOTURER,NomChercheur);
+    ListProjet = Projet::ReadProjectListFromDB(AFFICHER_CLOTURER,NomChercheur,NomProjet);
 
     // Clear the table before adding new data (optional)
     ui->tableWidget->clearContents();
@@ -96,7 +96,8 @@ void MainWindow::AddProject(){
     fiche->exec();  // Show as a modal dialog
     if(fiche->getResult() == FicheProjet::Accepted){
         FillTable(ui->CheckBoxAfficherProjetCloturer->isChecked(),
-                  ui->lineEditNom->text());
+                  ui->lineEditNom->text(),
+                  ui->LineEditNomProjet->text());
     }
 }
 
@@ -125,7 +126,8 @@ void MainWindow::ModifyProject(){
 
     if(fiche->getResult() == FicheProjet::Accepted){
         FillTable(ui->CheckBoxAfficherProjetCloturer->isChecked(),
-                          ui->lineEditNom->text());
+                  ui->lineEditNom->text(),
+                  ui->LineEditNomProjet->text());
     }
 }
 
@@ -155,7 +157,8 @@ void MainWindow::DeleteProject(){
         if(Projet::DeleteProjectFromDb(projectID)){
             QMessageBox::warning(this, "Success", "Project Deleted Successfuly", QMessageBox::Ok);
             FillTable(ui->CheckBoxAfficherProjetCloturer->isChecked(),
-                              ui->lineEditNom->text());
+                      ui->lineEditNom->text(),
+                      ui->LineEditNomProjet->text());
         }
     }
 }
@@ -185,7 +188,8 @@ void MainWindow::CloseProject(){
         if(Projet::CloseProject(projectID)){
             QMessageBox::warning(this, "Success", "Project Status changed to Closed", QMessageBox::Ok);
             FillTable(ui->CheckBoxAfficherProjetCloturer->isChecked(),
-                              ui->lineEditNom->text());
+                      ui->lineEditNom->text(),
+                      ui->LineEditNomProjet->text());
         }
     }
 }
@@ -193,7 +197,8 @@ void MainWindow::CloseProject(){
 //Function that triggers when the "Rechercher" button is pressed
 void MainWindow::SearchProjects(){
     FillTable(ui->CheckBoxAfficherProjetCloturer->isChecked(),
-                      ui->lineEditNom->text());
+              ui->lineEditNom->text(),
+              ui->LineEditNomProjet->text());
 }
 
 //Function that triggers when the "Export" button is pressed

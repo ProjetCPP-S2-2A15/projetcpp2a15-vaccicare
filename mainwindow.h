@@ -25,7 +25,7 @@ private:
     Connection Cnx;
     Ui::MainWindow *ui;
     void SetupTable();
-    void FillTable(bool AFFICHER_CLOTURER,QString NomChercheur);
+    void FillTable(bool AFFICHER_CLOTURER,QString NomChercheur,QString NomProjet);
     void AddProject();
     void ModifyProject();
     void DeleteProject();

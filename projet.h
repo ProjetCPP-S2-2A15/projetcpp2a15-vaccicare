@@ -33,7 +33,7 @@ public:
 
     ProjectData Data;
     Projet();
-    static std::vector<Projet> ReadProjectListFromDB(bool AFFICHER_CLOTURER,QString NomMedecin);
+    static std::vector<Projet> ReadProjectListFromDB(bool AFFICHER_CLOTURER,QString NomMedecin,QString NomProjet);
     static int GetLastProjectID();
     static Projet::Statut_Projet ConvertStringToEnum(QString Statut);
     static QString ConvertEnumToString(Projet::Statut_Projet Statut);

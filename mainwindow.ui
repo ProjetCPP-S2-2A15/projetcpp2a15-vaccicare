@@ -33,19 +33,9 @@
      <widget class="QLineEdit" name="lineEditNom">
       <property name="geometry">
        <rect>
-        <x>100</x>
+        <x>170</x>
         <y>10</y>
-        <width>271</width>
-        <height>31</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="comboBox">
-      <property name="geometry">
-       <rect>
-        <x>100</x>
-        <y>50</y>
-        <width>371</width>
+        <width>251</width>
         <height>31</height>
        </rect>
       </property>
@@ -120,7 +110,7 @@
        <rect>
         <x>30</x>
         <y>20</y>
-        <width>91</width>
+        <width>161</width>
         <height>16</height>
        </rect>
       </property>
@@ -130,25 +120,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Nom</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>60</y>
-        <width>91</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Filtre</string>
+       <string>Nom Responsable</string>
       </property>
      </widget>
      <widget class="QPushButton" name="ButtonCloturer">
@@ -198,6 +170,34 @@
       </property>
       <property name="text">
        <string>Statistics</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="LineEditNomProjet">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>50</y>
+        <width>291</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>60</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Nom Projet</string>
       </property>
      </widget>
     </widget>
