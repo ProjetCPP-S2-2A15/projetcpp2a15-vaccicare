@@ -4,11 +4,11 @@
 
 Vaccin::Vaccin() {}
 
-Vaccin::Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QString statutDev, QDate dateDev, QString paysOrigine,
+Vaccin::Vaccin(int id, QString nom, int idTypeV, QString agentCible, QString statutDev, QDate dateDev, QString paysOrigine,
                float tempConservation, int stockDisponible, QDate datePeremption, QString autorisation) {
     this->id = id;
     this->nom = nom;
-    this->idTypeVaccin = 0;
+    this->idTypeV = idTypeV;
     this->agentCible = agentCible;
     this->statutDev = statutDev;
     this->dateDev = dateDev;
@@ -92,10 +92,10 @@ bool Vaccin::ajouter() {
 
     QSqlQuery query;
     query.prepare("INSERT INTO VACCIN (ID_VACCIN, NOM, ID_TYPE_VACCIN, AGENT_CIBLE, STATUT_DEVELOPPEMENT, DATE_DEVELOPPEMENT, PAYS_ORIGINE, TEMP_CONSERVATION, STOCK_DISPONIBLE, DATE_PEREMPTION, AUTORISATION) "
-                  "VALUES (:id, :nom, :idTypeVaccin, :agentCible, :statutDev, :dateDev, :paysOrigine, :tempConservation, :stockDisponible, :datePeremption, :autorisation)");
+                  "VALUES (:id, :nom, :idTypeV, :agentCible, :statutDev, :dateDev, :paysOrigine, :tempConservation, :stockDisponible, :datePeremption, :autorisation)");
     query.bindValue(":id", id);
     query.bindValue(":nom", nom);
-    query.bindValue(":idTypeVaccin", idTypeVaccin);
+    query.bindValue(":idTypeV", idTypeV);
     query.bindValue(":agentCible", agentCible);
     query.bindValue(":statutDev", statutDev);
     query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev.toString("dd/MM/yyyy")));
@@ -115,10 +115,10 @@ bool Vaccin::modifier() {
         return false;    }
 
     QSqlQuery query;
-    query.prepare("UPDATE VACCIN SET NOM=:nom, ID_TYPE_VACCIN=:idTypeVaccin, AGENT_CIBLE=:agentCible, STATUT_DEVELOPPEMENT=:statutDev, DATE_DEVELOPPEMENT=:dateDev, PAYS_ORIGINE=:paysOrigine, TEMP_CONSERVATION=:tempConservation, STOCK_DISPONIBLE=:stockDisponible, DATE_PEREMPTION=:datePeremption, AUTORISATION=:autorisation WHERE ID_VACCIN=:id");
+    query.prepare("UPDATE VACCIN SET NOM=:nom, ID_TYPE_VACCIN=:idTypeV, AGENT_CIBLE=:agentCible, STATUT_DEVELOPPEMENT=:statutDev, DATE_DEVELOPPEMENT=:dateDev, PAYS_ORIGINE=:paysOrigine, TEMP_CONSERVATION=:tempConservation, STOCK_DISPONIBLE=:stockDisponible, DATE_PEREMPTION=:datePeremption, AUTORISATION=:autorisation WHERE ID_VACCIN=:id");
     query.bindValue(":id", id);
     query.bindValue(":nom", nom);
-    query.bindValue(":idTypeVaccin", idTypeVaccin);
+    query.bindValue(":idTypeV", idTypeV);
     query.bindValue(":agentCible", agentCible);
     query.bindValue(":statutDev", statutDev);
     query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev.toString("dd/MM/yyyy")));
@@ -155,6 +155,7 @@ std::vector<Vaccin> Vaccin::afficher() {
     while(Querry.next()){
         Temp.id = Querry.value("ID_VACCIN").toInt();
         Temp.nom = Querry.value("NOM").toString();
+        Temp.idTypeV = Querry.value("ID_TYPE_VACCIN").toInt();
         Temp.agentCible = Querry.value("AGENT_CIBLE").toString();
         Temp.statutDev = Querry.value("STATUT_DEVELOPPEMENT").toString();
         Temp.dateDev = Date::ConvertIntToDate(Querry.value("DATE_DEVELOPPEMENT").toInt());
@@ -182,6 +183,7 @@ std::vector<Vaccin> Vaccin::afficherTriParDateDev() {
     while(Querry.next()){
         Temp.id = Querry.value("ID_VACCIN").toInt();
         Temp.nom = Querry.value("NOM").toString();
+        Temp.idTypeV = Querry.value("ID_TYPE_VACCIN").toInt();
         Temp.agentCible = Querry.value("AGENT_CIBLE").toString();
         Temp.statutDev = Querry.value("STATUT_DEVELOPPEMENT").toString();
         Temp.dateDev = Date::ConvertIntToDate(Querry.value("DATE_DEVELOPPEMENT").toInt());
@@ -211,6 +213,7 @@ std::vector<Vaccin> Vaccin::afficherTriParDatePrem() {
     while(Querry.next()){
         Temp.id = Querry.value("ID_VACCIN").toInt();
         Temp.nom = Querry.value("NOM").toString();
+        Temp.idTypeV = Querry.value("ID_TYPE_VACCIN").toInt();
         Temp.agentCible = Querry.value("AGENT_CIBLE").toString();
         Temp.statutDev = Querry.value("STATUT_DEVELOPPEMENT").toString();
         Temp.dateDev = Date::ConvertIntToDate(Querry.value("DATE_DEVELOPPEMENT").toInt());
@@ -252,6 +255,7 @@ std::vector<Vaccin> Vaccin::rechercherParNom(const QString &nomRecherche) {
         Vaccin v;
         v.id = query.value("ID_VACCIN").toInt();
         v.nom = query.value("NOM").toString();
+        v.idTypeV = query.value("ID_TYPE_VACCIN").toInt();
         v.agentCible = query.value("AGENT_CIBLE").toString();
         v.statutDev = query.value("STATUT_DEVELOPPEMENT").toString();
         v.dateDev = Date::ConvertIntToDate(query.value("DATE_DEVELOPPEMENT").toInt());
@@ -286,6 +290,7 @@ std::vector<Vaccin> Vaccin::rechercherParPays(const QString &paysRecherche) {
         Vaccin v;
         v.id = query.value("ID_VACCIN").toInt();
         v.nom = query.value("NOM").toString();
+        v.idTypeV = query.value("ID_TYPE_VACCIN").toInt();
         v.agentCible = query.value("AGENT_CIBLE").toString();
         v.statutDev = query.value("STATUT_DEVELOPPEMENT").toString();
         v.dateDev = Date::ConvertIntToDate(query.value("DATE_DEVELOPPEMENT").toInt());

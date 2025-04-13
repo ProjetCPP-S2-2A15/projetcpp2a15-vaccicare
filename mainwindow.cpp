@@ -25,11 +25,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     Cnx.createconnect();
+    chargerTypesVaccin();
+
     SetupTable();
 
     ui->comboBoxAgent->addItems({"Virus","Bactérie","Parasite","Champignon","Autre"});
     ui->comboBoxStatut->addItems({"En recherche","PhaseI","PhaseII","PhaseIII","Approuvé","Suspendu"});
     ui->comboBoxAutorisation->addItems({"FDA","EMA","OMS","ANSM","Autre"});
+    //ui->comboBoxTypev->addItems({"unknown","ARNm","inactivé","atténué","ADN","viral","recombinant","à sous-unités"});
+
 
     connect(ui->pushButtonAjouter, &QPushButton::clicked, this, &MainWindow::on_ajouterButton_clicked);
     connect(ui->PushButtonModifier, &QPushButton::clicked, this, &MainWindow::on_ModifierButton_clicked);
@@ -57,21 +61,21 @@ void MainWindow::onClickRefreshTable(){
 void MainWindow::onRowClicked(const QModelIndex &index) {
     int row = index.row();
 
-    QModelIndex idIndex = ui->tableViewVaccins->model()->index(row, 0); // Assuming ID is in the first column (index 0)
-    QModelIndex nomIndex = ui->tableViewVaccins->model()->index(row, 1); // Assuming NOM is in the second column (index 1)
-    //QModelIndex typeVaccinIndex = ui->tableViewVaccins->model()->index(row, 2); // ID_TYPE_VACCIN in column 2 (index 2)
-    QModelIndex agentCibleIndex = ui->tableViewVaccins->model()->index(row, 2); // AGENT_CIBLE in column 3 (index 3)
-    QModelIndex statutDevIndex = ui->tableViewVaccins->model()->index(row, 3); // STATUT_DEVELOPPEMENT in column 4 (index 4)
-    QModelIndex dateDevIndex = ui->tableViewVaccins->model()->index(row, 4); // DATE_DEVELOPPEMENT in column 5 (index 5)
-    QModelIndex paysOrigineIndex = ui->tableViewVaccins->model()->index(row, 5); // PAYS_ORIGINE in column 6 (index 6)
-    QModelIndex tempConservationIndex = ui->tableViewVaccins->model()->index(row, 6); // TEMP_CONSERVATION in column 7 (index 7)
-    QModelIndex stockDisponibleIndex = ui->tableViewVaccins->model()->index(row, 7); // STOCK_DISPONIBLE in column 8 (index 8)
-    QModelIndex datePeremptionIndex = ui->tableViewVaccins->model()->index(row, 8); // DATE_PEREMPTION in column 9 (index 9)
-    QModelIndex autorisationIndex = ui->tableViewVaccins->model()->index(row, 10); // AUTORISATION in column 10 (index 10)
+    QModelIndex idIndex = ui->tableViewVaccins->model()->index(row, 0);
+    QModelIndex nomIndex = ui->tableViewVaccins->model()->index(row, 1);
+    QModelIndex typeVaccinIndex = ui->tableViewVaccins->model()->index(row, 2);
+    QModelIndex agentCibleIndex = ui->tableViewVaccins->model()->index(row, 3);
+    QModelIndex statutDevIndex = ui->tableViewVaccins->model()->index(row, 4);
+    QModelIndex dateDevIndex = ui->tableViewVaccins->model()->index(row, 5);
+    QModelIndex paysOrigineIndex = ui->tableViewVaccins->model()->index(row, 6);
+    QModelIndex tempConservationIndex = ui->tableViewVaccins->model()->index(row, 7);
+    QModelIndex stockDisponibleIndex = ui->tableViewVaccins->model()->index(row, 8);
+    QModelIndex datePeremptionIndex = ui->tableViewVaccins->model()->index(row, 9);
+    QModelIndex autorisationIndex = ui->tableViewVaccins->model()->index(row, 10);
 
     ui->lineEdit->setText(ui->tableViewVaccins->model()->data(idIndex).toString());
     ui->lineEditNom->setText(ui->tableViewVaccins->model()->data(nomIndex).toString());
-    //ui->comboBoxTypeVaccin->setCurrentIndex(ui->tableViewVaccins->model()->data(typeVaccinIndex).toInt());
+    ui->comboBoxTypev->setCurrentIndex(getTypeVaccinId(ui->tableViewVaccins->model()->data(typeVaccinIndex).toString()));
     ui->comboBoxAgent->setCurrentText(ui->tableViewVaccins->model()->data(agentCibleIndex).toString());
     ui->comboBoxStatut->setCurrentText(ui->tableViewVaccins->model()->data(statutDevIndex).toString());
     ui->dateEditDateDev->setDate(ui->tableViewVaccins->model()->data(dateDevIndex).toDate());
@@ -83,10 +87,54 @@ void MainWindow::onRowClicked(const QModelIndex &index) {
 
 }
 
+void MainWindow::chargerTypesVaccin() {
+    QSqlQuery query("SELECT ID_TYPE_VACCIN, TYPE_VACCIN FROM TYPE_VACCIN ORDER BY ID_TYPE_VACCIN");
+    while (query.next()) {
+        int id = query.value(0).toInt();
+        QString name = query.value(1).toString();
+        ui->comboBoxTypev->addItem(name, id); // name displayed, ID stored as data
+    }
+}
+
+
+QString MainWindow::getTypeVaccinName(int idTypeV) {
+    QSqlQuery query;
+    query.prepare("SELECT TYPE_VACCIN FROM TYPE_VACCIN WHERE ID_TYPE_VACCIN = :id");
+    query.bindValue(":id", idTypeV);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toString();
+    }
+
+    return "Inconnu";
+}
+
+int MainWindow::getTypeVaccinId(const QString& typeName) {
+    QSqlQuery query;
+    query.prepare("SELECT ID_TYPE_VACCIN FROM TYPE_VACCIN WHERE TYPE_VACCIN = :typeName");
+    query.bindValue(":typeName", typeName);
+
+    if (!query.exec()) {
+        qDebug() << "Query failed: " << query.lastError().text();
+        return 5;
+    }
+
+    if (query.next()) {
+        int ID = query.value(0).toInt();
+        return ID;
+    }
+
+    return -1;  // Si aucun résultat n'est trouvé
+}
+
+
+
+
 void MainWindow::on_ajouterButton_clicked(){
     int id = ui->lineEdit->text().toInt();
     QString nom = ui->lineEditNom->text();
-    int idType = 0;
+    QString Temp = ui->comboBoxTypev->currentText();
+    int idType = getTypeVaccinId(Temp);
     QString agent = ui->comboBoxAgent->currentText();
     QString statut = ui->comboBoxStatut->currentText();
     QDate dateDev = ui->dateEditDateDev->date();
@@ -95,6 +143,7 @@ void MainWindow::on_ajouterButton_clicked(){
     int stock = ui->lineEditStock->text().toInt();
     QDate datePer = ui->dateEditPeremption->date();
     QString autorisation = ui->comboBoxAutorisation->currentText();
+
 
     Vaccin v(id, nom, idType, agent, statut, dateDev, pays, temp, stock, datePer, autorisation);
     if (v.idExists(id)) {
@@ -113,10 +162,10 @@ void MainWindow::SetupTable(){
     ui->tableViewVaccins->setColumnCount(10);
 
     QStringList headers;
-    headers << "id" << "nom" << "agent" << "statut" << "dateDev"<< "pays"<< "temp"<< "stock" << "datePer"<< "autorisation";
+    headers << "id" << "nom" << "type vaccin" <<"agent" << "statut" << "dateDev"<< "pays"<< "temp"<< "stock" << "datePer"<< "autorisation";
     ui->tableViewVaccins->setHorizontalHeaderLabels(headers);
 
-    //ui->tableViewVaccins->setColumnWidth(0, 200);
+    ui->tableViewVaccins->setColumnWidth(0, 80);
     ui->tableViewVaccins->setColumnWidth(1, 80);
     ui->tableViewVaccins->setColumnWidth(2, 80);
     ui->tableViewVaccins->setColumnWidth(3, 80);
@@ -126,6 +175,7 @@ void MainWindow::SetupTable(){
     ui->tableViewVaccins->setColumnWidth(7, 80);
     ui->tableViewVaccins->setColumnWidth(8, 80);
     ui->tableViewVaccins->setColumnWidth(9, 80);
+    ui->tableViewVaccins->setColumnWidth(10, 80);
 
 
     //Hidden Column for Id to use in selecting a row
@@ -159,21 +209,27 @@ void MainWindow::FillTable(bool triParDateDev,bool triParDatePrem){
     for (size_t i = 0; i < ListVaccin.size(); ++i) {
         ui->tableViewVaccins->setItem(i, 0, new QTableWidgetItem(QString::number(ListVaccin[i].id)));
         ui->tableViewVaccins->setItem(i, 1, new QTableWidgetItem(ListVaccin[i].nom));
-        ui->tableViewVaccins->setItem(i, 2, new QTableWidgetItem(ListVaccin[i].agentCible));
-        ui->tableViewVaccins->setItem(i, 3, new QTableWidgetItem(ListVaccin[i].statutDev));
-        ui->tableViewVaccins->setItem(i, 4, new QTableWidgetItem(ListVaccin[i].dateDev.toString("yyyy-MM-dd")));
-        ui->tableViewVaccins->setItem(i, 5, new QTableWidgetItem(ListVaccin[i].paysOrigine));
-        ui->tableViewVaccins->setItem(i, 6, new QTableWidgetItem(QString::number(ListVaccin[i].tempConservation)));
-        ui->tableViewVaccins->setItem(i, 7, new QTableWidgetItem(QString::number(ListVaccin[i].stockDisponible)));
-        ui->tableViewVaccins->setItem(i, 8, new QTableWidgetItem(ListVaccin[i].datePeremption.toString("yyyy-MM-dd")));
-        ui->tableViewVaccins->setItem(i, 9, new QTableWidgetItem(ListVaccin[i].autorisation));
+        ui->tableViewVaccins->setItem(i, 3, new QTableWidgetItem(ListVaccin[i].agentCible));
+        ui->tableViewVaccins->setItem(i, 4, new QTableWidgetItem(ListVaccin[i].statutDev));
+        ui->tableViewVaccins->setItem(i, 5, new QTableWidgetItem(ListVaccin[i].dateDev.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 6, new QTableWidgetItem(ListVaccin[i].paysOrigine));
+        ui->tableViewVaccins->setItem(i, 7, new QTableWidgetItem(QString::number(ListVaccin[i].tempConservation)));
+        ui->tableViewVaccins->setItem(i, 8, new QTableWidgetItem(QString::number(ListVaccin[i].stockDisponible)));
+        ui->tableViewVaccins->setItem(i, 9, new QTableWidgetItem(ListVaccin[i].datePeremption.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 10, new QTableWidgetItem(ListVaccin[i].autorisation));
+
+        QString typeVaccinName = getTypeVaccinName(ListVaccin[i].idTypeV);
+        ui->tableViewVaccins->setItem(i, 2, new QTableWidgetItem(typeVaccinName));
+
+
 
     }
 }
 void MainWindow::on_ModifierButton_clicked() {
     int id = ui->lineEdit->text().toInt();
     QString nom = ui->lineEditNom->text();
-    int idType = 0;
+    QString Temp = ui->comboBoxTypev->currentText();
+    int idType = getTypeVaccinId(Temp);
     QString agent = ui->comboBoxAgent->currentText();
     QString statut = ui->comboBoxStatut->currentText();
     QDate dateDev = ui->dateEditDateDev->date();
@@ -182,6 +238,8 @@ void MainWindow::on_ModifierButton_clicked() {
     int stock = ui->lineEditStock->text().toInt();
     QDate datePer = ui->dateEditPeremption->date();
     QString autorisation = ui->comboBoxAutorisation->currentText();
+
+
 
     Vaccin v;
     if (!v.existe(id)) {
@@ -235,14 +293,17 @@ void MainWindow::on_PushButton_rechercherNom_clicked() {
     for (size_t i = 0; i < ListVaccin.size(); ++i) {
         ui->tableViewVaccins->setItem(i, 0, new QTableWidgetItem(QString::number(ListVaccin[i].id)));
         ui->tableViewVaccins->setItem(i, 1, new QTableWidgetItem(ListVaccin[i].nom));
-        ui->tableViewVaccins->setItem(i, 2, new QTableWidgetItem(ListVaccin[i].agentCible));
-        ui->tableViewVaccins->setItem(i, 3, new QTableWidgetItem(ListVaccin[i].statutDev));
-        ui->tableViewVaccins->setItem(i, 4, new QTableWidgetItem(ListVaccin[i].dateDev.toString("yyyy-MM-dd")));
-        ui->tableViewVaccins->setItem(i, 5, new QTableWidgetItem(ListVaccin[i].paysOrigine));
-        ui->tableViewVaccins->setItem(i, 6, new QTableWidgetItem(QString::number(ListVaccin[i].tempConservation)));
-        ui->tableViewVaccins->setItem(i, 7, new QTableWidgetItem(QString::number(ListVaccin[i].stockDisponible)));
-        ui->tableViewVaccins->setItem(i, 8, new QTableWidgetItem(ListVaccin[i].datePeremption.toString("yyyy-MM-dd")));
-        ui->tableViewVaccins->setItem(i, 9, new QTableWidgetItem(ListVaccin[i].autorisation));
+        ui->tableViewVaccins->setItem(i, 3, new QTableWidgetItem(ListVaccin[i].agentCible));
+        ui->tableViewVaccins->setItem(i, 4, new QTableWidgetItem(ListVaccin[i].statutDev));
+        ui->tableViewVaccins->setItem(i, 5, new QTableWidgetItem(ListVaccin[i].dateDev.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 6, new QTableWidgetItem(ListVaccin[i].paysOrigine));
+        ui->tableViewVaccins->setItem(i, 7, new QTableWidgetItem(QString::number(ListVaccin[i].tempConservation)));
+        ui->tableViewVaccins->setItem(i, 8, new QTableWidgetItem(QString::number(ListVaccin[i].stockDisponible)));
+        ui->tableViewVaccins->setItem(i, 9, new QTableWidgetItem(ListVaccin[i].datePeremption.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 10, new QTableWidgetItem(ListVaccin[i].autorisation));
+
+        QString typeVaccinName = getTypeVaccinName(ListVaccin[i].idTypeV);
+        ui->tableViewVaccins->setItem(i, 2, new QTableWidgetItem(typeVaccinName));
     }
 }
 
@@ -270,14 +331,19 @@ void MainWindow::on_PushButton_rechercherPays_clicked() {
     for (size_t i = 0; i < ListVaccin.size(); ++i) {
         ui->tableViewVaccins->setItem(i, 0, new QTableWidgetItem(QString::number(ListVaccin[i].id)));
         ui->tableViewVaccins->setItem(i, 1, new QTableWidgetItem(ListVaccin[i].nom));
-        ui->tableViewVaccins->setItem(i, 2, new QTableWidgetItem(ListVaccin[i].agentCible));
-        ui->tableViewVaccins->setItem(i, 3, new QTableWidgetItem(ListVaccin[i].statutDev));
-        ui->tableViewVaccins->setItem(i, 4, new QTableWidgetItem(ListVaccin[i].dateDev.toString("yyyy-MM-dd")));
-        ui->tableViewVaccins->setItem(i, 5, new QTableWidgetItem(ListVaccin[i].paysOrigine));
-        ui->tableViewVaccins->setItem(i, 6, new QTableWidgetItem(QString::number(ListVaccin[i].tempConservation)));
-        ui->tableViewVaccins->setItem(i, 7, new QTableWidgetItem(QString::number(ListVaccin[i].stockDisponible)));
-        ui->tableViewVaccins->setItem(i, 8, new QTableWidgetItem(ListVaccin[i].datePeremption.toString("yyyy-MM-dd")));
-        ui->tableViewVaccins->setItem(i, 9, new QTableWidgetItem(ListVaccin[i].autorisation));
+        ui->tableViewVaccins->setItem(i, 3, new QTableWidgetItem(ListVaccin[i].agentCible));
+        ui->tableViewVaccins->setItem(i, 4, new QTableWidgetItem(ListVaccin[i].statutDev));
+        ui->tableViewVaccins->setItem(i, 5, new QTableWidgetItem(ListVaccin[i].dateDev.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 6, new QTableWidgetItem(ListVaccin[i].paysOrigine));
+        ui->tableViewVaccins->setItem(i, 7, new QTableWidgetItem(QString::number(ListVaccin[i].tempConservation)));
+        ui->tableViewVaccins->setItem(i, 8, new QTableWidgetItem(QString::number(ListVaccin[i].stockDisponible)));
+        ui->tableViewVaccins->setItem(i, 9, new QTableWidgetItem(ListVaccin[i].datePeremption.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 10, new QTableWidgetItem(ListVaccin[i].autorisation));
+
+        QString typeVaccinName = getTypeVaccinName(ListVaccin[i].idTypeV);
+        ui->tableViewVaccins->setItem(i, 2, new QTableWidgetItem(typeVaccinName));
+
+
     }
 }
 

@@ -15,7 +15,7 @@ private:
 public:
     int id;
     QString nom;
-    int idTypeVaccin;
+    int idTypeV;
     QString agentCible;
     QString statutDev;
     QDate dateDev;
@@ -25,7 +25,7 @@ public:
     QDate datePeremption;
     QString autorisation;
     Vaccin();
-    Vaccin(int id, QString nom, int idTypeVaccin, QString agentCible, QString statutDev, QDate dateDev, QString paysOrigine, float tempConservation, int stockDisponible, QDate datePeremption, QString autorisation);
+    Vaccin(int id, QString nom, int idTypeV, QString agentCible, QString statutDev, QDate dateDev, QString paysOrigine, float tempConservation, int stockDisponible, QDate datePeremption, QString autorisation);
     bool idExists(int id);
     bool ajouter();
     static std::vector<Vaccin> afficher();
