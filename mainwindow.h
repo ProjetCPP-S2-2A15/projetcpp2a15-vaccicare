@@ -6,6 +6,8 @@
 #include "ficheprojet.h"
 #include "date.h"
 #include "statsscreen.h"
+#include "exportdialog.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

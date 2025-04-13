@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     connection.cpp \
     date.cpp \
+    exportdialog.cpp \
     ficheprojet.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -20,12 +21,14 @@ SOURCES += \
 HEADERS += \
     connection.h \
     date.h \
+    exportdialog.h \
     ficheprojet.h \
     mainwindow.h \
     projet.h \
     statsscreen.h
 
 FORMS += \
+    exportdialog.ui \
     ficheprojet.ui \
     mainwindow.ui \
     statsscreen.ui

@@ -13,7 +13,7 @@ std::vector<Projet> Projet::ReadProjectListFromDB(bool AFFICHER_CLOTURER,QString
         STATUT_VALUES = "('EN COURS','ARRETER','CLOTURER')";
     }
 
-    QString QuerryDetail = "SELECT P.ID_PROJET, P.NOM, P.DATE_DEBUT, P.RESPONSABLE "
+    QString QuerryDetail = "SELECT P.ID_PROJET, P.NOM, P.DATE_DEBUT, P.RESPONSABLE, P.BUDGET, P.DATE_FIN "
                            "FROM Projet P "
                            "JOIN MEDECIN M ON P.RESPONSABLE = M.ID_CHERCHEUR "
                            "WHERE P.ID_PROJET > 0 "
@@ -31,6 +31,8 @@ std::vector<Projet> Projet::ReadProjectListFromDB(bool AFFICHER_CLOTURER,QString
         Temp.Data.Nom = Querry.value("NOM").toString();
         Temp.Data.DateDebut = Querry.value("DATE_DEBUT").toInt();
         Temp.Data.Id_Responsable = Querry.value("RESPONSABLE").toInt();
+        Temp.Data.Budget = Querry.value("BUDGET").toInt();
+        Temp.Data.DateFin = Querry.value("DATE_FIN").toInt();
 
         ProjectList.push_back(Temp);
     }

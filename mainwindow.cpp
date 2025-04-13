@@ -7,6 +7,7 @@
 #include <QSqlError>
 #include <QMessageBox>
 #include <QDebug>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -203,7 +204,9 @@ void MainWindow::SearchProjects(){
 
 //Function that triggers when the "Export" button is pressed
 void MainWindow::ExportProjectList(){
-
+    // Open FicheProjet window
+    ExportDialog *NewExportDialog = new ExportDialog(this);
+    NewExportDialog->exec();
 }
 
 void MainWindow::ShowStatistics(){
