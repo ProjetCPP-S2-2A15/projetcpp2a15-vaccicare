@@ -173,8 +173,7 @@ bool Projet::CloseProject(int ID){
     Querry.prepare("UPDATE PROJET SET DATE_FIN= :date_fin,STATUT= :statut"
                    " WHERE ID_PROJET= :id;");
 
-    QDate Today = QDate::currentDate();
-    int DateFin = Date::ConvertDateToInt(Today.toString("dd/MM/yyyy"));
+    int DateFin = Date::GetTodayDate();
     Querry.bindValue(":id",ID);
     Querry.bindValue(":date_fin",DateFin);
     Querry.bindValue(":statut",Projet::ConvertEnumToString(Statut_Projet::CLOTURER));

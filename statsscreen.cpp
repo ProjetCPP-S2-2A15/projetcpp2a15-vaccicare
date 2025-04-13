@@ -113,7 +113,7 @@ void StatsScreen::CalculateStatistics(){
         double WagePerDay = Wage / 30.0;
         int NumDaysWorked;
         if(Date_Fin == -1){
-            int Today = Date::ConvertDateToInt(QDate::currentDate().toString("dd/MM/yyyy"));
+            int Today = Date::GetTodayDate();
             NumDaysWorked = Today - Date_Debut;
         }else{
             NumDaysWorked = Date_Fin - Date_Debut;
@@ -133,7 +133,7 @@ void StatsScreen::CalculateStatistics(){
     double MonthlyRevenu;
     int TotalDays;
     if(Date_Fin == -1){
-        int Today = Date::ConvertDateToInt(QDate::currentDate().toString("dd/MM/yyyy"));
+        int Today = Date::GetTodayDate();
         TotalDays = Today - Date_Debut;
     }else{
         TotalDays = Date_Fin - Date_Debut;

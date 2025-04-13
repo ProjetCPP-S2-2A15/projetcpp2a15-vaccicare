@@ -11,6 +11,7 @@ public:
     Date();
     static int ConvertDateToInt(QString Date);
     static QDate ConvertIntToDate(int daysSince2000);
+    static int GetTodayDate();
 };
 
 #endif // DATE_H

@@ -32,4 +32,7 @@ QDate Date::ConvertIntToDate(int daysSince2000) {
     return resultDate;
 }
 
+int Date::GetTodayDate(){
+    return Date::ConvertDateToInt(QDate::currentDate().toString("dd/MM/yyyy"));
+}
 //
