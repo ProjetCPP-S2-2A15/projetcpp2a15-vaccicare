@@ -11,6 +11,12 @@
 #include <QtCharts/QBarSet>
 #include <QtCharts/QBarCategoryAxis>
 #include <QPainter>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QCategoryAxis>
+#include <QtCharts/QValueAxis>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -29,6 +35,7 @@ public:
 private:
     void SetupUI();
     void CalculateStatistics();
+    QVector<QPair<int, double>> GetChartDate(int Date_Debut,int Date_Fin,int Id_Projet);
     Ui::StatsScreen *ui;
     double RetourTotal;
     double RetourMensuelle;

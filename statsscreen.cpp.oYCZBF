@@ -22,27 +22,23 @@ QVector<QPair<int, double>> StatsScreen::GetChartDate(int Date_Debut,int Date_Fi
     // Build the SQL query.
     QSqlQuery query;
     query.prepare("SELECT CEIL(DATE_VACCIN / 30) AS MonthIndex, "
-                  "       COUNT(*) * V.PRIX_UNITAIRE AS TotalRevenue "
+                  "       COUNT(*) AS PatientCount "
                   "FROM PATIENT "
-                  "JOIN VACCIN V ON PATIENT.ID_PROJET_TESTER = V.ID_PROJET_SOURCE "
                   "WHERE ID_PROJET_TESTER = :Id_Projet "
                   "  AND DATE_VACCIN >= :Date_Min "
-                  "GROUP BY CEIL(DATE_VACCIN / 30) ,V.PRIX_UNITAIRE  "
+                  "GROUP BY CEIL(DATE_VACCIN / 30) "
                   "ORDER BY MonthIndex");
 
     query.bindValue(":Date_Min", Date_Debut);
     //query.bindValue(":Date_Fin", Date_Fin);
     query.bindValue(":Id_Projet", Id_Projet);
-    query.exec();
+
     while (query.next()) {
-        int month = query.value("MonthIndex").toInt();
-        double count = query.value("TotalRevenue").toDouble();
+        int month = query.value("MONTHINDEX").toInt();
+        double count = query.value("PATIENTCOUNT").toDouble();
         DataPoints.append(QPair<int, double>(month, count));
     }
 
-    for(size_t index = 0; index < DataPoints.size(); index++){
-        DataPoints[index].first = DataPoints[0].first + 1;
-    }
 
     return DataPoints;
 }
@@ -157,29 +153,7 @@ void StatsScreen::CalculateStatistics(){
 
     if (monthlyRevenueData.isEmpty()) {
         QMessageBox::warning(this, "No Data", "No revenue data available for this project.");
-        for(int index = 1; index<6 ;index ++){
-            monthlyRevenueData.append(QPair<int, double>(index, 0));
-        }
-    }
-
-    // Normalize data: ensure at least 5 months are represented
-    QMap<int, double> normalizedData;
-    for (const auto &pair : monthlyRevenueData) {
-        normalizedData[pair.first] = pair.second;
-    }
-
-    int minMonth = monthlyRevenueData.first().first;
-    int maxMonth = monthlyRevenueData.last().first;
-
-    if (monthlyRevenueData.size() < 5) {
-        maxMonth = minMonth + 4; // Ensure we have 5 months
-    }
-
-    // Fill in missing months with 0
-    QVector<QPair<int, double>> finalData;
-    for (int month = minMonth; month <= maxMonth; ++month) {
-        double revenue = normalizedData.value(month, 0.0); // 0.0 if not found
-        finalData.append({month, revenue});
+        return;
     }
 
     // Create a new line series
@@ -204,13 +178,13 @@ void StatsScreen::CalculateStatistics(){
     QtCharts::QCategoryAxis *axisX = new QtCharts::QCategoryAxis();
     axisX->setTitleText("Month");
     // Assume month numbers (1, 2, ...) – you can customize labels if needed.
-    for (const auto &pair : finalData) {
+    for (const auto &pair : monthlyRevenueData) {
         int month = pair.first;
         // Each tick is placed at the corresponding month value.
         axisX->append(QString("Month %1").arg(month), month);
     }
     // Set the range from first to last month based on your data:
-    axisX->setRange(finalData.first().first, finalData.last().first);
+    axisX->setRange(monthlyRevenueData.first().first, monthlyRevenueData.last().first);
 
     // Create a value axis for the y-axis representing revenue
     QtCharts::QValueAxis *axisY = new QtCharts::QValueAxis();
