@@ -110,56 +110,84 @@ void ExportDialog::Valider(){
     writer.setResolution(300);
 
     QPainter painter(&writer);
-
     if (!painter.isActive()) {
         QMessageBox::critical(this, "Export Error", "Could not open PDF file for writing.");
         return;
     }
 
-    int y = 100;  // Start y-position
-    int xMargin = 50;
-    int lineHeight = 70;
+    // Use custom column widths based on your margin layout
+    int colWidths[] = {COL_ID_PROJET_WIDTH, COL_NOM_WIDTH, COL_DATE_DEBUT_WIDTH, COL_ID_RESPONSABLE_WIDTH, COL_BUDGET_WIDTH, COL_DATE_FIN_WIDTH};
+    QString headers[] = {"ID_PROJET", "NOM", "DATE_DEBUT", "RESPONSABLE", "BUDGET", "DATE_FIN"};
+    const int numCols = sizeof(colWidths) / sizeof(int);
 
     QFont font("Times", 10);
     QFont boldFont("Times", 10, QFont::Bold);
     painter.setFont(boldFont);
 
-    // Header row
-    painter.drawText(xMargin, y, "ID_PROJET");
-    painter.drawText(xMargin + X_MARGIN_NOM, y, "NOM");
-    painter.drawText(xMargin + X_MARGIN_DATE_DEBUT, y, "DATE_DEBUT");
-    painter.drawText(xMargin + X_MARGIN_ID_RESPONSABLE, y, "RESPONSABLE");
-    painter.drawText(xMargin + X_MARGIN_BUDGET, y, "BUDGET");
-    painter.drawText(xMargin + X_MARGIN_DATE_FIN, y, "DATE_FIN");
+    int startX = 50;
+    int startY = 100;
+    int rowHeight = ROW_HEIGHT;
 
-    y += lineHeight;
+    int y = startY;
+
+    // Draw header
+    int x = startX;
+    for (int i = 0; i < numCols; ++i) {
+        painter.drawRect(x, y, colWidths[i], rowHeight);
+        painter.drawText(x + 10, y + 40, headers[i]);  // Vertical padding
+        x += colWidths[i];
+    }
+
+    y += rowHeight;
     painter.setFont(font);
 
+    // Draw each row
     for (const auto& proj : filteredList) {
         const auto& data = proj.Data;
 
         QString dateDebutStr = Date::ConvertIntToDate(data.DateDebut).toString("dd/MM/yyyy");
         QString dateFinStr = (data.DateFin == -1)
-                ? "Not set"
-                : Date::ConvertIntToDate(data.DateFin).toString("dd/MM/yyyy");
+            ? "Not set"
+            : Date::ConvertIntToDate(data.DateFin).toString("dd/MM/yyyy");
 
-        painter.drawText(xMargin, y, QString::number(data.ID_Projet));
-        painter.drawText(xMargin + X_MARGIN_NOM, y, data.Nom);
-        painter.drawText(xMargin + X_MARGIN_DATE_DEBUT, y, dateDebutStr);
-        painter.drawText(xMargin + X_MARGIN_ID_RESPONSABLE, y, QString::number(data.Id_Responsable));
-        painter.drawText(xMargin + X_MARGIN_BUDGET, y, QString::number(data.Budget));
-        painter.drawText(xMargin + X_MARGIN_DATE_FIN, y, dateFinStr);
+        QString rowData[] = {
+            QString::number(data.ID_Projet),
+            data.Nom,
+            dateDebutStr,
+            QString::number(data.Id_Responsable),
+            QString::number(data.Budget),
+            dateFinStr
+        };
 
-        y += lineHeight;
+        int x = startX;
+        for (int col = 0; col < numCols; ++col) {
+            painter.drawRect(x, y, colWidths[col], rowHeight);
+            painter.drawText(x + 10, y + 40, rowData[col]);
+            x += colWidths[col];
+        }
 
-        if (y > writer.height() - 100) {
+        y += rowHeight;
+
+        // Page break check
+        if (y + rowHeight > writer.height() - 100) {
             writer.newPage();
-            y = 100;
+            y = startY;
+
+            // Repeat header on new page
+            painter.setFont(boldFont);
+            x = startX;
+            for (int i = 0; i < numCols; ++i) {
+                painter.drawRect(x, y, colWidths[i], rowHeight);
+                painter.drawText(x + 10, y + 40, headers[i]);
+                x += colWidths[i];
+            }
+
+            y += rowHeight;
+            painter.setFont(font);
         }
     }
 
     painter.end();
-
     QMessageBox::information(this, "Export Successful", "PDF exported successfully!");
     accept();  // Close the ExportDialog
 }

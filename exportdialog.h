@@ -31,11 +31,13 @@ private:
     void Annuler();
     void Valider();
     void SelectFolder();
-    const int X_MARGIN_NOM = 260;
-    const int X_MARGIN_DATE_DEBUT = 480;
-    const int X_MARGIN_ID_RESPONSABLE = 820;
-    const int X_MARGIN_BUDGET = 1200;
-    const int X_MARGIN_DATE_FIN = 1450;
+    const int COL_ID_PROJET_WIDTH = 250;
+    const int COL_NOM_WIDTH = 220;
+    const int COL_DATE_DEBUT_WIDTH = 340;
+    const int COL_ID_RESPONSABLE_WIDTH = 380;
+    const int COL_BUDGET_WIDTH = 250;
+    const int COL_DATE_FIN_WIDTH = 340;
+    const int ROW_HEIGHT = 80;
 };
 
 #endif // EXPORTDIALOG_H
