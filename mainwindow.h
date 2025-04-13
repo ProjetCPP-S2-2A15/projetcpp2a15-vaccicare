@@ -26,7 +26,11 @@ public:
     void onRowClicked(const QModelIndex &index);
     void onClickRefreshTable();
 
+
 private:
+    void ClickExporterPDF();
+    void on_PushButton_rechercherNom_clicked();
+    void on_PushButton_rechercherPays_clicked();
     void FillTable(bool triParDateDev,bool triParDatePrem);
     void SetupTable();
     Ui::MainWindow *ui;

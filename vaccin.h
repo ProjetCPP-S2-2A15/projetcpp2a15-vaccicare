@@ -31,6 +31,10 @@ public:
     static std::vector<Vaccin> afficher();
     static std::vector<Vaccin> afficherTriParDateDev();
     static std::vector<Vaccin> afficherTriParDatePrem();
+    static std::vector<Vaccin> rechercherParNom(const QString &nomRecherche);
+    static std::vector<Vaccin> rechercherParPays(const QString &paysRecherche);
+
+
     bool supprimer(int);
     bool modifier();
     bool existe(int id);

@@ -1,4 +1,6 @@
 #include "vaccin.h"
+#include <QSqlError>
+#include <QSqlQuery>
 
 Vaccin::Vaccin() {}
 
@@ -225,6 +227,8 @@ std::vector<Vaccin> Vaccin::afficherTriParDatePrem() {
 }
 
 
+
+
 bool Vaccin::existe(int id) {
     QSqlQuery query;
     query.prepare("SELECT COUNT(*) FROM VACCIN WHERE ID_VACCIN = :id");
@@ -235,3 +239,86 @@ bool Vaccin::existe(int id) {
     }
     return false;
 }
+
+
+std::vector<Vaccin> Vaccin::rechercherParNom(const QString &nomRecherche) {
+    std::vector<Vaccin> resultatsn;
+
+    QSqlQuery query;
+    QString requete = "SELECT * FROM VACCIN WHERE NOM = '" + nomRecherche + "'";
+    query.exec(requete);
+
+    while (query.next()) {
+        Vaccin v;
+        v.id = query.value("ID_VACCIN").toInt();
+        v.nom = query.value("NOM").toString();
+        v.agentCible = query.value("AGENT_CIBLE").toString();
+        v.statutDev = query.value("STATUT_DEVELOPPEMENT").toString();
+        v.dateDev = Date::ConvertIntToDate(query.value("DATE_DEVELOPPEMENT").toInt());
+        v.paysOrigine = query.value("PAYS_ORIGINE").toString();
+        v.tempConservation = query.value("TEMP_CONSERVATION").toFloat();
+        v.stockDisponible = query.value("STOCK_DISPONIBLE").toInt();
+        v.datePeremption = Date::ConvertIntToDate(query.value("DATE_PEREMPTION").toInt());
+        v.autorisation = query.value("AUTORISATION").toString();
+
+        resultatsn.push_back(v);
+    }
+
+    return resultatsn;
+}
+
+std::vector<Vaccin> Vaccin::rechercherParPays(const QString &paysRecherche) {
+    std::vector<Vaccin> resultats;
+
+    QSqlQuery query;
+    QString requete = "SELECT * FROM VACCIN WHERE PAYS_ORIGINE = '" + paysRecherche + "'";
+    query.exec(requete);
+
+    //query.prepare("SELECT * FROM VACCIN WHERE LOWER(PAYS_ORIGINE) LIKE LOWER(:paysRecherche)");
+    //query.bindValue(":paysRecherche", "%" + paysRecherche + "%");
+
+    /*if (!query.exec()) {
+        qDebug() << "Erreur lors de la recherche par pays:" << query.lastError().text();
+        return resultats;
+    }*/
+
+    while (query.next()) {
+        Vaccin v;
+        v.id = query.value("ID_VACCIN").toInt();
+        v.nom = query.value("NOM").toString();
+        v.agentCible = query.value("AGENT_CIBLE").toString();
+        v.statutDev = query.value("STATUT_DEVELOPPEMENT").toString();
+        v.dateDev = Date::ConvertIntToDate(query.value("DATE_DEVELOPPEMENT").toInt());
+        v.paysOrigine = query.value("PAYS_ORIGINE").toString();
+        v.tempConservation = query.value("TEMP_CONSERVATION").toFloat();
+        v.stockDisponible = query.value("STOCK_DISPONIBLE").toInt();
+        v.datePeremption = Date::ConvertIntToDate(query.value("DATE_PEREMPTION").toInt());
+        v.autorisation = query.value("AUTORISATION").toString();
+
+        resultats.push_back(v);
+    }
+
+    return resultats;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

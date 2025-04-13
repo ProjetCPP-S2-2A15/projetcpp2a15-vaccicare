@@ -1,5 +1,21 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QSqlQueryModel>
+#include <QSqlError>
+#include <QMessageBox>
+#include <QSqlRecord>
+
+#include <QPdfWriter>
+#include <QTextDocument>
+#include <QPainter>
+#include <QFileDialog>
+#include <QTextTable>
+#include <QTextTableFormat>
+#include <QTextFrameFormat>
+#include <QFont>
+
+
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -20,6 +36,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->PushButtonSupprimer, &QPushButton::clicked, this, &MainWindow::on_SupprimerButton_clicked);
     connect(ui->tableViewVaccins, &QTableView::clicked, this, &MainWindow::onRowClicked);
     connect(ui->PushButtonRefresh, &QPushButton::clicked, this, &MainWindow::onClickRefreshTable);
+    connect(ui->pushButton_rechercherNom, &QPushButton::clicked, this, &MainWindow::on_PushButton_rechercherNom_clicked);
+    connect(ui->pushButton_rechercherPays, &QPushButton::clicked, this, &MainWindow::on_PushButton_rechercherPays_clicked);
+    connect(ui->ButtonExporterPDF, &QPushButton::clicked, this, &MainWindow::ClickExporterPDF);
 
 
     ui->lineEditTemp->setText("0");
@@ -188,4 +207,159 @@ void MainWindow::on_SupprimerButton_clicked() {
     } else {
         QMessageBox::warning(this, "Erreur", "Suppression échouée !");
     }
+}
+
+
+
+void MainWindow::on_PushButton_rechercherNom_clicked() {
+    QString nomRecherche = ui->lineEditSnom->text().trimmed();
+
+    if (nomRecherche.isEmpty()) {
+        QMessageBox::warning(this, "vide", "Veuillez entrer un nom à rechercher.");
+        return;
+    }
+
+    qDebug() << "Nom recherché:" << nomRecherche;
+    std::vector<Vaccin> ListVaccin = Vaccin::rechercherParNom(nomRecherche);
+
+    if (ListVaccin.empty()) {
+        QMessageBox::information(this, "Résultat", "Aucun vaccin trouvé avec ce nom.");
+        ui->tableViewVaccins->clearContents();
+        ui->tableViewVaccins->setRowCount(0);
+        return;
+    }
+
+    ui->tableViewVaccins->clearContents();
+    ui->tableViewVaccins->setRowCount(ListVaccin.size());
+
+    for (size_t i = 0; i < ListVaccin.size(); ++i) {
+        ui->tableViewVaccins->setItem(i, 0, new QTableWidgetItem(QString::number(ListVaccin[i].id)));
+        ui->tableViewVaccins->setItem(i, 1, new QTableWidgetItem(ListVaccin[i].nom));
+        ui->tableViewVaccins->setItem(i, 2, new QTableWidgetItem(ListVaccin[i].agentCible));
+        ui->tableViewVaccins->setItem(i, 3, new QTableWidgetItem(ListVaccin[i].statutDev));
+        ui->tableViewVaccins->setItem(i, 4, new QTableWidgetItem(ListVaccin[i].dateDev.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 5, new QTableWidgetItem(ListVaccin[i].paysOrigine));
+        ui->tableViewVaccins->setItem(i, 6, new QTableWidgetItem(QString::number(ListVaccin[i].tempConservation)));
+        ui->tableViewVaccins->setItem(i, 7, new QTableWidgetItem(QString::number(ListVaccin[i].stockDisponible)));
+        ui->tableViewVaccins->setItem(i, 8, new QTableWidgetItem(ListVaccin[i].datePeremption.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 9, new QTableWidgetItem(ListVaccin[i].autorisation));
+    }
+}
+
+void MainWindow::on_PushButton_rechercherPays_clicked() {
+    QString paysRecherche = ui->lineEditSpays->text().trimmed();
+
+    if (paysRecherche.isEmpty()) {
+        QMessageBox::warning(this, "vide", "Veuillez entrer un pays à rechercher.");
+        return;
+    }
+
+    qDebug() << "Pays recherché:" << paysRecherche;
+    std::vector<Vaccin> ListVaccin = Vaccin::rechercherParPays(paysRecherche);
+
+    if (ListVaccin.empty()) {
+        QMessageBox::information(this, "Résultat", "Aucun vaccin trouvé avec ce pays.");
+        ui->tableViewVaccins->clearContents();
+        ui->tableViewVaccins->setRowCount(0);
+        return;
+    }
+
+    ui->tableViewVaccins->clearContents();
+    ui->tableViewVaccins->setRowCount(ListVaccin.size());
+
+    for (size_t i = 0; i < ListVaccin.size(); ++i) {
+        ui->tableViewVaccins->setItem(i, 0, new QTableWidgetItem(QString::number(ListVaccin[i].id)));
+        ui->tableViewVaccins->setItem(i, 1, new QTableWidgetItem(ListVaccin[i].nom));
+        ui->tableViewVaccins->setItem(i, 2, new QTableWidgetItem(ListVaccin[i].agentCible));
+        ui->tableViewVaccins->setItem(i, 3, new QTableWidgetItem(ListVaccin[i].statutDev));
+        ui->tableViewVaccins->setItem(i, 4, new QTableWidgetItem(ListVaccin[i].dateDev.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 5, new QTableWidgetItem(ListVaccin[i].paysOrigine));
+        ui->tableViewVaccins->setItem(i, 6, new QTableWidgetItem(QString::number(ListVaccin[i].tempConservation)));
+        ui->tableViewVaccins->setItem(i, 7, new QTableWidgetItem(QString::number(ListVaccin[i].stockDisponible)));
+        ui->tableViewVaccins->setItem(i, 8, new QTableWidgetItem(ListVaccin[i].datePeremption.toString("yyyy-MM-dd")));
+        ui->tableViewVaccins->setItem(i, 9, new QTableWidgetItem(ListVaccin[i].autorisation));
+    }
+}
+
+
+void MainWindow::ClickExporterPDF() {
+    QString filePath = QFileDialog::getSaveFileName(this, "Exporter en PDF", "", "PDF Files (*.pdf)");
+    if (filePath.isEmpty()) return;
+
+    QPdfWriter writer(filePath);
+    writer.setPageSize(QPageSize::A4);
+    writer.setResolution(300);
+    writer.setPageOrientation(QPageLayout::Landscape);
+
+    QPainter painter(&writer);
+    if (!painter.isActive()) {
+        QMessageBox::warning(this, "Erreur", "Impossible d'ouvrir le fichier PDF.");
+        return;
+    }
+
+    QFont font("Arial", 9);
+    QFont titleFont("Arial", 13, QFont::Bold);
+    painter.setFont(font);
+
+    int rowCount = ui->tableViewVaccins->rowCount();
+    int colCount = ui->tableViewVaccins->columnCount();
+
+    QSizeF pageSize = writer.pageLayout().fullRectPixels(writer.resolution()).size();
+
+    int margin = 50;
+    int titleHeight = 40;
+    int startX = margin;
+    int startY = margin + titleHeight;
+
+    int availableWidth = pageSize.width() - 2 * margin;
+    //int availableHeight = pageSize.height() - startY - margin;
+
+    int cellWidth = availableWidth / colCount;
+    int cellHeight = 220;
+
+    auto drawHeader = [&](int y) {
+        painter.setFont(titleFont);
+        painter.drawText(startX, y - 20, "Liste des Vaccins");
+        painter.setFont(font);
+
+        for (int col = 0; col < colCount; ++col) {
+            QString header = ui->tableViewVaccins->horizontalHeaderItem(col)->text();
+            int x = startX + col * cellWidth;
+            painter.drawRect(x, y, cellWidth, cellHeight);
+            painter.drawText(QRectF(x + 5, y, cellWidth - 10, cellHeight),
+                             Qt::AlignVCenter | Qt::AlignLeft, header);
+        }
+    };
+
+    int currentY = startY;
+    drawHeader(currentY);
+    currentY += cellHeight;
+
+    for (int row = 0; row < rowCount; ++row) {
+        // New page if needed
+        if (currentY + cellHeight > pageSize.height() - margin) {
+            writer.newPage();
+            currentY = startY;
+            drawHeader(currentY);
+            currentY += cellHeight;
+        }
+
+        for (int col = 0; col < colCount; ++col) {
+            QTableWidgetItem* item = ui->tableViewVaccins->item(row, col);
+            QString text = item ? item->text() : "";
+
+            int x = startX + col * cellWidth;
+            painter.drawRect(x, currentY, cellWidth, cellHeight);
+            painter.drawText(QRectF(x + 5, currentY, cellWidth - 10, cellHeight),
+                             Qt::AlignVCenter | Qt::AlignLeft, text);
+        }
+
+        currentY += cellHeight;
+    }
+
+    painter.end();
+    QMessageBox::information(this, "Succès", "Exportation vaccins PDF avec succès !");
+
+
+
 }
