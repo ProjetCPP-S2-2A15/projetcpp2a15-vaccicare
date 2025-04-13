@@ -21,6 +21,19 @@ int Date::ConvertDateToInt(QString Date){
     return baseDate.daysTo(givenDate);
 }
 
+int Date::ConvertDateToInt(QDate Date){
+    // Define the reference date (1st January 2000)
+    QDate baseDate(2000, 1, 1);
+
+    // Validate the date conversion
+    if (!Date.isValid()) {
+        return -1;  // Error case (invalid date)
+    }
+
+    // Calculate the difference in days
+    return baseDate.daysTo(Date);
+}
+
 QDate Date::ConvertIntToDate(int daysSince2000) {
     // Define the reference date (1st January 2000)
     QDate baseDate(2000, 1, 1);
