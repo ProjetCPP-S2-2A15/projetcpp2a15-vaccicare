@@ -14,6 +14,7 @@
 #include <QTextFrameFormat>
 #include <QFont>
 
+#include "StatTvaccin.h"
 
 
 
@@ -43,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_rechercherNom, &QPushButton::clicked, this, &MainWindow::on_PushButton_rechercherNom_clicked);
     connect(ui->pushButton_rechercherPays, &QPushButton::clicked, this, &MainWindow::on_PushButton_rechercherPays_clicked);
     connect(ui->ButtonExporterPDF, &QPushButton::clicked, this, &MainWindow::ClickExporterPDF);
+    connect(ui->pushButtonStats, &QPushButton::clicked, this, &MainWindow::on_btnStats_clicked);
 
 
     ui->lineEditTemp->setText("0");
@@ -345,6 +347,12 @@ void MainWindow::on_PushButton_rechercherPays_clicked() {
 
 
     }
+}
+
+void MainWindow::on_btnStats_clicked()
+{
+    StatVaccin statsWindow;
+    statsWindow.exec();
 }
 
 

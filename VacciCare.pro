@@ -1,6 +1,7 @@
 QT       += core gui sql
-QT += printsupport
+QT += charts sql
 
+QT += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,6 +12,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    StatTvaccin.cpp \
     connection.cpp \
     date.cpp \
     main.cpp \
@@ -18,13 +20,16 @@ SOURCES += \
     vaccin.cpp
 
 HEADERS += \
+    StatTvaccin.h \
     connection.h \
     date.h \
     mainwindow.h \
     vaccin.h
 
 FORMS += \
-    mainwindow.ui
+   mainwindow.ui
+
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

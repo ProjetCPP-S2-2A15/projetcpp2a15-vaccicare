@@ -5,6 +5,7 @@
 #include "QMessageBox"
 #include "connection.h"
 #include "vaccin.h"
+#include "statTvaccin.h"
 #include <QSqlTableModel>
 #include <QMap>
 
@@ -30,6 +31,7 @@ public:
 
 
 private:
+    void on_btnStats_clicked();
     int getTypeVaccinId(const QString& typeName);
     QString getTypeVaccinName(int idTypeV);
     void ClickExporterPDF();

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1109</width>
+    <width>1394</width>
     <height>708</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1091</width>
+      <width>1391</width>
       <height>671</height>
      </rect>
     </property>
@@ -456,6 +456,32 @@
        </rect>
       </property>
      </widget>
+     <widget class="QPushButton" name="pushButtonStats">
+      <property name="geometry">
+       <rect>
+        <x>1170</x>
+        <y>290</y>
+        <width>93</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Voir </string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>1150</x>
+        <y>250</y>
+        <width>121</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Statiques Par Type</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
@@ -469,7 +495,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1109</width>
+     <width>1394</width>
      <height>26</height>
     </rect>
    </property>
