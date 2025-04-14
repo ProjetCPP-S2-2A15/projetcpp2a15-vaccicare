@@ -625,7 +625,7 @@ void MainWindow::sendVaccinationReminders() {
                 "L'equipe medicale"
             ).arg(prenom).arg(nom).arg(vaccinationDate.toString("dd/MM/yyyy"));
 
-            Smtp* smtp = new Smtp("slimchouaib2003@gmail.com", "abhdgrrjcyjavcaa", "smtp.gmail.com", 465);
+            Smtp* smtp = new Smtp("takwabelghith03@gmail.com", "xndxbwaviyzgiphh", "smtp.gmail.com", 465);
             connect(smtp, &Smtp::status, this, [this, email, smtp](const QString &status) {
                 QTimer::singleShot(0, this, [this, status]() {
                     if (status == "Message sent") {
@@ -637,7 +637,7 @@ void MainWindow::sendVaccinationReminders() {
                 smtp->deleteLater();
             });
 
-            smtp->sendMail("slimchouaib2003@gmail.com", email, subject, message);
+            smtp->sendMail("takwabelghith03@gmail.com", email, subject, message);
         }
     } else {
         QMessageBox::warning(this, tr("Qt Simple SMTP client"), tr("Error executing query: %1\n\n").arg(query.lastError().text()));
