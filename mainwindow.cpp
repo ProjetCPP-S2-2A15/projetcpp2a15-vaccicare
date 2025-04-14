@@ -18,44 +18,36 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->setStyleSheet(R"(
 
-    /* --- Base de l'application --- */
+    // Appliquer un style CSS
+    this->setStyleSheet(R"(
     QWidget {
-        background-color: #2c3e50; /* bleu-gris foncé */
+        background-color: #2c3e50;
         font-family: 'Segoe UI', sans-serif;
         font-size: 13px;
-        color: #ecf0f1; /* gris très clair */
+        color: #ecf0f1;
     }
-
-    /* --- Champ de recherche --- */
-    QLineEdit#lineEdit_rechercher {
-        background-color: #34495e; /* bleu foncé */
-        border: 1px solid #1abc9c; /* turquoise */
+    QLineEdit {
+        background-color: #34495e;
+        border: 1px solid #1abc9c;
         border-radius: 6px;
         padding: 6px;
         color: #ecf0f1;
     }
-
-    QLineEdit#lineEdit_rechercher:focus {
+    QLineEdit:focus {
         border: 1px solid #3498db;
         background-color: #3c5a72;
     }
-
-    /* --- ComboBox --- */
-    QComboBox#comboBox, QComboBox#comboBox_tri {
+    QComboBox {
         background-color: #34495e;
         color: #ecf0f1;
         border: 1px solid #1abc9c;
         border-radius: 6px;
         padding: 6px;
     }
-
     QComboBox:hover {
         border: 1px solid #3498db;
     }
-
-    /* --- Table --- */
     QTableView {
         background-color: #3c5a72;
         border: 1px solid #1abc9c;
@@ -64,15 +56,12 @@ MainWindow::MainWindow(QWidget *parent)
         color: #ecf0f1;
         selection-background-color: #27ae60;
     }
-
     QHeaderView::section {
         background-color: #2980b9;
         color: #ecf0f1;
         padding: 5px;
         border: 1px solid #1abc9c;
     }
-
-    /* --- Bouton Supprimer (ROUGE) --- */
     QPushButton#pushButton_2 {
         background-color: #e74c3c;
         color: #ecf0f1;
@@ -81,12 +70,9 @@ MainWindow::MainWindow(QWidget *parent)
         padding: 8px 16px;
         font-weight: bold;
     }
-
     QPushButton#pushButton_2:hover {
         background-color: #c0392b;
     }
-
-    /* --- Bouton PDF (VERT) --- */
     QPushButton#pushButton_pdf {
         background-color: #27ae60;
         color: #ecf0f1;
@@ -95,12 +81,9 @@ MainWindow::MainWindow(QWidget *parent)
         padding: 8px 16px;
         font-weight: bold;
     }
-
     QPushButton#pushButton_pdf:hover {
         background-color: #1e8449;
     }
-
-    /* --- Tous les autres boutons (BLEU) --- */
     QPushButton {
         background-color: #3498db;
         color: #ecf0f1;
@@ -109,16 +92,12 @@ MainWindow::MainWindow(QWidget *parent)
         padding: 8px 16px;
         font-weight: bold;
     }
-
     QPushButton:hover {
         background-color: #2980b9;
     }
-
-    /* --- Onglets --- */
     QTabWidget::pane {
         border: none;
     }
-
     QTabBar::tab {
         background: #16a085;
         border: 1px solid #1abc9c;
@@ -127,16 +106,17 @@ MainWindow::MainWindow(QWidget *parent)
         border-top-right-radius: 6px;
         color: #ecf0f1;
     }
-
     QTabBar::tab:selected {
         background: #1abc9c;
         color: #2c3e50;
     }
+    )");
 
-)");
+    // Assurer que le mot de passe est masqué
+    ui->lineEdit_14->setEchoMode(QLineEdit::Password);
 
 
-
+    // Connexions pour les autres fonctionnalités
     connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_pushButton3_ajouter_clicked);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::on_pushButton_2_supprimer_clicked);
     connect(ui->pushButton_4, &QPushButton::clicked, this, &MainWindow::on_pushButton_modifier_clicked);
@@ -144,10 +124,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->comboBox_tri, &QComboBox::currentTextChanged, this, &MainWindow::on_comboBox_tri_currentTextChanged);
     connect(ui->pushButton_pdf, &QPushButton::clicked, this, &MainWindow::on_pushButton_pdf_clicked);
 
+    // Connexion pour le bouton de login
+    connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
 
-
-    // Delay the initial table view refresh until the UI is fully initialized
-    QTimer::singleShot(100, this, &MainWindow::refreshTableView);
+    // Masquer les autres onglets au démarrage (sauf l'onglet de login, qui est à l'index 0)
+    ui->tabWidget->setTabEnabled(1, false); // Désactiver "Tab 2"
 }
 
 MainWindow::~MainWindow()
@@ -155,6 +136,39 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_pushButton_clicked()
+{
+    if (attempts <= 0) {
+        QMessageBox::critical(this, "Erreur", "Trop de tentatives échouées. L'application va se fermer.");
+        close();
+        return;
+    }
+
+    QString login = ui->lineEdit->text().trimmed();
+    QString password = ui->lineEdit_14->text();
+
+    if (login.isEmpty() || password.isEmpty()) {
+        QMessageBox::warning(this, "Erreur", "Veuillez remplir tous les champs !");
+        return;
+    }
+
+    Medecin medecin;
+    if (medecin.verifierLogin(login, password)) {
+        QMessageBox::information(this, "Succès", "Connexion réussie !");
+        // Activer les autres onglets après connexion
+        ui->tabWidget->setTabEnabled(1, true); // Activer "Tab 2"
+        ui->tabWidget->setCurrentIndex(1); // Basculer vers "Tab 2"
+        ui->tabWidget->setTabEnabled(0, false); // Masquer l'onglet de login
+        refreshTableView(); // Rafraîchir la table
+    } else {
+        attempts--;
+        QMessageBox::warning(this, "Erreur", QString("Login ou mot de passe incorrect ! %1 tentative(s) restante(s).").arg(attempts));
+        ui->lineEdit_14->clear();
+        ui->lineEdit->setFocus();
+    }
+}
+
+// Le reste de ton code (on_pushButton3_ajouter_clicked, on_pushButton_2_supprimer_clicked, etc.) reste inchangé
 void MainWindow::on_pushButton3_ajouter_clicked()
 {
     qDebug() << "Bouton Ajouter pressé !";
@@ -172,20 +186,17 @@ void MainWindow::on_pushButton3_ajouter_clicked()
     QString login = ui->lineEdit_13->text();
     QString mot_de_passe = ui->lineEdit_11->text();
 
-    // Validate inputs
     if (!idOk || !expOk) {
         QMessageBox::warning(this, "Erreur de saisie", "Veuillez entrer un ID ou une expérience valide !");
         return;
     }
 
-    // Create a Medecin object
     Medecin M(id_medecin, nom, specialite, grade, email, telephone, experience, statut, disponibilite, login, mot_de_passe);
 
-    // Add to the database
     bool test = M.ajouter();
     if (test) {
         QMessageBox::information(this, "Succès", "Médecin ajouté avec succès !");
-        refreshTableView(); // Refresh the table view
+        refreshTableView();
     } else {
         QMessageBox::critical(this, "Erreur", "Ajout non effectué !");
         qDebug() << "Erreur lors de l'ajout du médecin.";
@@ -207,7 +218,7 @@ void MainWindow::on_pushButton_2_supprimer_clicked()
     if (success) {
         QMessageBox::information(this, "Succès", "Médecin supprimé avec succès !");
         qDebug() << "Médecin supprimé avec succès.";
-        refreshTableView(); // Refresh the table view
+        refreshTableView();
     } else {
         QMessageBox::critical(this, "Erreur", "Échec de la suppression du médecin.");
         qDebug() << "Erreur lors de la suppression du médecin.";
@@ -228,7 +239,6 @@ void MainWindow::on_pushButton_modifier_clicked()
 
     Medecin M;
     if (M.fetchMedecinById(id_medecin, nom, specialite, grade, email, telephone, disponibilite, experience, statut, login, mot_de_passe)) {
-        // Update with new values from the UI
         nom = ui->lineEdit_4->text();
         specialite = ui->lineEdit_5->text();
         grade = ui->lineEdit_7->text();
@@ -250,7 +260,7 @@ void MainWindow::on_pushButton_modifier_clicked()
         if (success) {
             QMessageBox::information(this, "Succès", "Médecin modifié avec succès !");
             qDebug() << "Le médecin a été modifié avec succès.";
-            refreshTableView(); // Refresh the table view
+            refreshTableView();
         } else {
             QMessageBox::critical(this, "Erreur", "Échec de la modification du médecin.");
             qDebug() << "Erreur lors de la modification du médecin.";
@@ -262,13 +272,13 @@ void MainWindow::on_pushButton_modifier_clicked()
 
 void MainWindow::on_lineEdit_rechercher_textChanged(const QString &text)
 {
-    Q_UNUSED(text); // We don't use the text directly here, but it's passed by the signal
+    Q_UNUSED(text);
     refreshTableView();
 }
 
 void MainWindow::on_comboBox_tri_currentTextChanged(const QString &text)
 {
-    Q_UNUSED(text); // We don't use the text directly here, but it's passed by the signal
+    Q_UNUSED(text);
     refreshTableView();
 }
 
@@ -285,7 +295,6 @@ void MainWindow::refreshTableView()
     if (model) {
         ui->tableView->setModel(model);
 
-        // Set column headers based on Medecin attributes
         model->setHeaderData(0, Qt::Horizontal, tr("ID Médecin"));
         model->setHeaderData(1, Qt::Horizontal, tr("Nom"));
         model->setHeaderData(2, Qt::Horizontal, tr("Spécialité"));
@@ -301,7 +310,6 @@ void MainWindow::refreshTableView()
         ui->tableView->resizeColumnsToContents();
         qDebug() << "Table view updated successfully. Rows displayed:" << model->rowCount();
 
-        // Show a message if no doctors are found
         if (model->rowCount() == 0) {
             if (searchText.isEmpty()) {
                 QMessageBox::information(this, "Information", "Aucun médecin n'est enregistré dans la base de données.");
@@ -317,66 +325,55 @@ void MainWindow::refreshTableView()
 
 void MainWindow::on_pushButton_pdf_clicked()
 {
-    // Get the model from the table view
     QAbstractItemModel* model = ui->tableView->model();
     if (!model || model->rowCount() == 0) {
         QMessageBox::warning(this, "Erreur", "Aucune donnée à exporter dans le PDF.");
         return;
     }
 
-    // Prompt the user to select a file location
     QString filePath = QFileDialog::getSaveFileName(this, tr("Enregistrer le PDF"), "", tr("Fichiers PDF (*.pdf)"));
     if (filePath.isEmpty()) {
-        return; // User canceled the dialog
+        return;
     }
 
-    // Ensure the file has a .pdf extension
     if (!filePath.endsWith(".pdf", Qt::CaseInsensitive)) {
         filePath += ".pdf";
     }
 
-    // Create a PDF writer and set to landscape mode
     QPdfWriter pdfWriter(filePath);
     QPageLayout layout(QPageSize(QPageSize::A4), QPageLayout::Landscape, QMarginsF(20, 20, 20, 20), QPageLayout::Millimeter);
     pdfWriter.setPageLayout(layout);
 
-    // Create a painter for the PDF
     QPainter painter(&pdfWriter);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    // Define dimensions for the table (in points, since PDF uses 72 DPI)
-    const int pageWidth = pdfWriter.width(); // Width in points (now wider in landscape)
-    const int pageHeight = pdfWriter.height(); // Height in points (shorter in landscape)
-    const int margin = 20 * 72 / 25.4; // Convert 20mm to points (1 inch = 25.4mm, 1 inch = 72 points)
-    const int rowHeight = 30; // Height of each row in points
+    const int pageWidth = pdfWriter.width();
+    const int pageHeight = pdfWriter.height();
+    const int margin = 20 * 72 / 25.4;
+    const int rowHeight = 30;
     const int columnCount = model->columnCount();
     const int rowCount = model->rowCount();
 
-    // Set font for the table
     QFont font("Arial", 7);
     painter.setFont(font);
     QFontMetrics fontMetrics(font, &pdfWriter);
 
-    // Calculate column widths based on content
     QVector<int> columnWidths(columnCount, 0);
     int totalContentWidth = 0;
     for (int col = 0; col < columnCount; ++col) {
-        // Get the header width
         QString headerText = model->headerData(col, Qt::Horizontal).toString();
-        int headerWidth = fontMetrics.boundingRect(headerText).width() + 20; // Add padding
+        int headerWidth = fontMetrics.boundingRect(headerText).width() + 20;
 
-        // Check the width of each cell in this column
         int maxCellWidth = headerWidth;
         for (int row = 0; row < rowCount; ++row) {
             QString cellText = model->data(model->index(row, col)).toString();
-            int cellWidth = fontMetrics.boundingRect(cellText).width() + 20; // Add padding
+            int cellWidth = fontMetrics.boundingRect(cellText).width() + 20;
             maxCellWidth = qMax(maxCellWidth, cellWidth);
         }
         columnWidths[col] = maxCellWidth;
         totalContentWidth += maxCellWidth;
     }
 
-    // Scale column widths to fit the page if necessary
     int availableWidth = pageWidth - 2 * margin;
     if (totalContentWidth > availableWidth) {
         double scaleFactor = static_cast<double>(availableWidth) / totalContentWidth;
@@ -386,11 +383,9 @@ void MainWindow::on_pushButton_pdf_clicked()
         totalContentWidth = availableWidth;
     }
 
-    // Debug column widths
     qDebug() << "Column widths:" << columnWidths;
     qDebug() << "Total content width:" << totalContentWidth << "Available width:" << availableWidth;
 
-    // Title
     QFont titleFont("Arial", 12, QFont::Bold);
     painter.setFont(titleFont);
     painter.setPen(Qt::black);
@@ -398,36 +393,28 @@ void MainWindow::on_pushButton_pdf_clicked()
     int titleHeight = fontMetrics.height();
     painter.drawText(margin, margin, title);
 
-    // Reset font for table
     painter.setFont(font);
 
-    // Starting Y position for the table
     int y = margin + titleHeight + 20;
 
-    // Draw table headers
     painter.setPen(Qt::black);
     painter.setBrush(QBrush(Qt::lightGray));
     int x = margin;
     for (int col = 0; col < columnCount; ++col) {
         painter.drawRect(x, y, columnWidths[col], rowHeight);
         QString headerText = model->headerData(col, Qt::Horizontal).toString();
-        // Truncate text if too long
         QString displayText = fontMetrics.elidedText(headerText, Qt::ElideRight, columnWidths[col] - 20);
-        // Center text vertically
         int textY = y + (rowHeight - fontMetrics.height()) / 2 + fontMetrics.ascent();
         painter.drawText(x + 10, textY, displayText);
         x += columnWidths[col];
     }
     y += rowHeight;
 
-    // Draw table data
     painter.setBrush(Qt::NoBrush);
     for (int row = 0; row < rowCount; ++row) {
-        // Check for page break
         if (y + rowHeight > pageHeight - margin) {
             pdfWriter.newPage();
             y = margin;
-            // Redraw headers on new page
             painter.setBrush(QBrush(Qt::lightGray));
             x = margin;
             for (int col = 0; col < columnCount; ++col) {
@@ -442,14 +429,11 @@ void MainWindow::on_pushButton_pdf_clicked()
             painter.setBrush(Qt::NoBrush);
         }
 
-        // Draw row data
         x = margin;
         for (int col = 0; col < columnCount; ++col) {
             painter.drawRect(x, y, columnWidths[col], rowHeight);
             QString cellText = model->data(model->index(row, col)).toString();
-            // Truncate text if too long
             QString displayText = fontMetrics.elidedText(cellText, Qt::ElideRight, columnWidths[col] - 20);
-            // Center text vertically
             int textY = y + (rowHeight - fontMetrics.height()) / 2 + fontMetrics.ascent();
             painter.drawText(x + 10, textY, displayText);
             x += columnWidths[col];
@@ -457,13 +441,10 @@ void MainWindow::on_pushButton_pdf_clicked()
         y += rowHeight;
     }
 
-    // End painting
     painter.end();
 
-    // Notify the user
     QMessageBox::information(this, "Succès", "Le PDF a été généré avec succès !");
     qDebug() << "PDF generated at:" << filePath;
 
-    // Optionally open the PDF
     QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
 }

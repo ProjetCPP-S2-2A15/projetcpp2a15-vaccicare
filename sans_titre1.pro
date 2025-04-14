@@ -11,12 +11,14 @@ CONFIG += c++17
 
 SOURCES += \
     connection.cpp \
+    login.cpp \
     main.cpp \
     mainwindow.cpp \
     medecin.cpp
 
 HEADERS += \
     connection.h \
+    login.h \
     mainwindow.h \
     medecin.h \
     medecin.h \

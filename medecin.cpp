@@ -352,3 +352,19 @@ QSqlQueryModel* Medecin::afficher(const QString &searchText, const QString &crit
     qDebug() << "Query executed successfully. Row count:" << model->rowCount();
     return model;
 }
+bool Medecin::verifierLogin(const QString &login, const QString &mot_de_passe)
+{
+    QSqlQuery query;
+    query.prepare("SELECT LOGIN, MOT_DE_PASSE FROM MEDECIN WHERE LOGIN = :login AND MOT_DE_PASSE = :mot_de_passe");
+    query.bindValue(":login", login);
+    query.bindValue(":mot_de_passe", mot_de_passe);
+
+    if (query.exec()) {
+        if (query.next()) {
+            return true;
+        }
+    } else {
+        qDebug() << "Erreur lors de la vérification du login :" << query.lastError().text();
+    }
+    return false;
+}
