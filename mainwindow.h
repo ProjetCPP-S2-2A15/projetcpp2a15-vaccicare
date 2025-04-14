@@ -43,6 +43,19 @@ private slots:
 
     void on_Pat_Button_ExportPDF_clicked();
 
+    void on_Pat_Button_Statistique_clicked();
+
+    void on_Pat_Button_Statistique_2_clicked();
+
+    void clearSpLabelStats();
+
+
+    void highlightDates();
+
+    void on_calendarWidget_pat_selectionChanged();
+
+    void sendVaccinationReminders();
+
 private:
     Ui::MainWindow *ui;
     QSqlDatabase db;

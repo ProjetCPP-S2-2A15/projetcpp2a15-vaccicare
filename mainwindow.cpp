@@ -17,6 +17,20 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QTextStream>
+#include <QtCharts>
+#include <QtCharts/QChartView>
+#include <QtCharts/QChart>
+#include <QtCharts/QPieSeries>
+#include <QPainter>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QtCharts/QPieSlice>
+#include <QSsl>
+#include <QSslSocket> // Add this for SSL support
+#include <QMessageBox>
+
+#include <QScopedPointer>
+#include "smtp.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -28,14 +42,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Pat_Telephone->setValidator(new QIntValidator(0, 99999999, this)); // Allow only 8 digits
     ui->Pat_Line_Id_Testeur->setValidator(new QIntValidator(0, 99999999, this));
 
-    // Populate combo boxes with predefined values
-    ui->Pat_Combo_Sexe->addItems({"Homme", "Femme"}); // Only "Homme" and "Femme"
-    ui->Pat_Combo_groupe->addItems({"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"});
-    ui->Pat_Combo_Statut->addItems({"Vacciné", "Non vacciné", "En attente"});
-
     // Initialize table view and combo box for IDs
     ui->Pat_TableView_Res->setModel(P.Afficher());
     ui->Pat_Combo_IDs->setModel(P.Afficher_ID());
+    highlightDates();
+    sendVaccinationReminders();
 }
 
 MainWindow::~MainWindow()
@@ -293,4 +304,342 @@ void MainWindow::on_Pat_Button_ExportPDF_clicked()
         QTextDocument doc;
         doc.setHtml(strStream);
         doc.print(&printer);
+}
+
+void MainWindow::on_Pat_Button_Statistique_clicked()
+{   clearSpLabelStats();
+    QChartView *chartView;
+        QSqlQuery query;
+        qreal tot = 0, aPositive = 0, aNegative = 0, bPositive = 0, bNegative = 0, abPositive = 0, abNegative = 0, oPositive = 0, oNegative = 0;
+
+        // Step 1: Get the total count of patients
+        query.prepare("SELECT COUNT(*) FROM PATIENT");
+        if (query.exec() && query.next()) {
+            tot = query.value(0).toDouble();
+        } else {
+            qDebug() << "Error getting total count:" << query.lastError().text();
+            ui->Pat_Label_Stats->setText("❌ Erreur lors du calcul du total des patients.");
+            return;
+        }
+
+        // Step 2: Count patients by blood group
+        query.prepare(
+            "SELECT GROUPE_SANGUIN, COUNT(*) "
+            "FROM PATIENT "
+            "WHERE GROUPE_SANGUIN IS NOT NULL "
+            "GROUP BY GROUPE_SANGUIN"
+        );
+
+        if (query.exec()) {
+            while (query.next()) {
+                QString bloodGroup = query.value(0).toString();
+                int count = query.value(1).toInt();
+                if (bloodGroup == "A+") {
+                    aPositive = count;
+                } else if (bloodGroup == "A-") {
+                    aNegative = count;
+                } else if (bloodGroup == "B+") {
+                    bPositive = count;
+                } else if (bloodGroup == "B-") {
+                    bNegative = count;
+                } else if (bloodGroup == "AB+") {
+                    abPositive = count;
+                } else if (bloodGroup == "AB-") {
+                    abNegative = count;
+                } else if (bloodGroup == "O+") {
+                    oPositive = count;
+                } else if (bloodGroup == "O-") {
+                    oNegative = count;
+                }
+            }
+        } else {
+            qDebug() << "Error calculating blood groups:" << query.lastError().text();
+            ui->Pat_Label_Stats->setText("❌ Erreur lors du calcul des groupes sanguins: " + query.lastError().text());
+            return;
+        }
+
+        // Step 3: Calculate percentages
+        qreal pApos = (tot > 0) ? (aPositive / tot) : 0;
+        qreal pAneg = (tot > 0) ? (aNegative / tot) : 0;
+        qreal pBpos = (tot > 0) ? (bPositive / tot) : 0;
+        qreal pBneg = (tot > 0) ? (bNegative / tot) : 0;
+        qreal pABpos = (tot > 0) ? (abPositive / tot) : 0;
+        qreal pABneg = (tot > 0) ? (abNegative / tot) : 0;
+        qreal pOpos = (tot > 0) ? (oPositive / tot) : 0;
+        qreal pOneg = (tot > 0) ? (oNegative / tot) : 0;
+
+        // Step 4: Create the pie series
+        QPieSeries *series = new QPieSeries();
+        series->append("A+", pApos);
+        series->append("A-", pAneg);
+        series->append("B+", pBpos);
+        series->append("B-", pBneg);
+        series->append("AB+", pABpos);
+        series->append("AB-", pABneg);
+        series->append("O+", pOpos);
+        series->append("O-", pOneg);
+
+        // Set labels for each slice
+        for (QPieSlice *slice : series->slices()) {
+            slice->setLabelVisible();
+            slice->setLabel(QString("%1: %2%").arg(slice->label()).arg(slice->percentage() * 100, 0, 'f', 1));
+        }
+
+        // Step 5: Create the chart
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+        chart->setTitle("Statistiques des Patients par Groupe Sanguin");
+        chart->legend()->show();
+        chart->setAnimationOptions(QChart::AllAnimations);
+        chart->setTheme(QChart::ChartThemeQt);
+
+        // Step 6: Create the chart view
+        chartView = new QChartView(chart, ui->Pat_Label_Stats);
+        chartView->setRenderHint(QPainter::Antialiasing);
+        chartView->setMinimumSize(570, 570);
+
+        // Add the chart view to the layout
+        QVBoxLayout *layout = new QVBoxLayout(ui->Pat_Label_Stats);
+        layout->addWidget(chartView);
+        ui->Pat_Label_Stats->setLayout(layout);
+
+        chartView->show();
+
+}
+
+void MainWindow::on_Pat_Button_Statistique_2_clicked()
+{   clearSpLabelStats();
+    QChartView *chartView;
+        QSqlQuery query;
+        qreal tot = 0, vaccinated = 0, notVaccinated = 0, pending = 0;
+
+        // Step 1: Get the total count of patients
+        query.prepare("SELECT COUNT(*) FROM PATIENT");
+        if (query.exec() && query.next()) {
+            tot = query.value(0).toDouble();
+        } else {
+            qDebug() << "Error getting total count:" << query.lastError().text();
+            ui->Pat_Label_Stats->setText("❌ Erreur lors du calcul du total des patients.");
+            return;
+        }
+
+        // Step 2: Count patients by vaccination status
+        query.prepare(
+            "SELECT STATUT_VACCINAL, COUNT(*) "
+            "FROM PATIENT "
+            "WHERE STATUT_VACCINAL IS NOT NULL "
+            "GROUP BY STATUT_VACCINAL"
+        );
+
+        if (query.exec()) {
+            while (query.next()) {
+                QString status = query.value(0).toString();
+                int count = query.value(1).toInt();
+                if (status == "Vaccine") {
+                    vaccinated = count;
+                } else if (status == "Non Vaccine") {
+                    notVaccinated = count;
+                } else if (status == "En attente") {
+                    pending = count;
+                }
+            }
+        } else {
+            qDebug() << "Error calculating vaccination status:" << query.lastError().text();
+            ui->Pat_Label_Stats->setText("❌ Erreur lors du calcul des statuts vaccinaux: " + query.lastError().text());
+            return;
+        }
+
+        // Step 3: Calculate percentages
+        qreal pVaccinated = (tot > 0) ? (vaccinated / tot) : 0;
+        qreal pNotVaccinated = (tot > 0) ? (notVaccinated / tot) : 0;
+        qreal pPending = (tot > 0) ? (pending / tot) : 0;
+
+        // Step 4: Create the pie series
+        QPieSeries *series = new QPieSeries();
+        series->append("Vacciné", pVaccinated);
+        series->append("Non Vacciné", pNotVaccinated);
+        series->append("En attente", pPending);
+
+        // Set labels for each slice
+        for (QPieSlice *slice : series->slices()) {
+            slice->setLabelVisible();
+            slice->setLabel(QString("%1: %2%").arg(slice->label()).arg(slice->percentage() * 100, 0, 'f', 1));
+        }
+
+        // Step 5: Create the chart
+        QChart *chart = new QChart();
+        chart->addSeries(series);
+        chart->setTitle("Statistiques des Patients par Statut Vaccinal");
+        chart->legend()->show();
+        chart->setAnimationOptions(QChart::AllAnimations);
+        chart->setTheme(QChart::ChartThemeQt);
+
+        // Step 6: Create the chart view
+        chartView = new QChartView(chart, ui->Pat_Label_Stats);
+        chartView->setRenderHint(QPainter::Antialiasing);
+        chartView->setMinimumSize(570, 570);
+
+        // Add the chart view to the layout
+        QVBoxLayout *layout = new QVBoxLayout(ui->Pat_Label_Stats);
+        layout->addWidget(chartView);
+        ui->Pat_Label_Stats->setLayout(layout);
+
+        chartView->show();
+
+}
+void MainWindow::clearSpLabelStats() {
+    // Check if the label has a layout
+    if (ui->Pat_Label_Stats->layout()) {
+        QLayout *layout = ui->Pat_Label_Stats->layout();
+
+        // Remove all widgets from the layout
+        QLayoutItem *item;
+        while ((item = layout->takeAt(0)) != nullptr) {
+            if (item->widget()) {
+                delete item->widget(); // Delete the widget (e.g., chart view)
+            }
+            delete item; // Delete the layout item
+        }
+
+        // Delete the layout itself
+        delete layout;
+    }
+
+    // Clear any text in the label
+    ui->Pat_Label_Stats->setText("");
+}
+
+void MainWindow::highlightDates() {
+    QSqlQuery query;
+    // Query the PATIENT table for DATE_VACCIN
+    if (query.exec("SELECT DATE_VACCIN FROM PATIENT")) {
+        while (query.next()) {
+            // Retrieve the date as a string and convert to QDateTime
+            QString dateVaccinString = query.value(0).toString();
+            QDateTime dateVaccin = QDateTime::fromString(dateVaccinString, Qt::ISODate);
+            QDate dateVaccinDate = dateVaccin.date();
+
+            // Highlight DATE_VACCIN in red (similar to DATE_FIN in the sponsor function)
+            if (dateVaccinDate.isValid()) {
+                QTextCharFormat format;
+                format.setBackground(QBrush(QColor("#a35941"))); // Red background (using the same red as DATE_FIN in the sponsor function)
+                format.setForeground(QBrush(Qt::black));
+                format.setFontWeight(QFont::Bold);
+                ui->calendarWidget_pat->setDateTextFormat(dateVaccinDate, format);
+            }
+        }
+    } else {
+        // Handle query failure
+        qDebug() << "Error executing query:" << query.lastError().text();
+    }
+}
+
+void MainWindow::on_calendarWidget_pat_selectionChanged()
+{
+    QDate selectedDate = ui->calendarWidget_pat->selectedDate();
+    QSqlQuery query;
+    bool dateFound = false;
+
+    // Query the PATIENT table for all columns
+    if (query.exec("SELECT * FROM PATIENT")) {
+        while (query.next()) {
+            // Map the columns based on the PATIENT table structure
+            QString idPatient = query.value(0).toString(); // ID_PATIENT
+            QString nom = query.value(1).toString(); // NOM
+            QString prenom = query.value(2).toString(); // PRENOM
+            QDate dateNaissance = query.value(3).toDate(); // DATE_NAISSSANCE
+            QString sexe = query.value(4).toString(); // SEXE
+            QString adresse = query.value(5).toString(); // ADRESSE
+            QString telephone = query.value(6).toString(); // TELEPHONE
+            QString email = query.value(7).toString(); // EMAIL
+            QString groupeSanguin = query.value(8).toString(); // GROUPE_SANGUIN
+            QString statutVaccinal = query.value(9).toString(); // STATUT_VACCINAL
+            QDate dateVaccin = query.value(10).toDate(); // DATE_VACCIN
+            QString idProjetTesteur = query.value(11).toString(); // ID_PROJET_TESTEUR
+
+            // Check if the selected date matches DATE_VACCIN
+            if (selectedDate == dateVaccin) {
+                ui->Calendrier_Info->setText(
+                    "Patient Details:<br>"
+                    "<b>ID Patient:</b> " + idPatient + "<br>" +
+                    "<b>Name:</b> " + nom + " " + prenom + "<br>" +
+                    "<b>Date of Birth:</b> " + dateNaissance.toString("dd/MM/yyyy") + "<br>" +
+                    "<b>Sex:</b> " + sexe + "<br>" +
+                    "<b>Address:</b> " + adresse + "<br>" +
+                    "<b>Phone:</b> " + telephone + "<br>" +
+                    "<b>Email:</b> " + email + "<br>" +
+                    "<b>Blood Group:</b> " + groupeSanguin + "<br>" +
+                    "<b>Vaccination Status:</b> " + statutVaccinal + "<br>" +
+                    "<b>Vaccination Date:</b> " + dateVaccin.toString("dd/MM/yyyy") + "<br>" +
+                    "<b>Project Tester ID:</b> " + idProjetTesteur + "<br>"
+                );
+                dateFound = true;
+                break;
+            }
+        }
+        if (!dateFound) {
+            ui->Calendrier_Info->setText("No patient found for this date.");
+        }
+    } else {
+        // Handle query failure
+        ui->Calendrier_Info->setText("Error retrieving patient data.");
+        qDebug() << "Error executing query:" << query.lastError().text();
+    }
+}
+
+
+
+
+#include <QMessageBox>
+
+
+#include <QTimer>
+
+#include <QMessageBox>
+#include <QTimer>
+
+void MainWindow::sendVaccinationReminders() {
+    QSqlQuery query;
+    QDate tomorrowDate = QDate::currentDate().addDays(1);
+
+    if (query.exec("SELECT EMAIL, NOM, PRENOM, DATE_VACCIN FROM PATIENT WHERE DATE_VACCIN IS NOT NULL")) {
+        while (query.next()) {
+            QString email = query.value(0).toString().trimmed();
+            QString nom = query.value(1).toString();
+            QString prenom = query.value(2).toString();
+            QDate vaccinationDate = QDateTime::fromString(query.value(3).toString(), Qt::ISODate).date();
+
+            if (vaccinationDate != tomorrowDate) continue;
+
+            if (!email.contains("@") || email.isEmpty()) {
+                QMessageBox::warning(this, tr("Qt Simple SMTP client"), tr("Invalid email address: %1\n\n").arg(email));
+                continue;
+            }
+
+            QString subject = "Rappel de Vaccination";
+            QString message = QString(
+                "Cher(e) %1 %2,\r\n\r\n"
+                "Nous vous rappelons que votre vaccination est prevue pour demain, le %3.\r\n"
+                "Veuillez vous presenter a l'heure convenue.\r\n\r\n"
+                "Cordialement,\r\n"
+                "L'equipe medicale"
+            ).arg(prenom).arg(nom).arg(vaccinationDate.toString("dd/MM/yyyy"));
+
+            Smtp* smtp = new Smtp("slimchouaib2003@gmail.com", "abhdgrrjcyjavcaa", "smtp.gmail.com", 465);
+            connect(smtp, &Smtp::status, this, [this, email, smtp](const QString &status) {
+                QTimer::singleShot(0, this, [this, status]() {
+                    if (status == "Message sent") {
+                        QMessageBox::information(this, tr("Qt Simple SMTP client"), tr("Message sent!\n\n"));
+                    } else {
+                        QMessageBox::warning(this, tr("Qt Simple SMTP client"), tr("Failed to send email: %1\n\n").arg(status));
+                    }
+                });
+                smtp->deleteLater();
+            });
+
+            smtp->sendMail("slimchouaib2003@gmail.com", email, subject, message);
+        }
+    } else {
+        QMessageBox::warning(this, tr("Qt Simple SMTP client"), tr("Error executing query: %1\n\n").arg(query.lastError().text()));
+    }
 }

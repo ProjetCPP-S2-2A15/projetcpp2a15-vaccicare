@@ -23,7 +23,7 @@
       <x>-5</x>
       <y>-10</y>
       <width>1221</width>
-      <height>691</height>
+      <height>711</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -79,7 +79,7 @@ QTabWidget#tabWidget::pane {
 }</string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Pat_Tab_Gestion">
      <property name="styleSheet">
@@ -592,12 +592,12 @@ QLineEdit:hover {
        </property>
        <item>
         <property name="text">
-         <string>Vacciné</string>
+         <string>Vaccine</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Non Vacciné</string>
+         <string>Non Vaccine</string>
         </property>
        </item>
        <item>
@@ -1073,7 +1073,7 @@ border: 1px solid #230a98;
        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
      </widget>
-     <widget class="QCalendarWidget" name="calendarWidget">
+     <widget class="QCalendarWidget" name="calendarWidget_pat">
       <property name="geometry">
        <rect>
         <x>60</x>
@@ -1130,9 +1130,9 @@ border: 1px solid #230a98;
      <widget class="QLabel" name="Pat_Label_Stats">
       <property name="geometry">
        <rect>
-        <x>305</x>
+        <x>204</x>
         <y>11</y>
-        <width>570</width>
+        <width>771</width>
         <height>570</height>
        </rect>
       </property>
@@ -1143,9 +1143,9 @@ border: 1px solid #230a98;
      <widget class="QPushButton" name="Pat_Button_Statistique">
       <property name="geometry">
        <rect>
-        <x>930</x>
+        <x>1020</x>
         <y>540</y>
-        <width>211</width>
+        <width>121</width>
         <height>31</height>
        </rect>
       </property>
@@ -1160,7 +1160,30 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
 }</string>
       </property>
       <property name="text">
-       <string>Update statistiques</string>
+       <string>Groupe Sanguin</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Pat_Button_Statistique_2">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>540</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(35,10,152, 200);
+border-radius: 8px;
+color: white;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(35,10,152, 200));
+}</string>
+      </property>
+      <property name="text">
+       <string>Statut Vaccinal</string>
       </property>
      </widget>
     </widget>
@@ -1196,17 +1219,6 @@ color:white;</string>
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1200</width>
-     <height>26</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>
