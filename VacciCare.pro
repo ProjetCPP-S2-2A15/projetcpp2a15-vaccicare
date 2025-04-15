@@ -8,9 +8,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 win32 {
-WINDOWS_SDK_VERSION = 10.0.19041.0
-INCLUDEPATH += "C:/Program Files (x86)/Windows Kits/10/Include/$$WINDOWS_SDK_VERSION/um"
- INCLUDEPATH += "C:/Program Files (x86)/Windows Kits/10/Include/$$(WindowsSDKVersion)/shared"
+INCLUDEPATH += $$[QT_INSTALL_HEADERS]/../Tools/mingw730_32/i686-w64-mingw32/include
 
 # Exclude ATL-dependent headers
 DEFINES += _ATL_DISABLE_NO_WARNINGS
@@ -45,6 +43,7 @@ HEADERS += \
     mainwindow.h \
     minimal_sapi.h \
     projet.h \
+    qt_win32_compat.h \
     sapi_guids.h \
     speechrecognizer.h \
     statsscreen.h

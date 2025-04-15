@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <objbase.h>
 #include "sapi_guids.h"
+#include "qt_win32_compat.h"
 
 // Basic constants
 #define SPFEI(x) (1 << (x))
@@ -32,7 +33,7 @@ typedef struct SPEVENT {
     LPARAM      lParam;
 } SPEVENT;
 
-// COM interface declarations
+// COM interface declarations (simplified)
 struct ISpRecognizer {
     virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void**) = 0;
     virtual ULONG STDMETHODCALLTYPE AddRef() = 0;
