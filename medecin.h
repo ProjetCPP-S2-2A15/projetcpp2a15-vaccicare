@@ -32,6 +32,7 @@ public:
                           QString &telephone, QString &disponibilite, int &experience,
                           QString &statut, QString &login, QString &mot_de_passe);
     bool verifierLogin(const QString &login, const QString &mot_de_passe);
+
 };
 
 #endif // MEDECIN_H

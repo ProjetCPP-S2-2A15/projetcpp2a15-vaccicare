@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "medecin.h"
+#include <QStandardItemModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,18 +17,22 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked(); // Slot pour le bouton LOGIN
+    void on_pushButton_clicked();
+    void on_pushButton_5_clicked();
+    void on_pushButton_6_clicked(); // Nouveau slot pour le bouton Générer
     void on_pushButton3_ajouter_clicked();
     void on_pushButton_2_supprimer_clicked();
     void on_pushButton_modifier_clicked();
     void on_lineEdit_rechercher_textChanged(const QString &text);
     void on_comboBox_tri_currentTextChanged(const QString &text);
     void on_pushButton_pdf_clicked();
-    void refreshTableView();
+    void updateResourceFilter();
 
 private:
     Ui::MainWindow *ui;
-    int attempts = 3; // Ajout de la variable pour les tentatives
+    int attempts = 3;
+    void refreshTableView();
+    QStandardItemModel *fullResourceModel; // Modèle contenant toutes les ressources
 };
 
 #endif // MAINWINDOW_H

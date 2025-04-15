@@ -13,6 +13,8 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QPageLayout>
+#include <QIntValidator>
+#include <QStandardItemModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -110,30 +112,185 @@ MainWindow::MainWindow(QWidget *parent)
         background: #1abc9c;
         color: #2c3e50;
     }
+    QCheckBox {
+        color: #ecf0f1;
+        padding: 5px;
+    }
+    QCheckBox::indicator {
+        width: 16px;
+        height: 16px;
+        background-color: #34495e;
+        border: 1px solid #1abc9c;
+        border-radius: 3px;
+    }
+    QCheckBox::indicator:checked {
+        background-color: #27ae60;
+        border: 1px solid #1abc9c;
+    }
     )");
 
     // Assurer que le mot de passe est masqué
     ui->lineEdit_14->setEchoMode(QLineEdit::Password);
 
+    // Restreindre les champs numériques pour les médecins
+    ui->lineEdit_3->setValidator(new QIntValidator(this));
+    ui->lineEdit_9->setValidator(new QIntValidator(this));
 
-    // Connexions pour les autres fonctionnalités
+    // Connexions pour les médecins
     connect(ui->pushButton_3, &QPushButton::clicked, this, &MainWindow::on_pushButton3_ajouter_clicked);
     connect(ui->pushButton_2, &QPushButton::clicked, this, &MainWindow::on_pushButton_2_supprimer_clicked);
     connect(ui->pushButton_4, &QPushButton::clicked, this, &MainWindow::on_pushButton_modifier_clicked);
     connect(ui->lineEdit_rechercher, &QLineEdit::textChanged, this, &MainWindow::on_lineEdit_rechercher_textChanged);
     connect(ui->comboBox_tri, &QComboBox::currentTextChanged, this, &MainWindow::on_comboBox_tri_currentTextChanged);
     connect(ui->pushButton_pdf, &QPushButton::clicked, this, &MainWindow::on_pushButton_pdf_clicked);
-
-    // Connexion pour le bouton de login
     connect(ui->pushButton, &QPushButton::clicked, this, &MainWindow::on_pushButton_clicked);
 
-    // Masquer les autres onglets au démarrage (sauf l'onglet de login, qui est à l'index 0)
-    ui->tabWidget->setTabEnabled(1, false); // Désactiver "Tab 2"
+    // Vérifier si pushButton_5 existe
+    if (!ui->pushButton_5) {
+        qDebug() << "Erreur : pushButton_5 n'existe pas. Vérifiez l'objectName du bouton Ressources dans mainwindow.ui.";
+    } else {
+        qDebug() << "pushButton_5 trouvé.";
+    }
+
+    // Définir l'onglet de login (tab) comme actif par défaut
+    ui->tabWidget->setCurrentIndex(0); // Index 0: tab (Login)
+
+    // Masquer tous les onglets sauf le login au démarrage
+    ui->tabWidget->setTabEnabled(1, false); // Index 1: tab_2 (Médecins)
+    ui->tabWidget->setTabEnabled(2, false); // Index 2: tab_3
+    ui->tabWidget->setTabEnabled(3, false); // Index 3: tab_4 (Ressources)
+
+    // Vérifier le nombre d'onglets pour déboguer
+    qDebug() << "Nombre d'onglets dans tabWidget :" << ui->tabWidget->count();
+    for (int i = 0; i < ui->tabWidget->count(); ++i) {
+        qDebug() << "Onglet" << i << ":" << ui->tabWidget->tabText(i) << "ObjectName:" << ui->tabWidget->widget(i)->objectName();
+    }
+
+    // Initialiser le modèle complet des ressources
+    fullResourceModel = new QStandardItemModel(this);
+    fullResourceModel->setHorizontalHeaderLabels({"ID", "Nom de la ressource", "Quantité"});
+
+    // Ajouter les données de test (Masques, Gants, Désinfectant, Seringues, Bandages)
+    QList<QStandardItem *> row1;
+    row1 << new QStandardItem("1") << new QStandardItem("Masques") << new QStandardItem("100");
+    fullResourceModel->appendRow(row1);
+
+    QList<QStandardItem *> row2;
+    row2 << new QStandardItem("2") << new QStandardItem("Gants") << new QStandardItem("200");
+    fullResourceModel->appendRow(row2);
+
+    QList<QStandardItem *> row3;
+    row3 << new QStandardItem("3") << new QStandardItem("Désinfectant") << new QStandardItem("50");
+    fullResourceModel->appendRow(row3);
+
+    QList<QStandardItem *> row4;
+    row4 << new QStandardItem("4") << new QStandardItem("Seringues") << new QStandardItem("150");
+    fullResourceModel->appendRow(row4);
+
+    QList<QStandardItem *> row5;
+    row5 << new QStandardItem("5") << new QStandardItem("Bandages") << new QStandardItem("300");
+    fullResourceModel->appendRow(row5);
+
+    // Vérifier si tableView_3 existe
+    if (!ui->tableView_3) {
+        qDebug() << "Erreur : tableView_3 n'existe pas dans l'onglet tab_4. Vérifiez mainwindow.ui.";
+    } else {
+        qDebug() << "tableView_3 trouvé, initialisation...";
+        // Définir le modèle initial (toutes les ressources visibles par défaut)
+        ui->tableView_3->setModel(fullResourceModel);
+        ui->tableView_3->resizeColumnsToContents();
+    }
+
+    // Vérifier si les cases à cocher existent
+    if (!ui->checkBox || !ui->checkBox_2 || !ui->checkBox_3 || !ui->checkBox_4 || !ui->checkBox_5) {
+        qDebug() << "Erreur : Une ou plusieurs cases à cocher (checkBox, checkBox_2, checkBox_3, checkBox_4, checkBox_5) n'existent pas. Vérifiez mainwindow.ui.";
+    } else {
+        // Cocher toutes les cases par défaut
+        ui->checkBox->setChecked(true);
+        ui->checkBox_2->setChecked(true);
+        ui->checkBox_3->setChecked(true);
+        ui->checkBox_4->setChecked(true);
+        ui->checkBox_5->setChecked(true);
+
+        // Connecter les cases à cocher au slot de filtrage
+        connect(ui->checkBox, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
+        connect(ui->checkBox_2, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
+        connect(ui->checkBox_3, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
+        connect(ui->checkBox_4, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
+        connect(ui->checkBox_5, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
+    }
+
+    // Vérifier si pushButton_6 existe
+    if (!ui->pushButton_6) {
+        qDebug() << "Erreur : pushButton_6 n'existe pas dans tab_4. Vérifiez l'objectName du bouton Générer dans mainwindow.ui.";
+    } else {
+        qDebug() << "pushButton_6 trouvé.";
+        // Connecter le bouton Générer au slot
+        connect(ui->pushButton_6, &QPushButton::clicked, this, &MainWindow::on_pushButton_6_clicked);
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    qDebug() << "Bouton Générer cliqué.";
+    QMessageBox::information(this, "Succès", "Ressources générées avec succès !");
+}
+
+void MainWindow::updateResourceFilter()
+{
+    qDebug() << "Mise à jour du filtre des ressources...";
+
+    // Créer un nouveau modèle pour les ressources filtrées
+    QStandardItemModel *filteredModel = new QStandardItemModel(this);
+    filteredModel->setHorizontalHeaderLabels({"ID", "Nom de la ressource", "Quantité"});
+
+    // Parcourir le modèle complet et ajouter les lignes correspondant aux cases cochées
+    bool masquesChecked = ui->checkBox->isChecked();
+    bool gantsChecked = ui->checkBox_2->isChecked();
+    bool desinfectantChecked = ui->checkBox_3->isChecked();
+    bool seringuesChecked = ui->checkBox_4->isChecked();
+    bool bandagesChecked = ui->checkBox_5->isChecked();
+
+    for (int row = 0; row < fullResourceModel->rowCount(); ++row) {
+        QString resourceName = fullResourceModel->data(fullResourceModel->index(row, 1)).toString();
+        bool shouldShow = false;
+
+        if (resourceName == "Masques" && masquesChecked) {
+            shouldShow = true;
+        } else if (resourceName == "Gants" && gantsChecked) {
+            shouldShow = true;
+        } else if (resourceName == "Désinfectant" && desinfectantChecked) {
+            shouldShow = true;
+        } else if (resourceName == "Seringues" && seringuesChecked) {
+            shouldShow = true;
+        } else if (resourceName == "Bandages" && bandagesChecked) {
+            shouldShow = true;
+        }
+
+        if (shouldShow) {
+            QList<QStandardItem *> rowItems;
+            for (int col = 0; col < fullResourceModel->columnCount(); ++col) {
+                rowItems << new QStandardItem(fullResourceModel->data(fullResourceModel->index(row, col)).toString());
+            }
+            filteredModel->appendRow(rowItems);
+        }
+    }
+
+    // Mettre à jour tableView_3 avec le modèle filtré
+    ui->tableView_3->setModel(filteredModel);
+    ui->tableView_3->resizeColumnsToContents();
+
+    // Afficher un message si aucune ressource n'est sélectionnée
+    if (filteredModel->rowCount() == 0) {
+        QMessageBox::information(this, "Information", "Aucune ressource sélectionnée à afficher.");
+    }
+
+    qDebug() << "Filtre appliqué. Nombre de lignes affichées :" << filteredModel->rowCount();
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -155,11 +312,12 @@ void MainWindow::on_pushButton_clicked()
     Medecin medecin;
     if (medecin.verifierLogin(login, password)) {
         QMessageBox::information(this, "Succès", "Connexion réussie !");
-        // Activer les autres onglets après connexion
-        ui->tabWidget->setTabEnabled(1, true); // Activer "Tab 2"
-        ui->tabWidget->setCurrentIndex(1); // Basculer vers "Tab 2"
-        ui->tabWidget->setTabEnabled(0, false); // Masquer l'onglet de login
-        refreshTableView(); // Rafraîchir la table
+        ui->tabWidget->setTabEnabled(1, true); // Activer tab_2 (Médecins)
+        ui->tabWidget->setTabEnabled(2, true); // Activer tab_3
+        ui->tabWidget->setTabEnabled(3, true); // Activer tab_4 (Ressources)
+        ui->tabWidget->setCurrentIndex(1); // Basculer vers tab_2 après connexion
+        ui->tabWidget->setTabEnabled(0, false); // Désactiver tab (Login)
+        refreshTableView();
     } else {
         attempts--;
         QMessageBox::warning(this, "Erreur", QString("Login ou mot de passe incorrect ! %1 tentative(s) restante(s).").arg(attempts));
@@ -168,32 +326,93 @@ void MainWindow::on_pushButton_clicked()
     }
 }
 
-// Le reste de ton code (on_pushButton3_ajouter_clicked, on_pushButton_2_supprimer_clicked, etc.) reste inchangé
+void MainWindow::on_pushButton_5_clicked()
+{
+    qDebug() << "Bouton Ressources cliqué.";
+    qDebug() << "Nombre d'onglets :" << ui->tabWidget->count();
+    qDebug() << "Onglet actif avant redirection :" << ui->tabWidget->currentIndex() << " (" << ui->tabWidget->tabText(ui->tabWidget->currentIndex()) << ")";
+    for (int i = 0; i < ui->tabWidget->count(); ++i) {
+        qDebug() << "Onglet" << i << ":" << ui->tabWidget->tabText(i) << "Enabled:" << ui->tabWidget->isTabEnabled(i);
+        qDebug() << "  ObjectName de l'onglet" << i << ":" << ui->tabWidget->widget(i)->objectName();
+    }
+
+    const int targetIndex = 3; // tab_4 est à l'index 3
+
+
+
+    // Vérifier si l'onglet est désactivé, et l'activer si nécessaire
+    if (!ui->tabWidget->isTabEnabled(targetIndex)) {
+        qDebug() << "L'onglet tab_4 (index" << targetIndex << ") est désactivé, activation...";
+        ui->tabWidget->setTabEnabled(targetIndex, true);
+    }
+
+    // Rediriger vers l'onglet tab_4
+    ui->tabWidget->setCurrentIndex(targetIndex);
+
+    qDebug() << "Redirection effectuée.";
+    qDebug() << "Onglet actif après redirection :" << ui->tabWidget->currentIndex() << " (" << ui->tabWidget->tabText(ui->tabWidget->currentIndex()) << ")";
+
+    // Vérifier si tableView_3 est affiché
+    if (ui->tableView_3) {
+        qDebug() << "tableView_3 est affiché dans l'onglet tab_4.";
+        ui->tableView_3->resizeColumnsToContents();
+    } else {
+        qDebug() << "Erreur : tableView_3 n'est pas trouvé dans l'onglet tab_4.";
+    }
+}
+
 void MainWindow::on_pushButton3_ajouter_clicked()
 {
     qDebug() << "Bouton Ajouter pressé !";
 
-    bool idOk, expOk;
-    int id_medecin = ui->lineEdit_3->text().toInt(&idOk);
-    QString nom = ui->lineEdit_4->text();
-    QString specialite = ui->lineEdit_5->text();
-    QString grade = ui->lineEdit_7->text();
-    QString email = ui->lineEdit_6->text();
-    QString telephone = ui->lineEdit_10->text();
-    QString disponibilite = ui->lineEdit_12->text();
-    int experience = ui->lineEdit_9->text().toInt(&expOk);
-    QString statut = ui->lineEdit_8->text();
-    QString login = ui->lineEdit_13->text();
-    QString mot_de_passe = ui->lineEdit_11->text();
+    QString idText = ui->lineEdit_3->text().trimmed();
+    QString nom = ui->lineEdit_4->text().trimmed();
+    QString specialite = ui->lineEdit_5->text().trimmed();
+    QString grade = ui->lineEdit_7->text().trimmed();
+    QString email = ui->lineEdit_6->text().trimmed();
+    QString telephone = ui->lineEdit_10->text().trimmed();
+    QString disponibilite = ui->lineEdit_12->text().trimmed();
+    QString experienceText = ui->lineEdit_9->text().trimmed();
+    QString statut = ui->lineEdit_8->text().trimmed();
+    QString login = ui->lineEdit_13->text().trimmed();
+    QString mot_de_passe = ui->lineEdit_11->text().trimmed();
 
-    if (!idOk || !expOk) {
-        QMessageBox::warning(this, "Erreur de saisie", "Veuillez entrer un ID ou une expérience valide !");
+    QStringList emptyFields;
+    if (idText.isEmpty()) emptyFields << "ID";
+    if (nom.isEmpty()) emptyFields << "Nom";
+    if (specialite.isEmpty()) emptyFields << "Spécialité";
+    if (grade.isEmpty()) emptyFields << "Grade";
+    if (email.isEmpty()) emptyFields << "Email";
+    if (telephone.isEmpty()) emptyFields << "Téléphone";
+    if (disponibilite.isEmpty()) emptyFields << "Disponibilité";
+    if (experienceText.isEmpty()) emptyFields << "Expérience";
+    if (statut.isEmpty()) emptyFields << "Statut";
+    if (login.isEmpty()) emptyFields << "Login";
+    if (mot_de_passe.isEmpty()) emptyFields << "Mot de passe";
+
+    if (!emptyFields.isEmpty()) {
+        QMessageBox::warning(this, "Erreur de saisie", "Les champs suivants sont vides : " + emptyFields.join(", ") + " !");
         return;
     }
 
-    Medecin M(id_medecin, nom, specialite, grade, email, telephone, experience, statut, disponibilite, login, mot_de_passe);
+    bool idOk, expOk;
+    int id_medecin = idText.toInt(&idOk);
+    int experience = experienceText.toInt(&expOk);
 
-    bool test = M.ajouter();
+    if (!idOk) {
+        QMessageBox::warning(this, "Erreur de saisie", "L'ID doit être un nombre entier valide !");
+        ui->lineEdit_3->setFocus();
+        return;
+    }
+
+    if (!expOk) {
+        QMessageBox::warning(this, "Erreur de saisie", "L'expérience doit être un nombre entier valide !");
+        ui->lineEdit_9->setFocus();
+        return;
+    }
+
+    Medecin M2(id_medecin, nom, specialite, grade, email, telephone, experience, statut, disponibilite, login, mot_de_passe);
+    bool test = M2.ajouter();
     if (test) {
         QMessageBox::information(this, "Succès", "Médecin ajouté avec succès !");
         refreshTableView();
@@ -383,9 +602,6 @@ void MainWindow::on_pushButton_pdf_clicked()
         totalContentWidth = availableWidth;
     }
 
-    qDebug() << "Column widths:" << columnWidths;
-    qDebug() << "Total content width:" << totalContentWidth << "Available width:" << availableWidth;
-
     QFont titleFont("Arial", 12, QFont::Bold);
     painter.setFont(titleFont);
     painter.setPen(Qt::black);
@@ -444,7 +660,5 @@ void MainWindow::on_pushButton_pdf_clicked()
     painter.end();
 
     QMessageBox::information(this, "Succès", "Le PDF a été généré avec succès !");
-    qDebug() << "PDF generated at:" << filePath;
-
     QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
 }
