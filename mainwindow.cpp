@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "projet.h"
 #include "ui_mainwindow.h"
-
+#include "speechrecognizer.h"
+#include <QTextEdit>
+#include <QTimer>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -37,11 +39,50 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     SetupTable();
+
+    // Initialize speech recognition
+        m_speechRecognizer = new SpeechRecognizer(this);
+        connect(m_speechRecognizer, &SpeechRecognizer::recognized, this, &MainWindow::onSpeechRecognized);
+        connect(m_speechRecognizer, &SpeechRecognizer::errorOccurred, this, &MainWindow::onSpeechError);
+
+        // Set up timer for processing events
+        m_speechTimer = new QTimer(this);
+        connect(m_speechTimer, &QTimer::timeout, m_speechRecognizer, &SpeechRecognizer::processEvents);
+        m_speechTimer->start(50); // Check every 50ms
+
+        // Connect buttons
+        connect(ui->PushButtonListen, &QPushButton::clicked, this, &MainWindow::onStartListening);
+        connect(ui->PushButtonStopListening, &QPushButton::clicked, this, &MainWindow::onStopListening);
+
+}
+
+
+void MainWindow::onStartListening()
+{
+    m_speechRecognizer->startListening();
+    ui->textEdit->append("Listening started...");
+}
+
+void MainWindow::onStopListening()
+{
+    m_speechRecognizer->stopListening();
+    ui->textEdit->append("Listening stopped");
+}
+
+void MainWindow::onSpeechRecognized(const QString &text)
+{
+    ui->textEdit->append("Recognized: " + text);
+}
+
+void MainWindow::onSpeechError(const QString &message)
+{
+    QMessageBox::warning(this, "Speech Recognition Error", message);
+    ui->textEdit->append("Error: " + message);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+        delete ui;
 }
 
 //Function to Initialize the table Header and fill with Initial Data on load
