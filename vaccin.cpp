@@ -307,6 +307,15 @@ std::vector<Vaccin> Vaccin::rechercherParPays(const QString &paysRecherche) {
 }
 
 
+int Vaccin::getStock(int id) {
+    QSqlQuery query;
+    query.prepare("SELECT STOCK_DISPONIBLE FROM VACCIN WHERE ID_VACCIN = :id");
+    query.bindValue(":id", id);
+    if (query.exec() && query.next()) {
+        return query.value("STOCK_DISPONIBLE").toInt();
+    }
+    return 0;  // Si la récupération échoue
+}
 
 
 

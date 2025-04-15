@@ -28,9 +28,32 @@ public:
     void onRowClicked(const QModelIndex &index);
     void onClickRefreshTable();
     void chargerTypesVaccin();
+    void chargerHistoriqueDepuisFichier();
+    void on_btnOuvrirDossier_clicked();
+
+    struct VaccinSnapshot {
+        QString nom;
+        int idTypeV;
+        QString agentCible;
+        QString statutDev;
+        QDate dateDev;
+        QString paysOrigine;
+        float tempConservation;
+        int stockDisponible;
+        QDate datePeremption;
+        QString autorisation;
+    };
+
+    QMap<int, VaccinSnapshot> copieInitialeVaccins;
+
+    void chargerVaccins();
+    QString genererHistorique(int id, const VaccinSnapshot &nouveau);
+
 
 
 private:
+    void ajouterHistoriqueDansTable(int id, int ancienStock, int nouveauStock);
+
     void on_btnStats_clicked();
     int getTypeVaccinId(const QString& typeName);
     QString getTypeVaccinName(int idTypeV);

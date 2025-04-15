@@ -14,7 +14,12 @@
 #include <QTextFrameFormat>
 #include <QFont>
 
-#include "StatTvaccin.h"
+#include <StatTvaccin.h>
+
+#include <QStandardPaths>
+#include <QFileInfo>
+#include <QDesktopServices>
+#include <QUrl>
 
 
 
@@ -27,13 +32,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     Cnx.createconnect();
     chargerTypesVaccin();
+    chargerHistoriqueDepuisFichier();
 
     SetupTable();
 
     ui->comboBoxAgent->addItems({"Virus","Bactérie","Parasite","Champignon","Autre"});
     ui->comboBoxStatut->addItems({"En recherche","PhaseI","PhaseII","PhaseIII","Approuvé","Suspendu"});
     ui->comboBoxAutorisation->addItems({"FDA","EMA","OMS","ANSM","Autre"});
-    //ui->comboBoxTypev->addItems({"unknown","ARNm","inactivé","atténué","ADN","viral","recombinant","à sous-unités"});
 
 
     connect(ui->pushButtonAjouter, &QPushButton::clicked, this, &MainWindow::on_ajouterButton_clicked);
@@ -45,11 +50,25 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->pushButton_rechercherPays, &QPushButton::clicked, this, &MainWindow::on_PushButton_rechercherPays_clicked);
     connect(ui->ButtonExporterPDF, &QPushButton::clicked, this, &MainWindow::ClickExporterPDF);
     connect(ui->pushButtonStats, &QPushButton::clicked, this, &MainWindow::on_btnStats_clicked);
+    connect(ui->pushButtontxtstock, &QPushButton::clicked, this, &MainWindow::on_btnOuvrirDossier_clicked);
+
 
 
     ui->lineEditTemp->setText("0");
 
     ui->lineEditStock->setText("0");
+
+    QTableWidget* tableWidgetHistorique = ui->tableWidgethis;
+
+    tableWidgetHistorique->setColumnCount(3);
+    QStringList headers;
+    headers << "ID Vaccin" << "Ancien Stock" << "Nouveau Stock";
+    tableWidgetHistorique->setHorizontalHeaderLabels(headers);
+
+    tableWidgetHistorique->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    chargerHistoriqueDepuisFichier();
+
 }
 
 MainWindow::~MainWindow()
@@ -227,6 +246,28 @@ void MainWindow::FillTable(bool triParDateDev,bool triParDatePrem){
 
     }
 }
+
+void MainWindow::chargerHistoriqueDepuisFichier() {
+    QFile file("historique_stock.txt");
+    if (!file.exists()) return;
+
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine();
+            QStringList parts = line.split(",");
+            if (parts.size() == 4) {
+                int row = ui->tableWidgethis->rowCount();
+                ui->tableWidgethis->insertRow(row);
+                for (int i = 0; i < 3; ++i) {
+                    ui->tableWidgethis->setItem(row, i, new QTableWidgetItem(parts[i]));
+                }
+            }
+        }
+        file.close();
+    }
+}
+
 void MainWindow::on_ModifierButton_clicked() {
     int id = ui->lineEdit->text().toInt();
     QString nom = ui->lineEditNom->text();
@@ -241,22 +282,28 @@ void MainWindow::on_ModifierButton_clicked() {
     QDate datePer = ui->dateEditPeremption->date();
     QString autorisation = ui->comboBoxAutorisation->currentText();
 
-
-
     Vaccin v;
     if (!v.existe(id)) {
         QMessageBox::warning(this, "Erreur", "ID inexistant ! Impossible de modifier.");
         return;
     }
 
+    // Récupérer l'ancien stock
+    int ancienStock = v.getStock(id);
+
     v = Vaccin(id, nom, idType, agent, statut, dateDev, pays, temp, stock, datePer, autorisation);
+
     if (v.modifier()) {
-        QMessageBox::information(this, "Success", "Modification Success !");
-        FillTable(ui->checkBox_2->isChecked(),ui->checkBox->isChecked());
+        // Ajouter l'historique des modifications dans la table
+        ajouterHistoriqueDansTable(id, ancienStock, stock);
+
+        QMessageBox::information(this, "Success", "Modification réussie !");
+        FillTable(ui->checkBox_2->isChecked(), ui->checkBox->isChecked());
     } else {
         QMessageBox::warning(this, "Erreur", "Modification échouée !");
     }
 }
+
 
 void MainWindow::on_SupprimerButton_clicked() {
     int id = ui->lineEdit->text().toInt();
@@ -386,7 +433,6 @@ void MainWindow::ClickExporterPDF() {
     int startY = margin + titleHeight;
 
     int availableWidth = pageSize.width() - 2 * margin;
-    //int availableHeight = pageSize.height() - startY - margin;
 
     int cellWidth = availableWidth / colCount;
     int cellHeight = 220;
@@ -436,4 +482,93 @@ void MainWindow::ClickExporterPDF() {
 
 
 
+}
+
+void MainWindow::chargerVaccins()
+{
+    ui->tableWidgethis->clearContents();
+    ui->tableWidgethis->setRowCount(0);
+
+    QSqlQuery query("SELECT * FROM VACCIN");
+
+    int row = 0;
+
+    while (query.next()) {
+        ui->tableWidgethis->insertRow(row);
+
+        int id = query.value("ID_VACCIN").toInt();
+        ui->tableWidgethis->setItem(row, 0, new QTableWidgetItem(QString::number(id)));
+        ui->tableWidgethis->setItem(row, 1, new QTableWidgetItem(query.value("NOM").toString()));
+        ui->tableWidgethis->setItem(row, 2, new QTableWidgetItem(query.value("ID_TYPE_VACCIN").toString()));
+        ui->tableWidgethis->setItem(row, 3, new QTableWidgetItem(query.value("AGENT_CIBLE").toString()));
+        ui->tableWidgethis->setItem(row, 4, new QTableWidgetItem(query.value("STATUT_DEVELOPPEMENT").toString()));
+        ui->tableWidgethis->setItem(row, 5, new QTableWidgetItem(query.value("DATE_DEVELOPPEMENT").toString()));
+        ui->tableWidgethis->setItem(row, 6, new QTableWidgetItem(query.value("PAYS_ORIGINE").toString()));
+        ui->tableWidgethis->setItem(row, 7, new QTableWidgetItem(query.value("TEMP_CONSERVATION").toString()));
+        ui->tableWidgethis->setItem(row, 8, new QTableWidgetItem(query.value("STOCK_DISPONIBLE").toString()));
+        ui->tableWidgethis->setItem(row, 9, new QTableWidgetItem(query.value("DATE_PEREMPTION").toString()));
+        ui->tableWidgethis->setItem(row, 10, new QTableWidgetItem(query.value("AUTORISATION").toString()));
+
+        VaccinSnapshot snap;
+        snap.nom = query.value("NOM").toString();
+        snap.idTypeV = query.value("ID_TYPE_VACCIN").toInt();
+        snap.agentCible = query.value("AGENT_CIBLE").toString();
+        snap.statutDev = query.value("STATUT_DEVELOPPEMENT").toString();
+        snap.dateDev = Date::ConvertIntToDate(query.value("DATE_DEVELOPPEMENT").toInt());
+        snap.paysOrigine = query.value("PAYS_ORIGINE").toString();
+        snap.tempConservation = query.value("TEMP_CONSERVATION").toFloat();
+        snap.stockDisponible = query.value("STOCK_DISPONIBLE").toInt();
+        snap.datePeremption = Date::ConvertIntToDate(query.value("DATE_PEREMPTION").toInt());
+        snap.autorisation = query.value("AUTORISATION").toString();
+        copieInitialeVaccins[id] = snap;
+
+        row++;
+    }
+}
+
+QString MainWindow::genererHistorique(int id, const VaccinSnapshot &nouveau)
+{
+    QString historique;
+    if (!copieInitialeVaccins.contains(id))
+        return "Aucun historique précédent.";
+
+    VaccinSnapshot ancien = copieInitialeVaccins[id];
+
+    // Comparer uniquement le stock
+    if (ancien.stockDisponible != nouveau.stockDisponible)
+        historique += "Stock : " + QString::number(ancien.stockDisponible) + " → " + QString::number(nouveau.stockDisponible) + "\n";
+
+    return historique.isEmpty() ? "Aucun changement détecté." : historique;
+}
+
+
+void MainWindow::ajouterHistoriqueDansTable(int id, int ancienStock, int nouveauStock) {
+
+    QString filePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/historique_stock.txt";
+
+    QTableWidget* tableWidgetHistorique = ui->tableWidgethis;
+
+    int row = ui->tableWidgethis->rowCount();
+    ui->tableWidgethis->insertRow(row);
+
+    tableWidgetHistorique->setItem(row, 0, new QTableWidgetItem(QString::number(id)));  // ID Vaccin
+    tableWidgetHistorique->setItem(row, 1, new QTableWidgetItem(QString::number(ancienStock)));  // Old Stock
+    tableWidgetHistorique->setItem(row, 2, new QTableWidgetItem(QString::number(nouveauStock)));  // New Stock
+
+    QFile file(filePath);
+    if (file.open(QIODevice::Append | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << "ID: " << id << ", Ancien: " << ancienStock << ", Nouveau: " << nouveauStock << "\n";
+        file.close();
+    }
+}
+
+
+
+
+void MainWindow::on_btnOuvrirDossier_clicked()
+{
+    QString filePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/historique_stock.txt";
+    QFileInfo fileInfo(filePath);
+    QDesktopServices::openUrl(QUrl::fromLocalFile(fileInfo.absolutePath()));
 }

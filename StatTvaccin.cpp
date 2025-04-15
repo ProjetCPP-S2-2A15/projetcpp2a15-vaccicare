@@ -37,7 +37,7 @@ void StatVaccin::afficherStatParType()
 
     QChart *chart = new QChart();
     chart->addSeries(series);
-    chart->setTitle("📊 Répartition des Vaccins par Type");
+    chart->setTitle("Répartition des Vaccins par Type");
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignRight);
 

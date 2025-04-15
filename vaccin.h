@@ -39,6 +39,11 @@ public:
     bool modifier();
     bool existe(int id);
     bool verifierSaisie(QString &messageErreur);
+
+    int getStock(int id);
+
+
+
 };
 
 #endif
