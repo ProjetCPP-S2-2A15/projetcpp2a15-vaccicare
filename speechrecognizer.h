@@ -28,6 +28,7 @@ private:
     ISpRecoGrammar* m_grammar = nullptr;
     HANDLE m_eventHandle = nullptr;
     bool m_initialized = false;
+    HMODULE m_sapiDll = nullptr;
 
     template <class T> void safeRelease(T** ppT) {
         if (*ppT) {

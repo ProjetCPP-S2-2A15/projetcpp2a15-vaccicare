@@ -1,4 +1,4 @@
-QT       += core gui sql charts multimedia
+QT       += core gui sql charts multimedia texttospeech
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -7,24 +7,8 @@ CONFIG += c++17
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-win32 {
-INCLUDEPATH += $$[QT_INSTALL_HEADERS]/../Tools/mingw730_32/i686-w64-mingw32/include
-
-# Exclude ATL-dependent headers
-DEFINES += _ATL_DISABLE_NO_WARNINGS
-DEFINES += _SAPI_BUILD_VER=0x053
-
-# Required libraries
-    LIBS += -lsapi -lole32 -loleaut32 -luuid -lrpcrt4
-
-    # MinGW compatibility
-    DEFINES += WIN32_LEAN_AND_MEAN
-    DEFINES += NOMINMAX
-    DEFINES += INITGUID  # This ensures GUIDs are defined properly
-    QMAKE_LFLAGS += -Wl,--enable-stdcall-fixup
-}
-
 SOURCES += \
+    Design.cpp \
     connection.cpp \
     date.cpp \
     exportdialog.cpp \
@@ -32,10 +16,11 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     projet.cpp \
-    speechrecognizer.cpp \
+    #speechrecognizer.cpp \
     statsscreen.cpp
 
 HEADERS += \
+    Design.h \
     connection.h \
     date.h \
     exportdialog.h \
@@ -45,7 +30,7 @@ HEADERS += \
     projet.h \
     qt_win32_compat.h \
     sapi_guids.h \
-    speechrecognizer.h \
+    #speechrecognizer.h \
     statsscreen.h
 
 FORMS += \
