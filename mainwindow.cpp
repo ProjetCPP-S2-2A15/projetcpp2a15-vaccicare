@@ -12,6 +12,8 @@
 #include <QInputDialog>
 #include <QAudioDeviceInfo>
 
+#include "pdfscanner.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -41,6 +43,18 @@ MainWindow::MainWindow(QWidget *parent)
     //Set Up UI elements with design
     SetupDesign();
     SetupTable();
+
+    // Example usage:
+    PDFScanner pdfScanner;
+    QString pdfPath = pdfScanner.SelectPDF();   // Select a PDF file
+
+    if (!pdfPath.isEmpty()) {
+        if (pdfScanner.ScanPDF(pdfPath)) {
+            qDebug() << "✅ PDF scanned and text saved ";
+        } else {
+            qDebug() << "❌ Scanning failed!";
+        }
+    }
 
 }
 

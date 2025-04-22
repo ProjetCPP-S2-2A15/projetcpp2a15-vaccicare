@@ -15,6 +15,7 @@ SOURCES += \
     ficheprojet.cpp \
     main.cpp \
     mainwindow.cpp \
+    pdfscanner.cpp \
     projet.cpp \
     #speechrecognizer.cpp \
     statsscreen.cpp
@@ -27,6 +28,7 @@ HEADERS += \
     ficheprojet.h \
     mainwindow.h \
     minimal_sapi.h \
+    pdfscanner.h \
     projet.h \
     qt_win32_compat.h \
     sapi_guids.h \
