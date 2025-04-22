@@ -11,11 +11,33 @@ ExportDialog::ExportDialog(QWidget *parent) :
     connect(ui->PushButtonSelectFolder,&QPushButton::clicked,this,&ExportDialog::SelectFolder);
 
     SetUpUI();
+    SetupDesign();
 }
 
 ExportDialog::~ExportDialog()
 {
     delete ui;
+}
+
+void ExportDialog::SetupDesign(){
+    //Design For Buttons
+    StyleButton(ui->PushButtonValider);
+    StyleButton(ui->PushButtonAnnuler);
+
+    //Design For LineEdits
+    StyleLineEdit(ui->lineEditPath);
+    StyleLineEdit(ui->lineEditFileName);
+
+    //Design For DateEdit
+    StyleDateEdit(ui->dateEditEnd);
+    StyleDateEdit(ui->dateEditStart);
+
+    //Design For Labels
+    StyleLabel(ui->label);
+    StyleLabel(ui->label_2);
+    StyleLabel(ui->label_3);
+    StyleLabel(ui->label_4);
+
 }
 
 void ExportDialog::SelectFolder(){

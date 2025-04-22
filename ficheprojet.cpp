@@ -8,11 +8,45 @@ FicheProjet::FicheProjet(int projectID,bool IsModeAjouter, QWidget *parent)
     connect(ui->checkBox,&QCheckBox::toggled,this,&FicheProjet::CheckBoxChecked);
 
     SetupUI(projectID,IsModeAjouter);
+    SetupDesign();
 }
 
 FicheProjet::~FicheProjet()
 {
     delete ui;
+}
+
+void FicheProjet::SetupDesign(){
+    // Design For Buttons
+    StyleButton(ui->buttonBox->button(QDialogButtonBox::Ok));
+    StyleButton(ui->buttonBox->button(QDialogButtonBox::Cancel));
+
+    //Design For Lables
+    StyleLabel(ui->labelProjectID_4);
+    StyleLabel(ui->labelProjectID);
+    StyleLabel(ui->labelProjectID_2);
+    StyleLabel(ui->labelProjectID_3);
+    StyleLabel(ui->labelProjectID_5);
+    StyleLabel(ui->labelProjectID_6);
+    StyleLabel(ui->labelProjectID_7);
+
+    //Design For TextEdits
+    StyleLineEdit(ui->LineEditBudget);
+    StyleLineEdit(ui->lineEditID);
+    StyleLineEdit(ui->LineEditNom);
+
+    //Design For ComboBox
+    StyleComboBox(ui->ComboBoxStatut);
+    StyleComboBox(ui->comboBoxResponsable);
+
+    //Design For CheckBox
+    StyleCheckBox(ui->checkBox);
+
+    //Design For DateEdit
+    StyleDateEdit(ui->dateEditDebut);
+    StyleDateEdit(ui->dateEditDebut_2);
+    //Design For TableView
+    StyleTableView(ui->tableWidget);
 }
 
 void FicheProjet::SetupTableTeam(){

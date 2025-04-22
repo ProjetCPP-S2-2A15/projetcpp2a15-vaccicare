@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "connection.h"
 #include "projet.h"
+#include "Design.h"
 #include <QMessageBox>
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
@@ -36,6 +37,7 @@ private:
     void SetupUI();
     void CalculateStatistics();
     QVector<QPair<int, double>> GetChartDate(int Date_Debut,int Date_Fin,int Id_Projet);
+    void SetupDesign();
     Ui::StatsScreen *ui;
     double RetourTotal;
     double RetourMensuelle;

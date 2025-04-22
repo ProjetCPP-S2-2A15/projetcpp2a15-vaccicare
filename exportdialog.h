@@ -12,6 +12,7 @@
 #include <QTextDocument>
 #include <QStandardPaths>
 #include <QPageSize>
+#include "Design.h"
 
 namespace Ui {
 class ExportDialog;
@@ -31,6 +32,7 @@ private:
     void Annuler();
     void Valider();
     void SelectFolder();
+    void SetupDesign();
     const int COL_ID_PROJET_WIDTH = 250;
     const int COL_NOM_WIDTH = 220;
     const int COL_DATE_DEBUT_WIDTH = 340;

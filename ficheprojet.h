@@ -6,6 +6,7 @@
 #include "projet.h"
 #include <vector>
 #include "date.h"
+#include "Design.h"
 
 namespace Ui {
 class FicheProjet;
@@ -39,6 +40,7 @@ private:
     void CheckBoxChecked();
     void SetupTableTeam();
     bool CheckDocrotInTeam(int Id,std::vector<int> DoctorList);
+    void SetupDesign();
 };
 
 #endif // FICHEPROJET_H

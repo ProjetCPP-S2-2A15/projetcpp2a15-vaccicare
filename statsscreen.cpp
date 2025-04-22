@@ -9,6 +9,7 @@ StatsScreen::StatsScreen(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->ButtonCalculerStatistic,&QPushButton::clicked,this,&StatsScreen::CalculateStatistics);
     SetupUI();
+    SetupDesign();
 }
 
 StatsScreen::~StatsScreen()
@@ -16,6 +17,29 @@ StatsScreen::~StatsScreen()
     delete ui;
 }
 
+void StatsScreen::SetupDesign(){
+    //Design For Buttons
+    StyleButton(ui->ButtonCalculerStatistic);
+    StyleButton(ui->buttonBox->button(QDialogButtonBox::Ok));
+
+    //Design For Labels
+    StyleLabel(ui->label_3);
+    StyleLabel(ui->label_4);
+    StyleLabel(ui->label_5);
+    StyleLabel(ui->label_6);
+    StyleLabel(ui->label_7);
+    StyleLabel(ui->label_8);
+
+    //Design For LineEdits
+    StyleLineEdit(ui->LineEditBudget);
+    StyleLineEdit(ui->LineEditCoutTotal);
+    StyleLineEdit(ui->LineEditNmbrePatient);
+    StyleLineEdit(ui->LineEditRetourMensuelle);
+    StyleLineEdit(ui->LineEditRetourTotal);
+
+    //Design For TableView
+    StyleTableView(ui->tableWidget);
+}
 QVector<QPair<int, double>> StatsScreen::GetChartDate(int Date_Debut,int Date_Fin,int Id_Projet){
     QVector<QPair<int, double>> DataPoints;
 
@@ -239,6 +263,7 @@ void StatsScreen::CalculateStatistics(){
     }
     ui->verticalLayout->addWidget(chartView);
 }
+
 void StatsScreen::SetupUI(){
 
     //Get list of all the Projects

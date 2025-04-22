@@ -51,8 +51,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::SetupDesign(){
 
+    //Design For Buttons
     StyleButton(ui->ButtonAjouter);
     StyleButton(ui->ButtonModifier);
+    StyleButton(ui->ButtonSupprimer);
+    StyleButton(ui->ButtonCloturer);
+    StyleButton(ui->ButtonExport);
+    StyleButton(ui->ButtonRechercher);
+    StyleButton(ui->ButtonStatistics);
+
+    //Design For Labels
+    StyleLabel(ui->label);
+    StyleLabel(ui->label_2);
+
+    //Design For Line Edit
+    StyleLineEdit(ui->LineEditNomProjet);
+    StyleLineEdit(ui->lineEditNom);
+
+    //Design for tableView
+    StyleTableView(ui->tableWidget);
+
+    //Design for checkBox
+    StyleCheckBox(ui->CheckBoxAfficherProjetCloturer);
+
 }
 
 //Function to Initialize the table Header and fill with Initial Data on load

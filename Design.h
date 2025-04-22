@@ -5,16 +5,17 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QLabel>
+#include <QTableView>
+#include <QCheckBox>
+#include <QDateEdit>
+#include <QComboBox>
 
-// Function to style a QPushButton
 void StyleButton(QPushButton* button);
-
-// Function to style a QLineEdit
 void StyleLineEdit(QLineEdit* lineEdit);
-
-// Function to style a QLabel
 void StyleLabel(QLabel* label);
-
-// Add more as needed...
+void StyleTableView(QTableView* tableView);
+void StyleCheckBox(QCheckBox* checkBox);
+void StyleComboBox(QComboBox* comboBox);
+void StyleDateEdit(QDateEdit* dateEdit);
 
 #endif // DESIGN_H
