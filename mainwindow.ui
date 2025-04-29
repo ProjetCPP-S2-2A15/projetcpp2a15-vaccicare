@@ -36,8 +36,8 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>40</y>
+      <x>0</x>
+      <y>30</y>
       <width>1181</width>
       <height>631</height>
      </rect>
@@ -131,7 +131,6 @@ QTabWidget#tabWidget::pane {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -151,7 +150,6 @@ QTabWidget#tabWidget::pane {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -197,7 +195,7 @@ QLineEdit:hover {
 }</string>
        </property>
        <property name="echoMode">
-        <enum>QLineEdit::Normal</enum>
+        <enum>QLineEdit::EchoMode::Normal</enum>
        </property>
       </widget>
       <widget class="QLabel" name="Res_Label_ID">
@@ -212,7 +210,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -251,7 +248,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -271,7 +267,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -291,7 +286,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -330,7 +324,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -350,7 +343,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -389,7 +381,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -409,7 +400,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -429,7 +419,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -449,7 +438,6 @@ QLineEdit:hover {
        <property name="font">
         <font>
          <pointsize>9</pointsize>
-         <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
@@ -500,7 +488,7 @@ QLineEdit:hover {
 }</string>
        </property>
        <property name="currentSection">
-        <enum>QDateTimeEdit::DaySection</enum>
+        <enum>QDateTimeEdit::Section::DaySection</enum>
        </property>
       </widget>
       <widget class="QComboBox" name="Pat_Combo_groupe">
@@ -649,7 +637,7 @@ QLineEdit:hover {
 }</string>
        </property>
        <property name="currentSection">
-        <enum>QDateTimeEdit::DaySection</enum>
+        <enum>QDateTimeEdit::Section::DaySection</enum>
        </property>
       </widget>
       <widget class="QComboBox" name="Pat_Combo_Sexe">
@@ -698,7 +686,6 @@ QLineEdit:hover {
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -727,7 +714,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -756,7 +742,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -793,7 +778,7 @@ border-radius: 10px;
        <string/>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
      <widget class="QComboBox" name="Pat_Combo_IDs">
@@ -852,7 +837,6 @@ border-radius: 10px;
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -902,7 +886,7 @@ border-radius: 10px;
        <string/>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
      <widget class="QPushButton" name="Pat_Button_Tri_Type">
@@ -1023,7 +1007,6 @@ QLineEdit:hover {
       </property>
       <property name="font">
        <font>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1070,7 +1053,7 @@ border: 1px solid #230a98;
        <string/>
       </property>
       <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
       </property>
      </widget>
      <widget class="QCalendarWidget" name="calendarWidget_pat">
@@ -1095,7 +1078,6 @@ border: 1px solid #230a98;
       <property name="font">
        <font>
         <pointsize>9</pointsize>
-        <weight>75</weight>
         <bold>true</bold>
        </font>
       </property>
@@ -1103,7 +1085,7 @@ border: 1px solid #230a98;
        <string>Informations:</string>
       </property>
       <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <set>Qt::AlignmentFlag::AlignCenter</set>
       </property>
      </widget>
     </widget>
@@ -1201,7 +1183,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
      <font>
       <family>LEMON MILK</family>
       <pointsize>13</pointsize>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -1215,7 +1196,7 @@ color:white;</string>
      <string>GESTION DES PATIENTS</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
   </widget>
