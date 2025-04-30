@@ -13,5 +13,4 @@ public:
     bool OuvrirConnexion();
     void FermerConnexion();
 };
-
 #endif // CONNEXION_H

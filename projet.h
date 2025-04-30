@@ -7,7 +7,7 @@
 #include <QSqlQuery>
 #include <QString>
 #include <QVariant>
-//#include "date.h"
+#include "date.h"
 
 class Projet
 {

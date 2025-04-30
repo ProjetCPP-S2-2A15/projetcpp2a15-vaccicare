@@ -24,7 +24,7 @@ Medecin::Medecin()
 Medecin::Medecin(int id, QString n, QString s, QString g, QString e, QString t, int exp,
                  QString stat, QString disp, QString log, QString mdp)
     : id_medecin(id), nom(n), specialite(s), grade(g), email(e), telephone(t),
-    experience(exp), statut(stat), disponibilite(disp), login(log), mot_de_passe(mdp)
+    disponibilite(disp), experience(exp), statut(stat), login(log), mot_de_passe(mdp)
 {
 }
 

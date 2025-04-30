@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "connection.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +16,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots :
+    void on_Log_clicked();
 private:
     Ui::MainWindow *ui;
+    Connection Cnx;
 };
 #endif // MAINWINDOW_H

@@ -1,19 +1,25 @@
 #include "connection.h"
 #include <QSqlError>
 #include <QDebug>
+#include <QMessageBox>
 
 Connection::Connection() {
     //zakaria
-    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-    db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
-    db.setUserName("System");//inserer nom de l'utilisateur
-    db.setPassword("1234");//inserer mot de passe de cet utilisateur
+    //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+    //db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
+    //db.setUserName("System");//inserer nom de l'utilisateur
+    //db.setPassword("1234");//inserer mot de passe de cet utilisateur
 
 //takwa
-    // db = QSqlDatabase::addDatabase("QODBC"); // Initialize the database connection only once
-    // db.setDatabaseName("VACCICARE");
-    // db.setUserName("SYSTEM");
-    // db.setPassword("1234");
+     db = QSqlDatabase::addDatabase("QODBC");
+    //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");// Initialize the database connection only once
+     db.setDatabaseName("VACCICARE");
+     db.setUserName("SYSTEM");
+     db.setPassword("1234");
+     if (!db.open()) {
+         //QMessageBox::critical(this, "Erreur", "Connexion échouée : " + db.lastError().text());
+         return;
+     }
 
 //islem
     //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
@@ -55,3 +61,4 @@ void Connection::FermerConnexion() {
 bool Connection::OuvrirConnexion() {
     return db.open();
 }
+
