@@ -8,6 +8,7 @@
 #include "statsscreen.h"
 #include "exportdialog.h"
 #include "Design.h"
+#include "cardreader.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -26,6 +27,7 @@ public:
 private:
     Connection Cnx;
     Ui::MainWindow *ui;
+
     void SetupTable();
     void FillTable(bool AFFICHER_CLOTURER,QString NomChercheur,QString NomProjet);
     void AddProject();
@@ -36,7 +38,8 @@ private:
     void ExportProjectList();
     void ShowStatistics();
     void SetupDesign();
-
+    void onCardScanned();
+    void OpenDialog();
 
 };
 #endif // MAINWINDOW_H

@@ -13,6 +13,8 @@
 #include <QAudioDeviceInfo>
 
 #include "pdfscanner.h"
+#include "cardreader.h"
+#include "cardreaderdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonExport,&QPushButton::clicked,this,&MainWindow::ExportProjectList);
     connect(ui->ButtonRechercher,&QPushButton::clicked,this,&MainWindow::SearchProjects);
     connect(ui->ButtonStatistics,&QPushButton::clicked,this,&MainWindow::ShowStatistics);
+    connect(ui->OpenDialogArduino,&QPushButton::clicked,this,&MainWindow::OpenDialog);
 
     //Connect To Database
     bool Connected_To_DB;
@@ -44,17 +47,17 @@ MainWindow::MainWindow(QWidget *parent)
     SetupDesign();
     SetupTable();
 
-    // Example usage:
-    PDFScanner pdfScanner;
-    QString pdfPath = pdfScanner.SelectPDF();   // Select a PDF file
+//    // Example usage:
+//    PDFScanner pdfScanner;
+//    QString pdfPath = pdfScanner.SelectPDF();   // Select a PDF file
 
-    if (!pdfPath.isEmpty()) {
-        if (pdfScanner.ScanPDF(pdfPath)) {
-            qDebug() << "✅ PDF scanned and text saved ";
-        } else {
-            qDebug() << "❌ Scanning failed!";
-        }
-    }
+//    if (!pdfPath.isEmpty()) {
+//        if (pdfScanner.ScanPDF(pdfPath)) {
+//            qDebug() << "✅ PDF scanned and text saved ";
+//        } else {
+//            qDebug() << "❌ Scanning failed!";
+//        }
+//    }
 
 }
 
@@ -256,7 +259,17 @@ void MainWindow::ExportProjectList(){
     NewExportDialog->exec();
 }
 
+
+
+void MainWindow::OpenDialog(){
+    CardReaderDialog *NewDialog = new CardReaderDialog(this);
+    NewDialog->exec();
+}
+
 void MainWindow::ShowStatistics(){
+
+    //reader.~CardReader();
+
     // Open FicheProjet window
     StatsScreen *StatScreen = new StatsScreen(this);
     StatScreen->exec();

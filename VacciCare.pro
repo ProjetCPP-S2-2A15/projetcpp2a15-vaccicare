@@ -1,4 +1,4 @@
-QT       += core gui sql charts multimedia texttospeech
+QT       += core gui sql charts multimedia texttospeech serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -9,6 +9,8 @@ CONFIG += c++17
 
 SOURCES += \
     Design.cpp \
+    cardreader.cpp \
+    cardreaderdialog.cpp \
     connection.cpp \
     date.cpp \
     exportdialog.cpp \
@@ -22,6 +24,8 @@ SOURCES += \
 
 HEADERS += \
     Design.h \
+    cardreader.h \
+    cardreaderdialog.h \
     connection.h \
     date.h \
     exportdialog.h \
@@ -36,6 +40,7 @@ HEADERS += \
     statsscreen.h
 
 FORMS += \
+    cardreaderdialog.ui \
     exportdialog.ui \
     ficheprojet.ui \
     mainwindow.ui \
