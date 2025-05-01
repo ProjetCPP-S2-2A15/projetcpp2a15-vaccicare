@@ -12,6 +12,7 @@ CONFIG += c++17   #•kenet 11
 SOURCES += \
     connection.cpp \
     date.cpp \
+    logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
     medecin.cpp \
@@ -23,6 +24,7 @@ SOURCES += \
 HEADERS += \
     connection.h \
     date.h \
+    logindialog.h \
     mainwindow.h \
     medecin.h \
     patient.h \
@@ -31,6 +33,7 @@ HEADERS += \
     vaccin.h
 
 FORMS += \
+    logindialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

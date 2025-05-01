@@ -5,39 +5,34 @@
 
 Connection::Connection() {
     //zakaria
-    //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-    //db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
-    //db.setUserName("System");//inserer nom de l'utilisateur
-    //db.setPassword("1234");//inserer mot de passe de cet utilisateur
+    //db = QSqlDatabase::addDatabase("QODBC");
+    //db.setDatabaseName("Source_Projet2A");
+    //db.setUserName("System");
+    //db.setPassword("1234");
 
-//takwa
-     db = QSqlDatabase::addDatabase("QODBC");
-    //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");// Initialize the database connection only once
-     db.setDatabaseName("VACCICARE");
-     db.setUserName("SYSTEM");
-     db.setPassword("1234");
-     if (!db.open()) {
-         //QMessageBox::critical(this, "Erreur", "Connexion échouée : " + db.lastError().text());
-         return;
-     }
+    //takwa
+    //db = QSqlDatabase::addDatabase("QODBC");
+    //db.setDatabaseName("VACCICARE");
+    //db.setUserName("SYSTEM");
+    //db.setPassword("1234");
 
-//islem
-    //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-    //db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
-    //db.setUserName("System");//inserer nom de l'utilisateur
-    //db.setPassword("1234");//inserer mot de passe de cet utilisateur
+    //islem
+    //db = QSqlDatabase::addDatabase("QODBC");
+    //db.setDatabaseName("Source_Projet2A");
+    //db.setUserName("System");
+    //db.setPassword("1234");
 
-//sarah
-    //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-    //db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
-    //db.setUserName("System");//inserer nom de l'utilisateur
-    //db.setPassword("123");//inserer mot de passe de cet utilisateur
+    //sarah
+    //db = QSqlDatabase::addDatabase("QODBC");
+    //db.setDatabaseName("Source_Projet2A");
+    //db.setUserName("System");
+    //db.setPassword("123");
 
-//khaled
-    //QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-    //db.setDatabaseName("Source_Projet2A");//inserer le nom de la source de données
-    //db.setUserName("VacciDB");//inserer nom de l'utilisateur
-    //db.setPassword("1234");//inserer mot de passe de cet utilisateur
+    //khaled!
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("Source_Projet2A");
+    db.setUserName("VacciDB");
+    db.setPassword("1234");
 
 
 }

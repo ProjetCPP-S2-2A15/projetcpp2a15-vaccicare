@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "connection.h"
+#include "logindialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,7 +18,7 @@ public:
     ~MainWindow();
 
 private slots :
-    void on_Log_clicked();
+    //void on_Log_clicked();
 private:
     Ui::MainWindow *ui;
     Connection Cnx;
