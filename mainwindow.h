@@ -17,9 +17,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots :
-    //void on_Log_clicked();
+private slots:
+    void showLoginDialog();
 private:
+    LogInDialog::Result CurrUser;
     Ui::MainWindow *ui;
     Connection Cnx;
 };

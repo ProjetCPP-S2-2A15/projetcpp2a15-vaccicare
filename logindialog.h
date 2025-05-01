@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QMainWindow>
 #include "connection.h"
+#include <QPushButton>
 #include <QMessageBox>
 
 namespace Ui {
@@ -23,6 +24,8 @@ private:
     Result result_ = Canceled;
     Ui::LogInDialog *ui;
     void on_Log_clicked();
+    void CloseDialog();
+    void ReturnDroit(int DroitId);
 };
 
 #endif // LOGINDIALOG_H

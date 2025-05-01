@@ -6,11 +6,17 @@ LogInDialog::LogInDialog(QWidget *parent) :
     ui(new Ui::LogInDialog)
 {
     ui->setupUi(this);
+    connect(ui->buttonBox->button(QDialogButtonBox::Ok),&QPushButton::clicked,this,&LogInDialog::on_Log_clicked);
+    connect(ui->buttonBox->button(QDialogButtonBox::Cancel),&QPushButton::clicked,this,&LogInDialog::CloseDialog);
 }
 
 LogInDialog::~LogInDialog()
 {
     delete ui;
+}
+
+void LogInDialog::CloseDialog(){
+    ReturnDroit(-1);
 }
 
 void LogInDialog::on_Log_clicked() {
@@ -26,20 +32,19 @@ void LogInDialog::on_Log_clicked() {
 
     if (attempts <= 0) {
         QMessageBox::critical(this, "Erreur", "Trop de tentatives échouées. L'application va se fermer.");
-        close();
-        return;
+        ReturnDroit(-1);
     }
 
     QSqlQuery query;
-    query.prepare("SELECT COUNT(*) FROM MEDECIN WHERE LOGIN = :login AND MOT_DE_PASSE = :password");
+    query.prepare("SELECT COUNT(*),DROIT FROM MEDECIN WHERE LOGIN = :login AND MOT_DE_PASSE = :password GROUP BY DROIT");
     query.bindValue(":login", login);
     query.bindValue(":password", password);
 
     if (query.exec() && query.next()) {
         int count = query.value(0).toInt();
         if (count > 0) {
-            QMessageBox::information(this, "Succès", "Connecté avec succès !");
-            // Tu peux ajouter ici l'ouverture de la fenêtre principale
+            //QMessageBox::information(this, "Succès", "Connecté avec succès !");
+            ReturnDroit(query.value(1).toInt());
         } else {
             attempts--;
             QMessageBox::warning(this, "Erreur", QString("Login ou mot de passe incorrect ! %1 tentative(s) restante(s).").arg(attempts));
@@ -49,4 +54,22 @@ void LogInDialog::on_Log_clicked() {
     } else {
         QMessageBox::critical(this, "Erreur SQL", query.lastError().text());
     }
+}
+
+void LogInDialog::ReturnDroit(int DroitId){
+    switch (DroitId) {
+    case 0:
+        result_ = Result::Admin;
+        break;
+    case 2:
+        result_ = Result::Doctor;
+        break;
+    case 3:
+        result_ = Result::Secratary;
+        break;
+    default:
+        result_ = Result::Canceled;
+        break;
+    }
+    close();
 }
