@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "design.h"
+
 #include <QSqlQueryModel>
 #include <QSqlError>
 #include <QMessageBox>
@@ -67,7 +69,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     tableWidgetHistorique->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    chargerHistoriqueDepuisFichier();
 
 }
 
@@ -77,7 +78,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::onClickRefreshTable(){
-    FillTable(ui->checkBox_2->isChecked(),ui->checkBox->isChecked());
+    FillTable(ui->checkBox_tri_DD->isChecked(),ui->checkBox_tri_DPrem->isChecked());
 }
 void MainWindow::onRowClicked(const QModelIndex &index) {
     int row = index.row();
@@ -94,7 +95,7 @@ void MainWindow::onRowClicked(const QModelIndex &index) {
     QModelIndex datePeremptionIndex = ui->tableViewVaccins->model()->index(row, 9);
     QModelIndex autorisationIndex = ui->tableViewVaccins->model()->index(row, 10);
 
-    ui->lineEdit->setText(ui->tableViewVaccins->model()->data(idIndex).toString());
+    ui->lineEditidv->setText(ui->tableViewVaccins->model()->data(idIndex).toString());
     ui->lineEditNom->setText(ui->tableViewVaccins->model()->data(nomIndex).toString());
     ui->comboBoxTypev->setCurrentIndex(getTypeVaccinId(ui->tableViewVaccins->model()->data(typeVaccinIndex).toString()));
     ui->comboBoxAgent->setCurrentText(ui->tableViewVaccins->model()->data(agentCibleIndex).toString());
@@ -152,7 +153,7 @@ int MainWindow::getTypeVaccinId(const QString& typeName) {
 
 
 void MainWindow::on_ajouterButton_clicked(){
-    int id = ui->lineEdit->text().toInt();
+    int id = ui->lineEditidv->text().toInt();
     QString nom = ui->lineEditNom->text();
     QString Temp = ui->comboBoxTypev->currentText();
     int idType = getTypeVaccinId(Temp);
@@ -173,7 +174,7 @@ void MainWindow::on_ajouterButton_clicked(){
     }
     if (v.ajouter()) {
         QMessageBox::information(this, "Success", "Ajout Success !");
-        FillTable(ui->checkBox_2->isChecked(),ui->checkBox->isChecked());
+        FillTable(ui->checkBox_tri_DD->isChecked(),ui->checkBox_tri_DPrem->isChecked());
     } else {
         QMessageBox::warning(this, "Erreur", "Ajout échoué !");
     }
@@ -269,7 +270,7 @@ void MainWindow::chargerHistoriqueDepuisFichier() {
 }
 
 void MainWindow::on_ModifierButton_clicked() {
-    int id = ui->lineEdit->text().toInt();
+    int id = ui->lineEditidv->text().toInt();
     QString nom = ui->lineEditNom->text();
     QString Temp = ui->comboBoxTypev->currentText();
     int idType = getTypeVaccinId(Temp);
@@ -298,7 +299,7 @@ void MainWindow::on_ModifierButton_clicked() {
         ajouterHistoriqueDansTable(id, ancienStock, stock);
 
         QMessageBox::information(this, "Success", "Modification réussie !");
-        FillTable(ui->checkBox_2->isChecked(), ui->checkBox->isChecked());
+        FillTable(ui->checkBox_tri_DD->isChecked(), ui->checkBox_tri_DPrem->isChecked());
     } else {
         QMessageBox::warning(this, "Erreur", "Modification échouée !");
     }
@@ -306,11 +307,11 @@ void MainWindow::on_ModifierButton_clicked() {
 
 
 void MainWindow::on_SupprimerButton_clicked() {
-    int id = ui->lineEdit->text().toInt();
+    int id = ui->lineEditidv->text().toInt();
     Vaccin v(id, "", 0, "", "", QDate(), "", 0, 0, QDate(), "");
     if (v.supprimer(id)) {
         QMessageBox::information(this, "Success", "Suppression Success !");
-        FillTable(ui->checkBox_2->isChecked(),ui->checkBox->isChecked());
+        FillTable(ui->checkBox_tri_DD->isChecked(),ui->checkBox_tri_DPrem->isChecked());
     } else {
         QMessageBox::warning(this, "Erreur", "Suppression échouée !");
     }

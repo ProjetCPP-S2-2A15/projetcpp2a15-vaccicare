@@ -17,6 +17,7 @@ SOURCES += \
     StatTvaccin.cpp \
     connection.cpp \
     date.cpp \
+    design.cpp \
     main.cpp \
     mainwindow.cpp \
     vaccin.cpp
@@ -25,6 +26,7 @@ HEADERS += \
     StatTvaccin.h \
     connection.h \
     date.h \
+    design.h \
     mainwindow.h \
     vaccin.h
 

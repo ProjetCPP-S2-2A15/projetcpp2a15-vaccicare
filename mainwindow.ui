@@ -216,7 +216,7 @@
        <string>Modifier</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lineEdit">
+     <widget class="QLineEdit" name="lineEditidv">
       <property name="geometry">
        <rect>
         <x>160</x>
@@ -309,7 +309,7 @@
        </rect>
       </property>
      </widget>
-     <widget class="QCheckBox" name="checkBox">
+     <widget class="QCheckBox" name="checkBox_tri_DPrem">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -322,7 +322,7 @@
        <string>Tri Par Date Prem</string>
       </property>
      </widget>
-     <widget class="QCheckBox" name="checkBox_2">
+     <widget class="QCheckBox" name="checkBox_tri_DD">
       <property name="geometry">
        <rect>
         <x>30</x>

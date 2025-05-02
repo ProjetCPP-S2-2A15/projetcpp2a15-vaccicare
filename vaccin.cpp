@@ -67,7 +67,7 @@ bool Vaccin::verifierSaisie(QString &messageErreur) {
         messageErreur = "Le pays d'origine doit contenir entre 1 et 20 caractères.";
         return false;
     }
-    if (tempConservation < -100 || tempConservation > 100) {
+    if (tempConservation < 1 || tempConservation > 50) {
         messageErreur = "La température de conservation doit être comprise entre -100°C et 100°C.";
         return false;
     }
