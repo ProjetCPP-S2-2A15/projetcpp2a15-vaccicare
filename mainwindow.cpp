@@ -69,7 +69,11 @@ void MainWindow::OuvrirParametre(){}
 void MainWindow::OuvrirCalendrier(){}
 void MainWindow::OuvrirResource(){}
 void MainWindow::OuvrirStockVaccin(){}
-void MainWindow::OuvrirListeProjet(){}
+
+void MainWindow::OuvrirListeProjet(){
+    ListeProjetDialog *NewDialog = new ListeProjetDialog();
+    NewDialog->exec();
+}
 void MainWindow::OuvrirStatistique(){}
 
 void MainWindow::ExitApp(){

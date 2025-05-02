@@ -10,8 +10,11 @@ CONFIG += c++17   #•kenet 11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Design.cpp \
     connection.cpp \
     date.cpp \
+    ficheprojet.cpp \
+    listeprojetdialog.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -22,8 +25,11 @@ SOURCES += \
     vaccin.cpp
 
 HEADERS += \
+    Design.h \
     connection.h \
     date.h \
+    ficheprojet.h \
+    listeprojetdialog.h \
     logindialog.h \
     mainwindow.h \
     medecin.h \
@@ -33,6 +39,8 @@ HEADERS += \
     vaccin.h
 
 FORMS += \
+    ficheprojet.ui \
+    listeprojetdialog.ui \
     logindialog.ui \
     mainwindow.ui
 

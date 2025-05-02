@@ -6,6 +6,7 @@
 #include <QTimer>
 #include "connection.h"
 #include "logindialog.h"
+#include "listeprojetdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

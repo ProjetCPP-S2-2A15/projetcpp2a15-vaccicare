@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>581</width>
+      <width>629</width>
       <height>41</height>
      </rect>
     </property>
@@ -56,6 +56,13 @@
       <widget class="QPushButton" name="ButtonCalendrier">
        <property name="text">
         <string>Calendrier</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ButtonStatistique">
+       <property name="text">
+        <string>Statistics</string>
        </property>
       </widget>
      </item>
