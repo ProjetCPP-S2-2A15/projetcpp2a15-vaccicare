@@ -41,6 +41,7 @@ void ListeProjetDialog::SetupDesign(){
     StyleButton(ui->ButtonExport);
     StyleButton(ui->ButtonRechercher);
     StyleButton(ui->ButtonStatistics);
+    StyleButton(ui->ButtonExit);
 
     //Design For Labels
     StyleLabel(ui->label);

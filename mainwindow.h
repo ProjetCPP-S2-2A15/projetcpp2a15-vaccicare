@@ -7,6 +7,7 @@
 #include "connection.h"
 #include "logindialog.h"
 #include "listeprojetdialog.h"
+#include "projectworkflowdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,7 +24,7 @@ public:
 private slots:
     void showLoginDialog();
 private:
-    LogInDialog::Result CurrUser;
+    LogInDialog::User CurrUser;
     void SetUpUIForUser(LogInDialog::Result CurrUser);
     Ui::MainWindow *ui;
     Connection Cnx;

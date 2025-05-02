@@ -17,15 +17,26 @@ class LogInDialog : public QDialog
 
 public:
     enum Result { Admin,Doctor,Secratary, Canceled };
+    typedef struct User{
+        Result Droit;
+        QString UserName;
+        QString Password;
+        int Id_User;
+    }User;
+
     explicit LogInDialog(QWidget *parent = nullptr);
     ~LogInDialog();
-     Result getResult() const { return result_; }
+     User getResult() const { return result_; }
 private:
-    Result result_ = Canceled;
+    User result_;
     Ui::LogInDialog *ui;
+    QString UserName;
+    QString Password;
+    int UserId;
     void on_Log_clicked();
     void CloseDialog();
     void ReturnDroit(int DroitId);
+    User SetUserData(Result Droit,QString Username, QString Password ,int UserId);
 };
 
 #endif // LOGINDIALOG_H

@@ -44,6 +44,8 @@ void LogInDialog::on_Log_clicked() {
         int count = query.value(0).toInt();
         if (count > 0) {
             //QMessageBox::information(this, "Succès", "Connecté avec succès !");
+            UserName = login;
+            Password = password;
             ReturnDroit(query.value(1).toInt());
         } else {
             attempts--;
@@ -59,17 +61,26 @@ void LogInDialog::on_Log_clicked() {
 void LogInDialog::ReturnDroit(int DroitId){
     switch (DroitId) {
     case 0:
-        result_ = Result::Admin;
+        result_ = SetUserData(Result::Admin,UserName,Password,1);
         break;
     case 1:
-        result_ = Result::Doctor;
+        result_ = SetUserData(Result::Doctor,UserName,Password,1);
         break;
     case 2:
-        result_ = Result::Secratary;
+        result_ = SetUserData(Result::Secratary,UserName,Password,1);
         break;
     default:
-        result_ = Result::Canceled;
+        result_ = SetUserData(Result::Canceled,"","",-1);
         break;
     }
     close();
+}
+
+LogInDialog::User LogInDialog::SetUserData(Result Droit,QString Username, QString Password ,int UserId){
+    User Temp;
+    Temp.Droit = Droit;
+    Temp.UserName = Username;
+    Temp.Password = Password;
+    Temp.Id_User = UserId;
+    return Temp;
 }

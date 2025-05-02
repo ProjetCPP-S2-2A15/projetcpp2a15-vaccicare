@@ -20,8 +20,10 @@ SOURCES += \
     mainwindow.cpp \
     medecin.cpp \
     patient.cpp \
+    projectworkflowdialog.cpp \
     projet.cpp \
     resources.cpp \
+    selectprojectdialog.cpp \
     vaccin.cpp
 
 HEADERS += \
@@ -34,15 +36,19 @@ HEADERS += \
     mainwindow.h \
     medecin.h \
     patient.h \
+    projectworkflowdialog.h \
     projet.h \
     resources.h \
+    selectprojectdialog.h \
     vaccin.h
 
 FORMS += \
     ficheprojet.ui \
     listeprojetdialog.ui \
     logindialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    projectworkflowdialog.ui \
+    selectprojectdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

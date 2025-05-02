@@ -50,11 +50,11 @@ void MainWindow::showLoginDialog()
 
     CurrUser = NewLogInDialog->getResult();
 
-    if(CurrUser == LogInDialog::Result::Canceled){
+    if(CurrUser.Droit == LogInDialog::Result::Canceled){
         close(); // Close the main window if login was canceled
     }
 
-    SetUpUIForUser(CurrUser);
+    SetUpUIForUser(CurrUser.Droit);
 }
 
 void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
@@ -69,7 +69,9 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
             ui->ButtonStatistique->setHidden(false);
             break;
         case LogInDialog::Result::Doctor:
-
+        ui->ButtonParametre->setHidden(false);
+            ui->ButtonExit->setHidden(false);
+            ui->ButtonListeProjet->setHidden(false);
             break;
         case LogInDialog::Result::Secratary:
 
@@ -85,8 +87,14 @@ void MainWindow::OuvrirResource(){}
 void MainWindow::OuvrirStockVaccin(){}
 
 void MainWindow::OuvrirListeProjet(){
-    ListeProjetDialog *NewDialog = new ListeProjetDialog();
-    NewDialog->exec();
+    if(CurrUser.Droit == LogInDialog::Result::Admin){
+        ListeProjetDialog *NewDialog = new ListeProjetDialog();
+        NewDialog->exec();
+    }else{
+        ProjectWorkFlowDialog *NewDialog = new ProjectWorkFlowDialog(this,CurrUser.Id_User);
+        NewDialog->exec();
+    }
+
 }
 void MainWindow::OuvrirStatistique(){}
 

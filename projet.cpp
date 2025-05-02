@@ -40,6 +40,41 @@ std::vector<Projet> Projet::ReadProjectListFromDB(bool AFFICHER_CLOTURER,QString
     return ProjectList;
 }
 
+std::vector<Projet> Projet::ReadProjectListFromDB(int IdMedecin){
+    std::vector<Projet> ProjectList;
+    QSqlQuery Querry;
+
+    QString QuerryDetail = "SELECT "
+            "E.ID_PROJET,"
+            "P.NOM,"
+            "P.DATE_DEBUT,"
+            "P.RESPONSABLE,"
+            "P.BUDGET,"
+            "P.DATE_FIN "
+          "FROM PROJET P "
+          "JOIN EQUIPE_PROJET E ON E.ID_PROJET = P.ID_PROJET "
+          "WHERE E.ID_CHERCHEUR = :ID_CHERCHEUR";
+
+    Querry.prepare(QuerryDetail);
+    Querry.bindValue(":ID_CHERCHEUR",IdMedecin);
+    if(!Querry.exec()){
+        return ProjectList;
+    }
+    Projet Temp;
+    while(Querry.next()){
+        Temp.Data.ID_Projet = Querry.value("ID_PROJET").toInt();
+        Temp.Data.Nom = Querry.value("NOM").toString();
+        Temp.Data.DateDebut = Querry.value("DATE_DEBUT").toInt();
+        Temp.Data.Id_Responsable = Querry.value("RESPONSABLE").toInt();
+        Temp.Data.Budget = Querry.value("BUDGET").toInt();
+        Temp.Data.DateFin = Querry.value("DATE_FIN").toInt();
+
+        ProjectList.push_back(Temp);
+    }
+
+    return ProjectList;
+}
+
 int Projet::GetLastProjectID(){
     QSqlQuery Querry;
     Querry.prepare("Select MAX(ID_PROJET) FROM PROJET;");
