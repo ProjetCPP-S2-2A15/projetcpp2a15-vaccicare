@@ -2,14 +2,22 @@
 #include "qsqlerror.h"
 #include "qsqlquery.h"
 #include "ui_mainwindow.h"
-#include <QMessageBox>
-#include <QTimer>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    connect(ui->ButtonParametre,&QPushButton::clicked,this,&MainWindow::OuvrirParametre);
+    connect(ui->ButtonExit,&QPushButton::clicked,this,&MainWindow::ExitApp);
+    connect(ui->ButtonListeProjet,&QPushButton::clicked,this,&MainWindow::OuvrirListeProjet);
+    connect(ui->ButtonCalendrier,&QPushButton::clicked,this,&MainWindow::OuvrirCalendrier);
+    connect(ui->ButtonRessource,&QPushButton::clicked,this,&MainWindow::OuvrirResource);
+    connect(ui->ButtonStockVaccin,&QPushButton::clicked,this,&MainWindow::OuvrirStockVaccin);
+    connect(ui->ButtonStatistique,&QPushButton::clicked,this,&MainWindow::OuvrirStatistique);
+
 
     bool Connected;
     Connected = Cnx.CreateConnexion();
@@ -34,19 +42,36 @@ void MainWindow::showLoginDialog()
 
     CurrUser = NewLogInDialog->getResult();
 
+    if(CurrUser == LogInDialog::Result::Canceled){
+        close(); // Close the main window if login was canceled
+    }
+
+    SetUpUIForUser(CurrUser);
+}
+
+void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
     switch(CurrUser){
         case LogInDialog::Result::Admin :
-            QMessageBox::information(this, "Erreur", "Admin");
+
             break;
         case LogInDialog::Result::Doctor:
-            QMessageBox::information(this, "Erreur", "Doctor");
+
             break;
         case LogInDialog::Result::Secratary:
-        QMessageBox::information(this, "Erreur", "Secratary");
+
             break;
-        case LogInDialog::Result::Canceled :
-            QMessageBox::information(this, "Erreur", "Canceled");
-            close(); // Close the main window if login was canceled
-            break;
+
     }
+}
+
+void MainWindow::OuvrirParametre(){}
+
+void MainWindow::OuvrirCalendrier(){}
+void MainWindow::OuvrirResource(){}
+void MainWindow::OuvrirStockVaccin(){}
+void MainWindow::OuvrirListeProjet(){}
+void MainWindow::OuvrirStatistique(){}
+
+void MainWindow::ExitApp(){
+    close();
 }

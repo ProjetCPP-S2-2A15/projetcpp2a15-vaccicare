@@ -61,10 +61,10 @@ void LogInDialog::ReturnDroit(int DroitId){
     case 0:
         result_ = Result::Admin;
         break;
-    case 2:
+    case 1:
         result_ = Result::Doctor;
         break;
-    case 3:
+    case 2:
         result_ = Result::Secratary;
         break;
     default:

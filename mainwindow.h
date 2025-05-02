@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QTimer>
 #include "connection.h"
 #include "logindialog.h"
 
@@ -21,7 +23,15 @@ private slots:
     void showLoginDialog();
 private:
     LogInDialog::Result CurrUser;
+    void SetUpUIForUser(LogInDialog::Result CurrUser);
     Ui::MainWindow *ui;
     Connection Cnx;
+    void OuvrirParametre();
+    void ExitApp();
+    void OuvrirCalendrier();
+    void OuvrirResource();
+    void OuvrirStockVaccin();
+    void OuvrirListeProjet();
+    void OuvrirStatistique();
 };
 #endif // MAINWINDOW_H
