@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>calendrierDialog</class>
+ <widget class="QDialog" name="calendrierDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>919</width>
+    <height>676</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QCalendarWidget" name="calendarWidget_pat">
+   <property name="geometry">
+    <rect>
+     <x>19</x>
+     <y>35</y>
+     <width>561</width>
+     <height>531</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>19</y>
+     <width>901</width>
+     <height>641</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::Shape::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Shadow::Raised</enum>
+   </property>
+   <widget class="QPushButton" name="ButtonExit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>590</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Retourner</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="Calendrier_Info">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>20</y>
+      <width>261</width>
+      <height>531</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <zorder>frame</zorder>
+  <zorder>calendarWidget_pat</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

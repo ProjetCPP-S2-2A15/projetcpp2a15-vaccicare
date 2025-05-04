@@ -82,7 +82,11 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
 
 void MainWindow::OuvrirParametre(){}
 
-void MainWindow::OuvrirCalendrier(){}
+void MainWindow::OuvrirCalendrier(){
+    calendrierDialog *NewDialog = new calendrierDialog();
+    NewDialog->exec();
+}
+
 void MainWindow::OuvrirResource(){}
 void MainWindow::OuvrirStockVaccin(){}
 
