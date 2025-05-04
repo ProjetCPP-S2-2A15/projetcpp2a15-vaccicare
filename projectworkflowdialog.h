@@ -6,6 +6,7 @@
 #include <vector>
 #include "selectprojectdialog.h"
 #include <QMessageBox>
+#include "experience.h"
 
 namespace Ui {
 class ProjectWorkFlowDialog;
@@ -26,6 +27,9 @@ private:
     Projet CurrProject;
     void ShowDialog(Projet WorkingProject);
     void CloseDialog();
+    void DeleteExperience();
+    void ModifiyExperience();
+    void AddExperience();
 
 };
 

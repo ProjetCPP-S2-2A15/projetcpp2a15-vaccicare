@@ -46,7 +46,8 @@ public:
     static bool DeleteProjectFromDb(int ID);
     static int GetIdResponsable(QString Name);
     static QString GetChercheurFromID(int ID);
-
+    QString GetProjectDescription();
+    bool SaveProjectDescription(QString ProjectDescription);
 
 
 private:

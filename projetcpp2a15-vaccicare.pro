@@ -13,6 +13,7 @@ SOURCES += \
     Design.cpp \
     connection.cpp \
     date.cpp \
+    experience.cpp \
     ficheprojet.cpp \
     listeprojetdialog.cpp \
     logindialog.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     Design.h \
     connection.h \
     date.h \
+    experience.h \
     ficheprojet.h \
     listeprojetdialog.h \
     logindialog.h \

@@ -75,6 +75,23 @@ std::vector<Projet> Projet::ReadProjectListFromDB(int IdMedecin){
     return ProjectList;
 }
 
+QString Projet::GetProjectDescription(){
+    QSqlQuery Querry;
+    Querry.prepare("SELECT DESCRIPTION_PROJET FROM PROJET WHERE ID_PROJET = :id;");
+    Querry.bindValue(":id",Data.ID_Projet);
+    Querry.exec();
+    Querry.next();
+    return Querry.value(0).toString();
+}
+
+bool Projet::SaveProjectDescription(QString ProjectDescription){
+    QSqlQuery Querry;
+    Querry.prepare("UPDATE PROJET SET DESCRIPTION_PROJET = :description WHERE ID_PROJET = :id");
+    Querry.bindValue(":description",ProjectDescription);
+    Querry.bindValue(":id",Data.ID_Projet);
+    return Querry.exec();
+}
+
 int Projet::GetLastProjectID(){
     QSqlQuery Querry;
     Querry.prepare("Select MAX(ID_PROJET) FROM PROJET;");

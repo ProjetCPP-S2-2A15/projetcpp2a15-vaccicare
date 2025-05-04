@@ -19,22 +19,22 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonStatistique,&QPushButton::clicked,this,&MainWindow::OuvrirStatistique);
 
 
-        ui->ButtonParametre->setHidden(true);
-               ui->ButtonExit->setHidden(true);
-               ui->ButtonListeProjet->setHidden(true);
-               ui->ButtonCalendrier->setHidden(true);
-               ui->ButtonRessource->setHidden(true);
-               ui->ButtonStockVaccin->setHidden(true);
-               ui->ButtonStatistique->setHidden(true);
+    ui->ButtonParametre->setHidden(true);
+    ui->ButtonExit->setHidden(true);
+    ui->ButtonListeProjet->setHidden(true);
+    ui->ButtonCalendrier->setHidden(true);
+    ui->ButtonRessource->setHidden(true);
+    ui->ButtonStockVaccin->setHidden(true);
+    ui->ButtonStatistique->setHidden(true);
 
     bool Connected;
     Connected = Cnx.CreateConnexion();
     if(!Connected){
-       QMessageBox::warning(this, "Erreur", "Cound't Connect to DB");
+        QMessageBox::warning(this, "Erreur", "Cound't Connect to DB");
     }
 
     // Defer showing the login dialog until the main window is shown
-        QTimer::singleShot(0, this, &MainWindow::showLoginDialog);
+    QTimer::singleShot(0, this, &MainWindow::showLoginDialog);
 
 }
 
@@ -59,23 +59,23 @@ void MainWindow::showLoginDialog()
 
 void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
     switch(CurrUser){
-        case LogInDialog::Result::Admin :
+    case LogInDialog::Result::Admin :
+        ui->ButtonParametre->setHidden(false) ;
+        ui->ButtonExit->setHidden(false);
+        ui->ButtonListeProjet->setHidden(false);
+        ui->ButtonCalendrier->setHidden(false);
+        ui->ButtonRessource->setHidden(false);
+        ui->ButtonStockVaccin->setHidden(false);
+        ui->ButtonStatistique->setHidden(false);
+        break;
+    case LogInDialog::Result::Doctor:
         ui->ButtonParametre->setHidden(false);
-            ui->ButtonExit->setHidden(false);
-            ui->ButtonListeProjet->setHidden(false);
-            ui->ButtonCalendrier->setHidden(false);
-            ui->ButtonRessource->setHidden(false);
-            ui->ButtonStockVaccin->setHidden(false);
-            ui->ButtonStatistique->setHidden(false);
-            break;
-        case LogInDialog::Result::Doctor:
-        ui->ButtonParametre->setHidden(false);
-            ui->ButtonExit->setHidden(false);
-            ui->ButtonListeProjet->setHidden(false);
-            break;
-        case LogInDialog::Result::Secratary:
+        ui->ButtonExit->setHidden(false);
+        ui->ButtonListeProjet->setHidden(false);
+        break;
+    case LogInDialog::Result::Secratary:
 
-            break;
+        break;
 
     }
 }
