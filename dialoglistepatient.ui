@@ -28,7 +28,7 @@
    <property name="frameShadow">
     <enum>QFrame::Shadow::Raised</enum>
    </property>
-   <widget class="QPushButton" name="pdf">
+   <widget class="QPushButton" name="ButtonPDF">
     <property name="geometry">
      <rect>
       <x>740</x>
@@ -38,7 +38,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>PDF</string>
     </property>
    </widget>
    <widget class="QComboBox" name="tri">
@@ -79,6 +79,58 @@
       <width>871</width>
       <height>321</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonAjouter">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>530</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ajouter</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonModifier">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>530</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Modifier</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonSupprimer">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>530</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Supprimer</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ButtonRetourner">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>560</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Retourner</string>
     </property>
    </widget>
   </widget>

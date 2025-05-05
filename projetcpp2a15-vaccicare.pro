@@ -14,8 +14,8 @@ SOURCES += \
     calendrierdialog.cpp \
     connection.cpp \
     date.cpp \
+    dialogformpatient.cpp \
     dialoglistepatient.cpp \
-    dialogpatientin.cpp \
     experience.cpp \
     ficheepreience.cpp \
     ficheprojet.cpp \
@@ -36,8 +36,8 @@ HEADERS += \
     calendrierdialog.h \
     connection.h \
     date.h \
+    dialogformpatient.h \
     dialoglistepatient.h \
-    dialogpatientin.h \
     experience.h \
     ficheepreience.h \
     ficheprojet.h \
@@ -54,8 +54,8 @@ HEADERS += \
 
 FORMS += \
     calendrierdialog.ui \
+    dialogformpatient.ui \
     dialoglistepatient.ui \
-    dialogpatientin.ui \
     ficheepreience.ui \
     ficheprojet.ui \
     listeprojetdialog.ui \

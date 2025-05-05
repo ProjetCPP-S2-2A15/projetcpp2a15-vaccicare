@@ -36,5 +36,6 @@ private:
     void OuvrirStockVaccin();
     void OuvrirListeProjet();
     void OuvrirStatistique();
+    void OuvrirPatient();
 };
 #endif // MAINWINDOW_H
