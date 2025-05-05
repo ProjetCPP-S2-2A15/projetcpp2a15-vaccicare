@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>791</width>
+      <width>843</width>
       <height>41</height>
      </rect>
     </property>
@@ -32,6 +32,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="ButtonListeMedecin">
+       <property name="text">
+        <string>Liste Medecin</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="ButtonListeProjet">
        <property name="text">
         <string>Liste Des Projets</string>
@@ -39,16 +46,23 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="ButtonCalendrier">
+      <widget class="QPushButton" name="ButtonStockVaccin">
        <property name="text">
-        <string>Calendrier</string>
+        <string>Stock Vaccin</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="ButtonConsultationStock">
+      <widget class="QPushButton" name="ButtonRessource">
        <property name="text">
-        <string>Stock</string>
+        <string>Ressource</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ButtonCalendrier">
+       <property name="text">
+        <string>Calendrier</string>
        </property>
       </widget>
      </item>
@@ -75,7 +89,7 @@
      <x>0</x>
      <y>0</y>
      <width>1196</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

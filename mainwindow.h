@@ -11,6 +11,8 @@
 #include "calendrierdialog.h"
 #include "dialogchoixstock.h"
 #include "listevaccindialog.h"
+#include "dialoglistemedecin.h"
+#include"fichemedecin.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +39,7 @@ private:
     void OuvrirResource();
     void OuvrirStockVaccin();
     void OuvrirListeProjet();
+    void OuvrirListeMedecin();
     void OuvrirStatistique();
     void OuvrirChoixStock();
 };

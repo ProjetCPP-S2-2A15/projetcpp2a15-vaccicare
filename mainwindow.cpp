@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonParametre,&QPushButton::clicked,this,&MainWindow::OuvrirParametre);
     connect(ui->ButtonExit,&QPushButton::clicked,this,&MainWindow::ExitApp);
     connect(ui->ButtonListeProjet,&QPushButton::clicked,this,&MainWindow::OuvrirListeProjet);
+    connect(ui->ButtonListeMedecin,&QPushButton::clicked,this,&MainWindow::OuvrirListeMedecin);
     connect(ui->ButtonCalendrier,&QPushButton::clicked,this,&MainWindow::OuvrirCalendrier);
     connect(ui->ButtonConsultationStock,&QPushButton::clicked,this,&MainWindow::OuvrirChoixStock);
     connect(ui->ButtonStatistique,&QPushButton::clicked,this,&MainWindow::OuvrirStatistique);
@@ -83,6 +84,12 @@ void MainWindow::OuvrirListeProjet(){
 
 }
 
+void MainWindow::OuvrirListeMedecin(){
+    DialogListeMedecin *NewDialog = new DialogListeMedecin();
+    NewDialog->exec();
+}
+
+
 void MainWindow::showLoginDialog()
 {
     LogInDialog *NewLogInDialog = new LogInDialog(this);
@@ -123,3 +130,4 @@ void MainWindow::OuvrirCalendrier(){
     calendrierDialog *NewDialog = new calendrierDialog();
     NewDialog->exec();
 }
+
