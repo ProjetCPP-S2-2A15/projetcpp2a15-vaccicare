@@ -20,7 +20,7 @@ public:
     QString statutDev;
     QDate dateDev;
     QString paysOrigine;
-    float tempConservation;
+    int tempConservation;
     int stockDisponible;
     QDate datePeremption;
     QString autorisation;
@@ -38,7 +38,7 @@ public:
     static int GetLastID();
 
     static Vaccin GetVaccinFromDb(int Id_Vaccin);
-    bool supprimer(int);
+    static bool supprimer(int id);
     bool modifier();
     bool existe(int id);
     bool verifierSaisie(QString &messageErreur);

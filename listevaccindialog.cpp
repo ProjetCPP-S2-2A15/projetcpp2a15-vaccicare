@@ -26,19 +26,47 @@ void ListeVaccinDialog::on_ajouterButton_clicked(){
     ficheVaccin *NewDialog = new ficheVaccin(this,true,Vaccin::GetLastID() + 1);
     NewDialog->exec();
     Vaccin result = NewDialog->GetResult();
-    result.ajouter();
+    if(result.id != -1){
+        result.ajouter();
+        FillTable(ui->checkBox_tri_DD->isChecked(),ui->checkBox_tri_DPrem->isChecked());
+    }
 }
 
 void ListeVaccinDialog::on_ModifierButton_clicked(){
+    int row = ui->tableViewVaccins->currentRow();
+    if (row < 0) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner un vaccin à modifier.");
+        return;
+    }
 
-    ficheVaccin *NewDialog = new ficheVaccin(this,false,1);
+    int idVaccin = ui->tableViewVaccins->item(row, 0)->text().toInt();
+    ficheVaccin *NewDialog = new ficheVaccin(this,false,idVaccin);
     NewDialog->exec();
     Vaccin result = NewDialog->GetResult();
-    result.modifier();
+    if(result.id != -1){
+        result.modifier();
+        FillTable(ui->checkBox_tri_DD->isChecked(),ui->checkBox_tri_DPrem->isChecked());
+    }
 }
 
 void ListeVaccinDialog::on_SupprimerButton_clicked(){
+    int row = ui->tableViewVaccins->currentRow();
+    if (row < 0) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner un vaccin à modifier.");
+        return;
+    }
 
+    int idVaccin = ui->tableViewVaccins->item(row, 0)->text().toInt();
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirmation", "Êtes-vous sûr de vouloir supprimer cette expérience ?",
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes){
+        if(Vaccin::supprimer(idVaccin)){
+            FillTable(ui->checkBox_tri_DD->isChecked(),ui->checkBox_tri_DPrem->isChecked());
+        }
+    }
 }
 
 void ListeVaccinDialog::onClickRefreshTable(){

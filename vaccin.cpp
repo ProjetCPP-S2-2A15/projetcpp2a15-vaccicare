@@ -1,6 +1,7 @@
 #include "vaccin.h"
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QDebug>
 
 Vaccin::Vaccin() {}
 
@@ -93,6 +94,7 @@ bool Vaccin::ajouter() {
     QSqlQuery query;
     query.prepare("INSERT INTO VACCIN (ID_VACCIN, NOM, ID_TYPE_VACCIN, AGENT_CIBLE, STATUT_DEVELOPPEMENT, DATE_DEVELOPPEMENT, PAYS_ORIGINE, TEMP_CONSERVATION, STOCK_DISPONIBLE, DATE_PEREMPTION, AUTORISATION) "
                   "VALUES (:id, :nom, :idTypeV, :agentCible, :statutDev, :dateDev, :paysOrigine, :tempConservation, :stockDisponible, :datePeremption, :autorisation)");
+
     query.bindValue(":id", id);
     query.bindValue(":nom", nom);
     query.bindValue(":idTypeV", idTypeV);

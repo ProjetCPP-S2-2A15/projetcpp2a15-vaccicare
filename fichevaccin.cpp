@@ -90,5 +90,6 @@ void ficheVaccin::Comfirmer(){
 void ficheVaccin::Annuler(){
     Vaccin v;
     result = v;
+    result.id = -1;
     close();
 }
