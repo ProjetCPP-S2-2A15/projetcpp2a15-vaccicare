@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "pdf_scanner.h"
 #include "design.h"
 
 #include <QSqlQueryModel>
@@ -53,6 +54,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->ButtonExporterPDF, &QPushButton::clicked, this, &MainWindow::ClickExporterPDF);
     connect(ui->pushButtonStats, &QPushButton::clicked, this, &MainWindow::on_btnStats_clicked);
     connect(ui->pushButtontxtstock, &QPushButton::clicked, this, &MainWindow::on_btnOuvrirDossier_clicked);
+    connect(ui->pushButtonExtPdf, &QPushButton::clicked, this, &MainWindow::on_btn_importerDepuisTxt_clicked);
+
 
 
 
@@ -572,4 +575,58 @@ void MainWindow::on_btnOuvrirDossier_clicked()
     QString filePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/historique_stock.txt";
     QFileInfo fileInfo(filePath);
     QDesktopServices::openUrl(QUrl::fromLocalFile(fileInfo.absolutePath()));
+}
+
+void MainWindow::on_btn_importerDepuisTxt_clicked() {
+    PDFScanner scanner;
+    QString pdfPath = scanner.SelectPDF();
+
+    if (pdfPath.isEmpty()) return;
+
+    if (!scanner.ScanPDF(pdfPath)) {
+        QMessageBox::warning(this, "Erreur", "Impossible de scanner le PDF.");
+        return;
+    }
+
+    QString txtPath = QCoreApplication::applicationDirPath() + "/scanned_output.txt";
+    QFile txtFile(txtPath);
+    if (!txtFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "Erreur", "Fichier texte introuvable.");
+        return;
+    }
+
+    QTextStream in(&txtFile);
+    QSqlQuery query;
+
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+        if (line.isEmpty()) continue;
+
+        // Format attendu : "1;Pfizer;1;Virus;Approuvé;20201201;USA;-20;10000;20231231;Oui"
+        QStringList fields = line.split(';');
+        if (fields.size() != 11) continue;
+
+        query.prepare("INSERT INTO VACCIN VALUES (:id, :nom, :type, :agent, :statut, :date_dev, :pays, :temp, :stock, :date_per, :auto)");
+        query.bindValue(":id", fields[0].toInt());
+        query.bindValue(":nom", fields[1]);
+        query.bindValue(":type", fields[2].toInt());
+        query.bindValue(":agent", fields[3]);
+        query.bindValue(":statut", fields[4]);
+        query.bindValue(":date_dev", fields[5].toInt());
+        query.bindValue(":pays", fields[6]);
+        query.bindValue(":temp", fields[7].toInt());
+        query.bindValue(":stock", fields[8].toInt());
+        query.bindValue(":date_per", fields[9].toInt());
+        query.bindValue(":auto", fields[10]);
+
+        if (!query.exec()) {
+            qDebug() << "❌ Erreur insertion : " << query.lastError().text();
+        }
+    }
+
+    txtFile.close();
+
+    QMessageBox::information(this, "Importation", "Importation terminée avec succès !");
+    FillTable(false, false);
+
 }

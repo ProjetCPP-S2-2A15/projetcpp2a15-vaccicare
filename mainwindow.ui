@@ -495,7 +495,7 @@
        <string>Extraire vaccins d'un PDF</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="pushButtonExtPdf">
       <property name="geometry">
        <rect>
         <x>960</x>

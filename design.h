@@ -10,7 +10,14 @@
 #include <QComboBox>
 #include <QDateEdit>
 
-void StyleButton(QPushButton* button, const QString& type = "default");
+// Style functions declarations
+void StyleButtonAjouter(QPushButton* button);
+void StyleButtonModifier(QPushButton* button);
+void StyleButtonSupprimer(QPushButton* button);
+void StyleButtonPDF(QPushButton* button);
+void StyleButtonOther(QPushButton* button);
+
+
 void StyleLineEdit(QLineEdit* lineEdit);
 void StyleLabel(QLabel* label);
 void StyleTableView(QTableView* tableView);

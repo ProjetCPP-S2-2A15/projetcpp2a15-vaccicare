@@ -30,6 +30,7 @@ public:
     void chargerTypesVaccin();
     void chargerHistoriqueDepuisFichier();
     void on_btnOuvrirDossier_clicked();
+    void on_btn_importerDepuisTxt_clicked();
 
     struct VaccinSnapshot {
         QString nom;
@@ -53,7 +54,6 @@ public:
 
 private:
     void ajouterHistoriqueDansTable(int id, int ancienStock, int nouveauStock);
-
     void on_btnStats_clicked();
     int getTypeVaccinId(const QString& typeName);
     QString getTypeVaccinName(int idTypeV);

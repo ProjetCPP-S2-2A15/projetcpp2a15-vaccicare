@@ -20,6 +20,7 @@ SOURCES += \
     design.cpp \
     main.cpp \
     mainwindow.cpp \
+    pdf_scanner.cpp \
     vaccin.cpp
 
 HEADERS += \
@@ -28,6 +29,7 @@ HEADERS += \
     date.h \
     design.h \
     mainwindow.h \
+    pdf_scanner.h \
     vaccin.h
 
 FORMS += \
