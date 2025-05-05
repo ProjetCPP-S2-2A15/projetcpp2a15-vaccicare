@@ -6,9 +6,13 @@
 #include <QTimer>
 #include "connection.h"
 #include "logindialog.h"
-#include "listeprojetdialog.h"
+#include "ListeProjetDialog.h"
 #include "projectworkflowdialog.h"
 #include "calendrierdialog.h"
+#include "dialogchoixstock.h"
+#include "listevaccindialog.h"
+#include "dialoglistemedecin.h"
+#include"fichemedecin.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,7 +39,9 @@ private:
     void OuvrirResource();
     void OuvrirStockVaccin();
     void OuvrirListeProjet();
+    void OuvrirListeMedecin();
     void OuvrirStatistique();
     void OuvrirPatient();
+    void OuvrirChoixStock();
 };
 #endif // MAINWINDOW_H

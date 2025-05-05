@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1451</width>
-    <height>668</height>
+    <width>1196</width>
+    <height>727</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,24 +17,24 @@
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>170</y>
-      <width>891</width>
-      <height>31</height>
+      <x>0</x>
+      <y>0</y>
+      <width>843</width>
+      <height>41</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="ButtonPatient">
+      <widget class="QPushButton" name="ButtonParametre">
        <property name="text">
-        <string>Patient</string>
+        <string>Parametre</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="ButtonParametre">
+      <widget class="QPushButton" name="ButtonListeMedecin">
        <property name="text">
-        <string>Parametre</string>
+        <string>Liste Medecin</string>
        </property>
       </widget>
      </item>
@@ -88,7 +88,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1451</width>
+     <width>1196</width>
      <height>26</height>
     </rect>
    </property>

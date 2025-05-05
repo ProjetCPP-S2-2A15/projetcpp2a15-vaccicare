@@ -15,11 +15,13 @@ SOURCES += \
     connection.cpp \
     date.cpp \
     dialogformpatient.cpp \
+    dialogchoixstock.cpp \
     dialoglistepatient.cpp \
     experience.cpp \
     ficheepreience.cpp \
     ficheprojet.cpp \
     listeprojetdialog.cpp \
+    listevaccindialog.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -37,11 +39,13 @@ HEADERS += \
     connection.h \
     date.h \
     dialogformpatient.h \
+    dialogchoixstock.h \
     dialoglistepatient.h \
     experience.h \
     ficheepreience.h \
     ficheprojet.h \
     listeprojetdialog.h \
+    listevaccindialog.h \
     logindialog.h \
     mainwindow.h \
     medecin.h \
@@ -55,10 +59,12 @@ HEADERS += \
 FORMS += \
     calendrierdialog.ui \
     dialogformpatient.ui \
+    dialogchoixstock.ui \
     dialoglistepatient.ui \
     ficheepreience.ui \
     ficheprojet.ui \
     listeprojetdialog.ui \
+    listevaccindialog.ui \
     logindialog.ui \
     mainwindow.ui \
     projectworkflowdialog.ui \
