@@ -8,6 +8,7 @@
 #include "logindialog.h"
 #include "listeprojetdialog.h"
 #include "projectworkflowdialog.h"
+#include "calendrierdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
