@@ -199,8 +199,6 @@ std::vector<Vaccin> Vaccin::afficherTriParDateDev() {
     return ListVaccin;
 }
 
-
-
 std::vector<Vaccin> Vaccin::afficherTriParDatePrem() {
     QSqlQuery Querry;
     QString QuerryDetail = "SELECT * FROM vaccin ORDER BY DATE_PEREMPTION ASC";
@@ -229,9 +227,6 @@ std::vector<Vaccin> Vaccin::afficherTriParDatePrem() {
     return ListVaccin;
 }
 
-
-
-
 bool Vaccin::existe(int id) {
     QSqlQuery query;
     query.prepare("SELECT COUNT(*) FROM VACCIN WHERE ID_VACCIN = :id");
@@ -242,7 +237,6 @@ bool Vaccin::existe(int id) {
     }
     return false;
 }
-
 
 std::vector<Vaccin> Vaccin::rechercherParNom(const QString &nomRecherche) {
     std::vector<Vaccin> resultatsn;
@@ -306,7 +300,6 @@ std::vector<Vaccin> Vaccin::rechercherParPays(const QString &paysRecherche) {
     return resultats;
 }
 
-
 int Vaccin::getStock(int id) {
     QSqlQuery query;
     query.prepare("SELECT STOCK_DISPONIBLE FROM VACCIN WHERE ID_VACCIN = :id");
@@ -317,6 +310,35 @@ int Vaccin::getStock(int id) {
     return 0;  // Si la récupération échoue
 }
 
+QString Vaccin::getTypeVaccinName(int idTypeV){
+    QSqlQuery query;
+    query.prepare("SELECT TYPE_VACCIN FROM TYPE_VACCIN WHERE ID_TYPE_VACCIN = :id");
+    query.bindValue(":id", idTypeV);
+
+    if (query.exec() && query.next()) {
+        return query.value(0).toString();
+    }
+
+    return "Inconnu";
+}
+
+int Vaccin::getTypeVaccinId(const QString& typeName) {
+    QSqlQuery query;
+    query.prepare("SELECT ID_TYPE_VACCIN FROM TYPE_VACCIN WHERE TYPE_VACCIN = :typeName");
+    query.bindValue(":typeName", typeName);
+
+    if (!query.exec()) {
+        //qDebug() << "Query failed: " << query.lastError().text();
+        return 5;
+    }
+
+    if (query.next()) {
+        int ID = query.value(0).toInt();
+        return ID;
+    }
+
+    return -1;  // Si aucun résultat n'est trouvé
+}
 
 
 

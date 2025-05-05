@@ -14,8 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonExit,&QPushButton::clicked,this,&MainWindow::ExitApp);
     connect(ui->ButtonListeProjet,&QPushButton::clicked,this,&MainWindow::OuvrirListeProjet);
     connect(ui->ButtonCalendrier,&QPushButton::clicked,this,&MainWindow::OuvrirCalendrier);
-    connect(ui->ButtonRessource,&QPushButton::clicked,this,&MainWindow::OuvrirResource);
-    connect(ui->ButtonStockVaccin,&QPushButton::clicked,this,&MainWindow::OuvrirStockVaccin);
+    connect(ui->ButtonConsultationStock,&QPushButton::clicked,this,&MainWindow::OuvrirChoixStock);
     connect(ui->ButtonStatistique,&QPushButton::clicked,this,&MainWindow::OuvrirStatistique);
 
 
@@ -23,8 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ButtonExit->setHidden(true);
     ui->ButtonListeProjet->setHidden(true);
     ui->ButtonCalendrier->setHidden(true);
-    ui->ButtonRessource->setHidden(true);
-    ui->ButtonStockVaccin->setHidden(true);
+    ui->ButtonConsultationStock->setHidden(true);
     ui->ButtonStatistique->setHidden(true);
 
     bool Connected;
@@ -41,6 +39,48 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+
+void MainWindow::OuvrirParametre(){}
+
+void MainWindow::OuvrirStatistique(){}
+
+void MainWindow::OuvrirResource(){
+    QMessageBox::warning(this, "Erreur", "Ress");
+}
+
+void MainWindow::OuvrirStockVaccin(){
+    QMessageBox::warning(this, "Erreur", "Vacc");
+    ListeVaccinDialog *NewDialog = new ListeVaccinDialog();
+    NewDialog->exec();
+}
+
+void MainWindow::ExitApp(){
+    close();
+}
+
+void MainWindow::OuvrirChoixStock(){
+    DialogChoixStock *NewDialog = new DialogChoixStock();
+    NewDialog->exec();
+    int Choix = NewDialog->GetResult();
+
+    if(Choix == 1){
+        OuvrirResource();
+    }else if(Choix == 2){
+        OuvrirStockVaccin();
+    }
+}
+
+void MainWindow::OuvrirListeProjet(){
+    if(CurrUser.Droit == LogInDialog::Result::Admin){
+        ListeProjetDialog *NewDialog = new ListeProjetDialog();
+        NewDialog->exec();
+    }else{
+        ProjectWorkFlowDialog *NewDialog = new ProjectWorkFlowDialog(this,CurrUser.Id_User);
+        NewDialog->exec();
+    }
+
 }
 
 void MainWindow::showLoginDialog()
@@ -64,8 +104,7 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
         ui->ButtonExit->setHidden(false);
         ui->ButtonListeProjet->setHidden(false);
         ui->ButtonCalendrier->setHidden(false);
-        ui->ButtonRessource->setHidden(false);
-        ui->ButtonStockVaccin->setHidden(false);
+        ui->ButtonConsultationStock->setHidden(false);
         ui->ButtonStatistique->setHidden(false);
         break;
     case LogInDialog::Result::Doctor:
@@ -80,28 +119,7 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
     }
 }
 
-void MainWindow::OuvrirParametre(){}
-
 void MainWindow::OuvrirCalendrier(){
     calendrierDialog *NewDialog = new calendrierDialog();
     NewDialog->exec();
-}
-
-void MainWindow::OuvrirResource(){}
-void MainWindow::OuvrirStockVaccin(){}
-
-void MainWindow::OuvrirListeProjet(){
-    if(CurrUser.Droit == LogInDialog::Result::Admin){
-        ListeProjetDialog *NewDialog = new ListeProjetDialog();
-        NewDialog->exec();
-    }else{
-        ProjectWorkFlowDialog *NewDialog = new ProjectWorkFlowDialog(this,CurrUser.Id_User);
-        NewDialog->exec();
-    }
-
-}
-void MainWindow::OuvrirStatistique(){}
-
-void MainWindow::ExitApp(){
-    close();
 }
