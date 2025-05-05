@@ -13,6 +13,8 @@ ListeVaccinDialog::ListeVaccinDialog(QWidget *parent) :
     connect(ui->PushButtonRefresh, &QPushButton::clicked, this, &ListeVaccinDialog::onClickRefreshTable);
     connect(ui->pushButton_rechercherNom, &QPushButton::clicked, this, &ListeVaccinDialog::on_PushButton_rechercherNom_clicked);
     connect(ui->pushButton_rechercherPays, &QPushButton::clicked, this, &ListeVaccinDialog::on_PushButton_rechercherPays_clicked);
+
+    SetupTable();
 }
 
 ListeVaccinDialog::~ListeVaccinDialog()
@@ -23,12 +25,16 @@ ListeVaccinDialog::~ListeVaccinDialog()
 void ListeVaccinDialog::on_ajouterButton_clicked(){
     ficheVaccin *NewDialog = new ficheVaccin(this,true,Vaccin::GetLastID() + 1);
     NewDialog->exec();
+    Vaccin result = NewDialog->GetResult();
+    result.ajouter();
 }
 
 void ListeVaccinDialog::on_ModifierButton_clicked(){
 
     ficheVaccin *NewDialog = new ficheVaccin(this,false,1);
     NewDialog->exec();
+    Vaccin result = NewDialog->GetResult();
+    result.modifier();
 }
 
 void ListeVaccinDialog::on_SupprimerButton_clicked(){

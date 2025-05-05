@@ -8,8 +8,17 @@ ficheVaccin::ficheVaccin(QWidget *parent ,bool IsModeAjout , int ID_Vaccin) :
 {
     ui->setupUi(this);
 
+    this->IsModeAjout = IsModeAjout;
+
     connect(ui->ButtonAnnuler,&QPushButton::clicked,this,&ficheVaccin::Annuler);
     connect(ui->ButtonConfirmer,&QPushButton::clicked,this,&ficheVaccin::Comfirmer);
+
+    chargerTypesVaccin();
+    //chargerHistoriqueDepuisFichier();
+
+    ui->comboBoxAgent->addItems({"Virus","Bactérie","Parasite","Champignon","Autre"});
+    ui->comboBoxStatut->addItems({"En recherche","PhaseI","PhaseII","PhaseIII","Approuvé","Suspendu"});
+    ui->comboBoxAutorisation->addItems({"FDA","EMA","OMS","ANSM","Autre"});
 
     if(!IsModeAjout){
         Vaccin v;
@@ -36,6 +45,15 @@ ficheVaccin::~ficheVaccin()
     delete ui;
 }
 
+void ficheVaccin::chargerTypesVaccin() {
+    QSqlQuery query("SELECT ID_TYPE_VACCIN, TYPE_VACCIN FROM TYPE_VACCIN ORDER BY ID_TYPE_VACCIN");
+    while (query.next()) {
+        int id = query.value(0).toInt();
+        QString name = query.value(1).toString();
+        ui->comboBoxTypev->addItem(name, id); // name displayed, ID stored as data
+    }
+}
+
 void ficheVaccin::Comfirmer(){
     int id = ui->lineEditidv->text().toInt();
     QString nom = ui->lineEditNom->text();
@@ -52,9 +70,11 @@ void ficheVaccin::Comfirmer(){
 
 
     Vaccin v(id, nom, idType, agent, statut, dateDev, pays, temp, stock, datePer, autorisation);
-    if (v.idExists(id)) {
-        QMessageBox::information(this, "Erreur", "L'ID du vaccin existe déjà."); ;
-        return;
+    if(IsModeAjout){
+        if (v.idExists(id)) {
+            QMessageBox::information(this, "Erreur", "L'ID du vaccin existe déjà."); ;
+            return;
+        }
     }
 
     QString erreur;

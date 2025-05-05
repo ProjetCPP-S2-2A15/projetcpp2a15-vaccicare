@@ -17,7 +17,7 @@ SOURCES += \
     dialogformpatient.cpp \
     dialogchoixstock.cpp \
     dialoglistepatient.cpp \
-    dialogpatientin.cpp \
+    ##dialogpatientin.cpp \
     dialoglistemedecin.cpp\
     experience.cpp \
     ficheepreience.cpp \
@@ -45,7 +45,7 @@ HEADERS += \
     dialogformpatient.h \
     dialogchoixstock.h \
     dialoglistepatient.h \
-    dialogpatientin.h \
+    ##dialogpatientin.h \
     dialoglistemedecin.h\
     experience.h \
     ficheepreience.h \
@@ -70,7 +70,7 @@ FORMS += \
     dialogchoixstock.ui \
     dialoglistepatient.ui \
     dialoglistemedecin.ui\
-    dialogpatientin.ui \
+    ##dialogpatientin.ui \
     ficheepreience.ui \
     ficheprojet.ui \
     fichemedecin.ui\

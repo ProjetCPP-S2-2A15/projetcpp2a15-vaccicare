@@ -21,6 +21,8 @@ private:
     Vaccin result;
     void Annuler();
     void Comfirmer();
+    void chargerTypesVaccin();
+    bool IsModeAjout;
 };
 
 #endif // FICHEVACCIN_H

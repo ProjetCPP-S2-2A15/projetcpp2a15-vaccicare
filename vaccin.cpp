@@ -98,11 +98,11 @@ bool Vaccin::ajouter() {
     query.bindValue(":idTypeV", idTypeV);
     query.bindValue(":agentCible", agentCible);
     query.bindValue(":statutDev", statutDev);
-    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev.toString("dd/MM/yyyy")));
+    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev));
     query.bindValue(":paysOrigine", paysOrigine);
     query.bindValue(":tempConservation", tempConservation);
     query.bindValue(":stockDisponible", stockDisponible);
-    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption.toString("dd/MM/yyyy")));
+    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption));
     query.bindValue(":autorisation", autorisation);
 
     return query.exec();
@@ -121,11 +121,11 @@ bool Vaccin::modifier() {
     query.bindValue(":idTypeV", idTypeV);
     query.bindValue(":agentCible", agentCible);
     query.bindValue(":statutDev", statutDev);
-    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev.toString("dd/MM/yyyy")));
+    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev));
     query.bindValue(":paysOrigine", paysOrigine);
     query.bindValue(":tempConservation", tempConservation);
     query.bindValue(":stockDisponible", stockDisponible);
-    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption.toString("dd/MM/yyyy")));
+    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption));
     query.bindValue(":autorisation", autorisation);
 
     return query.exec();
@@ -274,11 +274,6 @@ std::vector<Vaccin> Vaccin::rechercherParPays(const QString &paysRecherche) {
 
     //query.prepare("SELECT * FROM VACCIN WHERE LOWER(PAYS_ORIGINE) LIKE LOWER(:paysRecherche)");
     //query.bindValue(":paysRecherche", "%" + paysRecherche + "%");
-
-    /*if (!query.exec()) {
-        qDebug() << "Erreur lors de la recherche par pays:" << query.lastError().text();
-        return resultats;
-    }*/
 
     while (query.next()) {
         Vaccin v;

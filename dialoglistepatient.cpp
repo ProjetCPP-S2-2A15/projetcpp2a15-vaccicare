@@ -115,7 +115,7 @@ void Dialoglistepatient::on_buttonAjouter_clicked()
     dialog->exec();
     Patient result = dialog->GetResult();
     if(result.getID_PATIENT() != -1){
-        result.ajouter(); // Ajoute directement à la base
+        result.Ajouter(); // Ajoute directement à la base
     }
 }
 
@@ -125,7 +125,7 @@ void Dialoglistepatient::on_buttonModifier_clicked()
     dialog->exec();
     Patient result = dialog->GetResult();
     if(result.getID_PATIENT() != -1){
-        result.modifier(); // Met à jour le patient dans la base
+        result.Modifier(); // Met à jour le patient dans la base
     }
 }
 

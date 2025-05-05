@@ -18,7 +18,7 @@ private slots:
     void on_buttonAjouter_clicked();
     void on_buttonModifier_clicked();
     void on_buttonSupprimer_clicked();
-    void FormPatient();
+    //void FormPatient();
     //void on_Pat_Button_ExportPDF_clicked();
 private:
     Ui::Dialoglistepatient *ui;
