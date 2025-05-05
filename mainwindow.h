@@ -41,6 +41,7 @@ private:
     void OuvrirListeProjet();
     void OuvrirListeMedecin();
     void OuvrirStatistique();
+    void OuvrirPatient();
     void OuvrirChoixStock();
 };
 #endif // MAINWINDOW_H

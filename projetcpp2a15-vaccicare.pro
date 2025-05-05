@@ -14,6 +14,7 @@ SOURCES += \
     calendrierdialog.cpp \
     connection.cpp \
     date.cpp \
+    dialogformpatient.cpp \
     dialogchoixstock.cpp \
     dialoglistepatient.cpp \
     dialogpatientin.cpp \
@@ -41,6 +42,7 @@ HEADERS += \
     calendrierdialog.h \
     connection.h \
     date.h \
+    dialogformpatient.h \
     dialogchoixstock.h \
     dialoglistepatient.h \
     dialogpatientin.h \
@@ -64,6 +66,7 @@ HEADERS += \
 
 FORMS += \
     calendrierdialog.ui \
+    dialogformpatient.ui \
     dialogchoixstock.ui \
     dialoglistepatient.ui \
     dialoglistemedecin.ui\

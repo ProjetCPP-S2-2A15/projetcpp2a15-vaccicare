@@ -1,4 +1,6 @@
 #include "dialoglistepatient.h"
+#include "dialogformpatient.h"
+#include "patient.h"
 #include "ui_dialoglistepatient.h"
 #include <QMessageBox>
 #include <QSqlError>
@@ -36,12 +38,18 @@ Dialoglistepatient::Dialoglistepatient(QWidget *parent)
     , ui(new Ui::Dialoglistepatient)
 {
     ui->setupUi(this);
+    connect(ui->ButtonAjouter,&QPushButton::clicked,this,&Dialoglistepatient::on_buttonAjouter_clicked);
+    connect(ui->ButtonModifier,&QPushButton::clicked,this,&Dialoglistepatient::on_buttonModifier_clicked);
+    connect(ui->ButtonModifier,&QPushButton::clicked,this,&Dialoglistepatient::on_buttonSupprimer_clicked);
+    //connect(ui->ButtonPDF,&QPushButton::clicked,this,&Dialoglistepatient::on_buttonPDF_clicked);
+    connect(ui->ButtonRetourner,&QPushButton::clicked,this,&Dialoglistepatient::ExitApp);
 }
 
 Dialoglistepatient::~Dialoglistepatient()
 {
     delete ui;
 }
+
 //void Dialoglistepatient::on_Pat_Button_ExportPDF_clicked()
 //{
 //    QString strStream;
@@ -101,8 +109,33 @@ Dialoglistepatient::~Dialoglistepatient()
 //}
 
 
+void Dialoglistepatient::on_buttonAjouter_clicked()
+{
+    Dialogformpatient *dialog = new Dialogformpatient(this);
+    dialog->exec();
+    Patient result = dialog->GetResult();
+    if(result.getID_PATIENT() != -1){
+        result.ajouter(); // Ajoute directement à la base
+    }
+}
+
+void Dialoglistepatient::on_buttonModifier_clicked()
+{
+    Dialogformpatient *dialog = new Dialogformpatient(this);
+    dialog->exec();
+    Patient result = dialog->GetResult();
+    if(result.getID_PATIENT() != -1){
+        result.modifier(); // Met à jour le patient dans la base
+    }
+}
+
+void Dialoglistepatient::on_buttonSupprimer_clicked()
+{
+    Dialogformpatient *dialog = new Dialogformpatient(this);
+    dialog->exec();
+    delete dialog;
+}
 
 void Dialoglistepatient::ExitApp(){
     close();
 }
-

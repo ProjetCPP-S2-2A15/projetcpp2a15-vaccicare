@@ -2,6 +2,8 @@
 #include "qsqlerror.h"
 #include "qsqlquery.h"
 #include "ui_mainwindow.h"
+#include <QDialog>
+#include "dialoglistepatient.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -17,8 +19,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonCalendrier,&QPushButton::clicked,this,&MainWindow::OuvrirCalendrier);
     connect(ui->ButtonConsultationStock,&QPushButton::clicked,this,&MainWindow::OuvrirChoixStock);
     connect(ui->ButtonStatistique,&QPushButton::clicked,this,&MainWindow::OuvrirStatistique);
+    connect(ui->ButtonPatient,&QPushButton::clicked,this,&MainWindow::OuvrirPatient);
 
 
+    ui->ButtonPatient->setHidden(true);
     ui->ButtonParametre->setHidden(true);
     ui->ButtonExit->setHidden(true);
     ui->ButtonListeProjet->setHidden(true);
@@ -89,8 +93,8 @@ void MainWindow::OuvrirListeMedecin(){
     NewDialog->exec();
 }
 
-void MainWindow::showLoginDialog()
-{
+
+void MainWindow::showLoginDialog(){
     LogInDialog *NewLogInDialog = new LogInDialog(this);
     NewLogInDialog->exec();
 
@@ -106,6 +110,7 @@ void MainWindow::showLoginDialog()
 void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
     switch(CurrUser){
     case LogInDialog::Result::Admin :
+        ui->ButtonPatient->setHidden(false) ;
         ui->ButtonParametre->setHidden(false) ;
         ui->ButtonExit->setHidden(false);
         ui->ButtonListeProjet->setHidden(false);
@@ -131,3 +136,9 @@ void MainWindow::OuvrirCalendrier(){
     NewDialog->exec();
 }
 
+void MainWindow::OuvrirPatient(){
+    if(CurrUser.Droit == LogInDialog::Result::Admin){
+    Dialoglistepatient *NewDialog = new Dialoglistepatient();
+    NewDialog->exec();
+}
+}
