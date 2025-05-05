@@ -9,6 +9,8 @@
 #include "listeprojetdialog.h"
 #include "projectworkflowdialog.h"
 #include "calendrierdialog.h"
+#include "dialoglistemedecin.h"
+#include"fichemedecin.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,6 +37,7 @@ private:
     void OuvrirResource();
     void OuvrirStockVaccin();
     void OuvrirListeProjet();
+    void OuvrirListeMedecin();
     void OuvrirStatistique();
 };
 #endif // MAINWINDOW_H

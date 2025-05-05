@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>741</width>
+      <width>843</width>
       <height>41</height>
      </rect>
     </property>
@@ -28,6 +28,13 @@
       <widget class="QPushButton" name="ButtonParametre">
        <property name="text">
         <string>Parametre</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ButtonListeMedecin">
+       <property name="text">
+        <string>Liste Medecin</string>
        </property>
       </widget>
      </item>
@@ -82,7 +89,7 @@
      <x>0</x>
      <y>0</y>
      <width>1196</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

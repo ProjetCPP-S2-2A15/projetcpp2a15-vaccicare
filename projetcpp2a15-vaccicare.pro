@@ -14,10 +14,12 @@ SOURCES += \
     calendrierdialog.cpp \
     connection.cpp \
     date.cpp \
+    dialoglistemedecin.cpp \
     dialoglistepatient.cpp \
     dialogpatientin.cpp \
     experience.cpp \
     ficheepreience.cpp \
+    fichemedecin.cpp \
     ficheprojet.cpp \
     listeprojetdialog.cpp \
     logindialog.cpp \
@@ -36,10 +38,12 @@ HEADERS += \
     calendrierdialog.h \
     connection.h \
     date.h \
+    dialoglistemedecin.h \
     dialoglistepatient.h \
     dialogpatientin.h \
     experience.h \
     ficheepreience.h \
+    fichemedecin.h \
     ficheprojet.h \
     listeprojetdialog.h \
     logindialog.h \
@@ -54,9 +58,11 @@ HEADERS += \
 
 FORMS += \
     calendrierdialog.ui \
+    dialoglistemedecin.ui \
     dialoglistepatient.ui \
     dialogpatientin.ui \
     ficheepreience.ui \
+    fichemedecin.ui \
     ficheprojet.ui \
     listeprojetdialog.ui \
     logindialog.ui \
