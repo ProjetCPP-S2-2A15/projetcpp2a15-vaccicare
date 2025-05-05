@@ -6,7 +6,7 @@
 #include <vector>
 #include "selectprojectdialog.h"
 #include <QMessageBox>
-#include "experience.h"
+#include "ficheepreience.h"
 
 namespace Ui {
 class ProjectWorkFlowDialog;

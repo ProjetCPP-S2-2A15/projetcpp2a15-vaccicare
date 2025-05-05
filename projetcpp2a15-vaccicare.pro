@@ -14,6 +14,7 @@ SOURCES += \
     connection.cpp \
     date.cpp \
     experience.cpp \
+    ficheepreience.cpp \
     ficheprojet.cpp \
     listeprojetdialog.cpp \
     logindialog.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     connection.h \
     date.h \
     experience.h \
+    ficheepreience.h \
     ficheprojet.h \
     listeprojetdialog.h \
     logindialog.h \
@@ -45,6 +47,7 @@ HEADERS += \
     vaccin.h
 
 FORMS += \
+    ficheepreience.ui \
     ficheprojet.ui \
     listeprojetdialog.ui \
     logindialog.ui \

@@ -37,19 +37,79 @@ void ProjectWorkFlowDialog::ShowDialog(Projet WorkingProject){
     ui->textEdit->setText(DescriptionProjet);
 
     //Load Experience table With Data
+    //Get all Expereices and put them in a vector
     std::vector<Experience> ListeExperience = Experience::LoadExperienceFromDb(WorkingProject.Data.ID_Projet);
+
+    ui->tableWidget->clear();
+    ui->tableWidget->setRowCount(static_cast<int>(ListeExperience.size()));
+    ui->tableWidget->setColumnCount(2);
+    QStringList headers = {"ID", "Nom"};
+    ui->tableWidget->setHorizontalHeaderLabels(headers);
+
+    if(ListeExperience.size() != 0){
+        for (int i = 0; i < ListeExperience.size(); ++i) {
+            QTableWidgetItem *idItem = new QTableWidgetItem(QString::number(ListeExperience[i].ID_Experience));
+            QTableWidgetItem *nameItem = new QTableWidgetItem(ListeExperience[i].Nom);
+            idItem->setFlags(idItem->flags() ^ Qt::ItemIsEditable);
+            nameItem->setFlags(nameItem->flags() ^ Qt::ItemIsEditable);
+
+            ui->tableWidget->setItem(i, 0, idItem);
+            ui->tableWidget->setItem(i, 1, nameItem);
+        }
+    }
+
+
+    ui->tableWidget->resizeColumnsToContents();
 }
 
 void ProjectWorkFlowDialog::DeleteExperience(){
+    int row = ui->tableWidget->currentRow();
+    if (row < 0) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner une expérience à supprimer.");
+        return;
+    }
 
+    int idExperience = ui->tableWidget->item(row, 0)->text().toInt();
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirmation", "Êtes-vous sûr de vouloir supprimer cette expérience ?",
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        Experience exp = Experience::LoadExperienceDescriptionFromDb(idExperience);
+        if (exp.DeleteExperience()) {
+            ShowDialog(CurrProject); // Refresh table
+        } else {
+            QMessageBox::critical(this, "Erreur", "Échec de la suppression de l'expérience.");
+        }
+    }
 }
 
 void ProjectWorkFlowDialog::ModifiyExperience(){
+    int row = ui->tableWidget->currentRow();
+    if (row < 0) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner une expérience à modifier.");
+        return;
+    }
 
+    int idExperience = ui->tableWidget->item(row, 0)->text().toInt();
+
+    ficheEpreience *NewDialog = new ficheEpreience(this,false,idExperience);
+    NewDialog->exec();
+    Experience result = NewDialog->GetResult();
+    if(result.ID_Experience != -1){
+        result.UpladteExperience();
+        ShowDialog(CurrProject); // Refresh the table after modification
+    }
 }
 
 void ProjectWorkFlowDialog::AddExperience() {
-
+    ficheEpreience *NewDialog = new ficheEpreience(this,true,Experience::GetLastID() +1);
+    NewDialog->exec();
+    Experience result = NewDialog->GetResult();
+    if(result.ID_Experience != -1){
+        result.AddExperienceToDb(CurrProject.Data.ID_Projet);
+    }
 }
 
 void ProjectWorkFlowDialog::CloseDialog(){
