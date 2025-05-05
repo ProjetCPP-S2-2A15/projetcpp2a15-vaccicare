@@ -15,7 +15,6 @@ SOURCES += \
     connection.cpp \
     date.cpp \
     dialoglistepatient.cpp \
-    ##dialogpatientdis.cpp \
     dialogpatientin.cpp \
     experience.cpp \
     ficheepreience.cpp \
@@ -38,7 +37,6 @@ HEADERS += \
     connection.h \
     date.h \
     dialoglistepatient.h \
-    ##dialogpatientdis.h \
     dialogpatientin.h \
     experience.h \
     ficheepreience.h \

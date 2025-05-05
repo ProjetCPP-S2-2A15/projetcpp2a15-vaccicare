@@ -3,7 +3,6 @@
 #include <QDialog>
 #include "qtmetamacros.h"
 #include "ui_dialogpatientdis.h"
-
 namespace Ui {
 class dialogpatientdis;
 }
