@@ -15,7 +15,7 @@ public:
     explicit Dialoglistepatient(QWidget *parent = nullptr);
     ~Dialoglistepatient();
 private slots:
-           void on_Pat_Button_ExportPDF_clicked();
+           //void on_Pat_Button_ExportPDF_clicked();
 private:
     Ui::Dialoglistepatient *ui;
     void ExitApp();

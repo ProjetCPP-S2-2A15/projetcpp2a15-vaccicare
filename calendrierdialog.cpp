@@ -40,7 +40,7 @@ void calendrierDialog::highlightDates() {
         }
     } else {
         // Handle query failure
-        qDebug() << "Error executing query:" << query.lastError().text();
+        //qDebug() << "Error executing query:" << query.lastError().text();
     }
 }
 
@@ -93,7 +93,7 @@ void calendrierDialog::on_calendarWidget_pat_selectionChanged()
     } else {
         // Handle query failure
         ui->Calendrier_Info->setText("Error retrieving patient data.");
-        qDebug() << "Error executing query:" << query.lastError().text();
+        //qDebug() << "Error executing query:" << query.lastError().text();
     }
 }
 void calendrierDialog::ExitApp(){

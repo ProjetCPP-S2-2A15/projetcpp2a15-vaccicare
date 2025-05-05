@@ -1,5 +1,5 @@
-QT       += core gui
-QT       += sql
+QT       += core gui printsupport
+QT       += sql charts network multimedia multimediawidgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,8 +11,12 @@ CONFIG += c++17   #•kenet 11
 
 SOURCES += \
     Design.cpp \
+    calendrierdialog.cpp \
     connection.cpp \
     date.cpp \
+    dialoglistepatient.cpp \
+    ##dialogpatientdis.cpp \
+    dialogpatientin.cpp \
     experience.cpp \
     ficheepreience.cpp \
     ficheprojet.cpp \
@@ -30,8 +34,12 @@ SOURCES += \
 
 HEADERS += \
     Design.h \
+    calendrierdialog.h \
     connection.h \
     date.h \
+    dialoglistepatient.h \
+    ##dialogpatientdis.h \
+    dialogpatientin.h \
     experience.h \
     ficheepreience.h \
     ficheprojet.h \
@@ -47,6 +55,9 @@ HEADERS += \
     vaccin.h
 
 FORMS += \
+    calendrierdialog.ui \
+    dialoglistepatient.ui \
+    dialogpatientin.ui \
     ficheepreience.ui \
     ficheprojet.ui \
     listeprojetdialog.ui \
