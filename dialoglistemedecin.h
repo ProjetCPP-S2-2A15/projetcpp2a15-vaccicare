@@ -3,7 +3,8 @@
 
 #include <QDialog>
 #include "medecin.h"
-#include"fichemedecin.h"
+#include "fichemedecin.h"
+#include <QDebug>
 
 namespace Ui {
 class DialogListeMedecin;
@@ -17,7 +18,7 @@ public:
     explicit DialogListeMedecin(QWidget *parent = nullptr);
     ~DialogListeMedecin();
 private slots:
-    void on_pushButton_2_supprimer_clicked();
+    void on_pushButton_2_clicked();
     void on_lineEdit_rechercher_textChanged(const QString &text);
     void on_comboBox_tri_currentTextChanged(const QString &text);
 private:

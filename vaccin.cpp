@@ -340,21 +340,45 @@ int Vaccin::getTypeVaccinId(const QString& typeName) {
     return -1;  // Si aucun résultat n'est trouvé
 }
 
+Vaccin Vaccin::GetVaccinFromDb(int Id_Vaccin){
+
+    QSqlQuery query;
+    QString requete = "SELECT * FROM VACCIN WHERE ID_VACCIN =:id ";
+    query.prepare(requete);
+    query.bindValue(":id",Id_Vaccin);
+    query.exec();
+
+    query.next();
+    Vaccin v;
+    v.id = query.value("ID_VACCIN").toInt();
+    v.nom = query.value("NOM").toString();
+    v.idTypeV = query.value("ID_TYPE_VACCIN").toInt();
+    v.agentCible = query.value("AGENT_CIBLE").toString();
+    v.statutDev = query.value("STATUT_DEVELOPPEMENT").toString();
+    v.dateDev = Date::ConvertIntToDate(query.value("DATE_DEVELOPPEMENT").toInt());
+    v.paysOrigine = query.value("PAYS_ORIGINE").toString();
+    v.tempConservation = query.value("TEMP_CONSERVATION").toFloat();
+    v.stockDisponible = query.value("STOCK_DISPONIBLE").toInt();
+    v.datePeremption = Date::ConvertIntToDate(query.value("DATE_PEREMPTION").toInt());
+    v.autorisation = query.value("AUTORISATION").toString();
 
 
 
+    return v;
+}
 
+int Vaccin::GetLastID(){
+    QSqlQuery Querry;
+    Querry.prepare("Select MAX(ID_VACCIN) FROM VACCIN;");
+    Querry.exec();
 
+    if (Querry.next()) {  // Move to the first row
+        QVariant result = Querry.value(0);
+        if (result.isNull()) {
+            return 0;  // Return 0 if the table is empty
+        }
+        return result.toInt();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    return 0;  // If no rows exist, return 0
+}

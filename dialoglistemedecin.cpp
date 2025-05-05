@@ -19,7 +19,7 @@ void DialogListeMedecin::OuvrirAjouter(){
     NewDialog->exec();
 }
 
-void DialogListeMedecin::on_pushButton_2_supprimer_clicked()
+void DialogListeMedecin::on_pushButton_2_clicked()
 {
     bool idOk;
     int id_cherch = ui->lineEdit_2->text().toInt(&idOk);

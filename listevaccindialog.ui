@@ -88,7 +88,7 @@
   <widget class="QPushButton" name="PushButtonSupprimer">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>300</x>
      <y>550</y>
      <width>93</width>
      <height>29</height>
@@ -101,7 +101,7 @@
   <widget class="QPushButton" name="PushButtonModifier">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>190</x>
      <y>550</y>
      <width>93</width>
      <height>29</height>
@@ -147,10 +147,10 @@
     <string>RNom</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="Bu">
+  <widget class="QPushButton" name="PushButtonAjouter">
    <property name="geometry">
     <rect>
-     <x>290</x>
+     <x>80</x>
      <y>550</y>
      <width>93</width>
      <height>29</height>

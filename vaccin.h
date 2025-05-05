@@ -35,7 +35,9 @@ public:
     static std::vector<Vaccin> rechercherParPays(const QString &paysRecherche);
     static int getTypeVaccinId(const QString& typeName);
     static QString getTypeVaccinName(int idTypeV);
+    static int GetLastID();
 
+    static Vaccin GetVaccinFromDb(int Id_Vaccin);
     bool supprimer(int);
     bool modifier();
     bool existe(int id);

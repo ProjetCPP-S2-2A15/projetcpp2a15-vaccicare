@@ -17,9 +17,12 @@ SOURCES += \
     dialogchoixstock.cpp \
     dialoglistepatient.cpp \
     dialogpatientin.cpp \
+    dialoglistemedecin.cpp\
     experience.cpp \
     ficheepreience.cpp \
     ficheprojet.cpp \
+    fichemedecin.cpp\
+    fichevaccin.cpp \
     listeprojetdialog.cpp \
     listevaccindialog.cpp \
     logindialog.cpp \
@@ -41,9 +44,12 @@ HEADERS += \
     dialogchoixstock.h \
     dialoglistepatient.h \
     dialogpatientin.h \
+    dialoglistemedecin.h\
     experience.h \
     ficheepreience.h \
     ficheprojet.h \
+    fichemedecin.h\
+    fichevaccin.h \
     listeprojetdialog.h \
     listevaccindialog.h \
     logindialog.h \
@@ -60,9 +66,12 @@ FORMS += \
     calendrierdialog.ui \
     dialogchoixstock.ui \
     dialoglistepatient.ui \
+    dialoglistemedecin.ui\
     dialogpatientin.ui \
     ficheepreience.ui \
     ficheprojet.ui \
+    fichemedecin.ui\
+    fichevaccin.ui \
     listeprojetdialog.ui \
     listevaccindialog.ui \
     logindialog.ui \

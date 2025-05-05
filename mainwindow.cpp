@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ButtonCalendrier->setHidden(true);
     ui->ButtonConsultationStock->setHidden(true);
     ui->ButtonStatistique->setHidden(true);
+    ui->ButtonListeMedecin->setHidden(true);
 
     bool Connected;
     Connected = Cnx.CreateConnexion();
@@ -41,7 +42,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
 
 void MainWindow::OuvrirParametre(){}
 
@@ -89,7 +89,6 @@ void MainWindow::OuvrirListeMedecin(){
     NewDialog->exec();
 }
 
-
 void MainWindow::showLoginDialog()
 {
     LogInDialog *NewLogInDialog = new LogInDialog(this);
@@ -113,6 +112,7 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
         ui->ButtonCalendrier->setHidden(false);
         ui->ButtonConsultationStock->setHidden(false);
         ui->ButtonStatistique->setHidden(false);
+        ui->ButtonListeMedecin->setHidden(false);
         break;
     case LogInDialog::Result::Doctor:
         ui->ButtonParametre->setHidden(false);

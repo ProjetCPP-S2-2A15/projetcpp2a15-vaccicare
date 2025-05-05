@@ -2,7 +2,7 @@
 #define LISTEVACCINDIALOG_H
 
 #include <QDialog>
-#include "vaccin.h"
+#include "fichevaccin.h"
 
 namespace Ui {
 class ListeVaccinDialog;
@@ -21,6 +21,11 @@ private:
     void onClickRefreshTable();
     void FillTable(bool triParDateDev,bool triParDatePrem);
     void SetupTable();
+    void on_PushButton_rechercherNom_clicked();
+    void on_PushButton_rechercherPays_clicked();
+    void on_ajouterButton_clicked();
+    void on_ModifierButton_clicked();
+    void on_SupprimerButton_clicked();
 
 };
 

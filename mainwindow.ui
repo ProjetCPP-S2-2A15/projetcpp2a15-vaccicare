@@ -46,16 +46,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="ButtonStockVaccin">
+      <widget class="QPushButton" name="ButtonConsultationStock">
        <property name="text">
-        <string>Stock Vaccin</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="ButtonRessource">
-       <property name="text">
-        <string>Ressource</string>
+        <string>Stock</string>
        </property>
       </widget>
      </item>
@@ -89,7 +82,7 @@
      <x>0</x>
      <y>0</y>
      <width>1196</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
