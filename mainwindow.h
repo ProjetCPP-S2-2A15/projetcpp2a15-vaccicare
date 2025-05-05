@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QStandardItemModel>
+#include "dialogstatmedecin.h"
+#include<QStandardItemModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,21 +19,22 @@ public:
 
 private slots:
     void on_pushButton_clicked();
-    void on_pushButton_5_clicked();
-    void on_pushButton_6_clicked(); // Nouveau slot pour le bouton Générer
-    void on_pushButton3_ajouter_clicked();
     void on_pushButton_2_supprimer_clicked();
+    void on_pushButton3_ajouter_clicked();
     void on_pushButton_modifier_clicked();
     void on_lineEdit_rechercher_textChanged(const QString &text);
     void on_comboBox_tri_currentTextChanged(const QString &text);
     void on_pushButton_pdf_clicked();
+    void on_pushButton_5_clicked();
+    void on_pushButton_6_clicked();
+    void on_pushButton_7_clicked();
     void updateResourceFilter();
 
 private:
     Ui::MainWindow *ui;
+    QStandardItemModel *fullResourceModel;
     int attempts = 3;
     void refreshTableView();
-    QStandardItemModel *fullResourceModel; // Modèle contenant toutes les ressources
 };
 
 #endif // MAINWINDOW_H

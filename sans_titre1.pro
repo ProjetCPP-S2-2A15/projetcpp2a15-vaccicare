@@ -1,5 +1,6 @@
 QT       += core gui
 QT += sql
+QT += charts
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,12 +12,14 @@ CONFIG += c++17
 
 SOURCES += \
     connection.cpp \
+    dialogstatmedecin.cpp \
     main.cpp \
     mainwindow.cpp \
     medecin.cpp
 
 HEADERS += \
     connection.h \
+    dialogstatmedecin.h \
     mainwindow.h \
     medecin.h \
     medecin.h \

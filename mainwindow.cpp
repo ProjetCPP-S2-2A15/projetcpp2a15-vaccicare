@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 #include "medecin.h"
 #include "connection.h"
+#include "dialogstatmedecin.h"
 #include <QMessageBox>
 #include <QDebug>
 #include <QSqlQueryModel>
@@ -150,27 +151,31 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Erreur : pushButton_5 n'existe pas. Vérifiez l'objectName du bouton Ressources dans mainwindow.ui.";
     } else {
         qDebug() << "pushButton_5 trouvé.";
+        connect(ui->pushButton_5, &QPushButton::clicked, this, &MainWindow::on_pushButton_5_clicked);
     }
 
-    // Définir l'onglet de login (tab) comme actif par défaut
-    ui->tabWidget->setCurrentIndex(0); // Index 0: tab (Login)
+    // Connexion pour pushButton_7 (Statistiques)
+    if (!ui->pushButton_7) {
+        qDebug() << "Erreur : pushButton_7 n'existe pas. Vérifiez l'objectName dans mainwindow.ui.";
+    } else {
+        qDebug() << "pushButton_7 trouvé.";
+        connect(ui->pushButton_7, &QPushButton::clicked, this, &MainWindow::on_pushButton_7_clicked);
+    }
 
-    // Masquer tous les onglets sauf le login au démarrage
-    ui->tabWidget->setTabEnabled(1, false); // Index 1: tab_2 (Médecins)
-    ui->tabWidget->setTabEnabled(2, false); // Index 2: tab_3
-    ui->tabWidget->setTabEnabled(3, false); // Index 3: tab_4 (Ressources)
+    ui->tabWidget->setCurrentIndex(0);
 
-    // Vérifier le nombre d'onglets pour déboguer
+    ui->tabWidget->setTabEnabled(1, false);
+    ui->tabWidget->setTabEnabled(2, false);
+    ui->tabWidget->setTabEnabled(3, false);
+
     qDebug() << "Nombre d'onglets dans tabWidget :" << ui->tabWidget->count();
     for (int i = 0; i < ui->tabWidget->count(); ++i) {
         qDebug() << "Onglet" << i << ":" << ui->tabWidget->tabText(i) << "ObjectName:" << ui->tabWidget->widget(i)->objectName();
     }
 
-    // Initialiser le modèle complet des ressources
     fullResourceModel = new QStandardItemModel(this);
     fullResourceModel->setHorizontalHeaderLabels({"ID", "Nom de la ressource", "Quantité"});
 
-    // Ajouter les données de test (Masques, Gants, Désinfectant, Seringues, Bandages)
     QList<QStandardItem *> row1;
     row1 << new QStandardItem("1") << new QStandardItem("Masques") << new QStandardItem("100");
     fullResourceModel->appendRow(row1);
@@ -191,28 +196,23 @@ MainWindow::MainWindow(QWidget *parent)
     row5 << new QStandardItem("5") << new QStandardItem("Bandages") << new QStandardItem("300");
     fullResourceModel->appendRow(row5);
 
-    // Vérifier si tableView_3 existe
     if (!ui->tableView_3) {
         qDebug() << "Erreur : tableView_3 n'existe pas dans l'onglet tab_4. Vérifiez mainwindow.ui.";
     } else {
         qDebug() << "tableView_3 trouvé, initialisation...";
-        // Définir le modèle initial (toutes les ressources visibles par défaut)
         ui->tableView_3->setModel(fullResourceModel);
         ui->tableView_3->resizeColumnsToContents();
     }
 
-    // Vérifier si les cases à cocher existent
     if (!ui->checkBox || !ui->checkBox_2 || !ui->checkBox_3 || !ui->checkBox_4 || !ui->checkBox_5) {
         qDebug() << "Erreur : Une ou plusieurs cases à cocher (checkBox, checkBox_2, checkBox_3, checkBox_4, checkBox_5) n'existent pas. Vérifiez mainwindow.ui.";
     } else {
-        // Cocher toutes les cases par défaut
         ui->checkBox->setChecked(true);
         ui->checkBox_2->setChecked(true);
         ui->checkBox_3->setChecked(true);
         ui->checkBox_4->setChecked(true);
         ui->checkBox_5->setChecked(true);
 
-        // Connecter les cases à cocher au slot de filtrage
         connect(ui->checkBox, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
         connect(ui->checkBox_2, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
         connect(ui->checkBox_3, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
@@ -220,12 +220,10 @@ MainWindow::MainWindow(QWidget *parent)
         connect(ui->checkBox_5, &QCheckBox::stateChanged, this, &MainWindow::updateResourceFilter);
     }
 
-    // Vérifier si pushButton_6 existe
     if (!ui->pushButton_6) {
         qDebug() << "Erreur : pushButton_6 n'existe pas dans tab_4. Vérifiez l'objectName du bouton Générer dans mainwindow.ui.";
     } else {
         qDebug() << "pushButton_6 trouvé.";
-        // Connecter le bouton Générer au slot
         connect(ui->pushButton_6, &QPushButton::clicked, this, &MainWindow::on_pushButton_6_clicked);
     }
 }
@@ -244,12 +242,9 @@ void MainWindow::on_pushButton_6_clicked()
 void MainWindow::updateResourceFilter()
 {
     qDebug() << "Mise à jour du filtre des ressources...";
-
-    // Créer un nouveau modèle pour les ressources filtrées
     QStandardItemModel *filteredModel = new QStandardItemModel(this);
     filteredModel->setHorizontalHeaderLabels({"ID", "Nom de la ressource", "Quantité"});
 
-    // Parcourir le modèle complet et ajouter les lignes correspondant aux cases cochées
     bool masquesChecked = ui->checkBox->isChecked();
     bool gantsChecked = ui->checkBox_2->isChecked();
     bool desinfectantChecked = ui->checkBox_3->isChecked();
@@ -281,11 +276,9 @@ void MainWindow::updateResourceFilter()
         }
     }
 
-    // Mettre à jour tableView_3 avec le modèle filtré
     ui->tableView_3->setModel(filteredModel);
     ui->tableView_3->resizeColumnsToContents();
 
-    // Afficher un message si aucune ressource n'est sélectionnée
     if (filteredModel->rowCount() == 0) {
         QMessageBox::information(this, "Information", "Aucune ressource sélectionnée à afficher.");
     }
@@ -312,11 +305,11 @@ void MainWindow::on_pushButton_clicked()
     Medecin medecin;
     if (medecin.verifierLogin(login, password)) {
         QMessageBox::information(this, "Succès", "Connexion réussie !");
-        ui->tabWidget->setTabEnabled(1, true); // Activer tab_2 (Médecins)
-        ui->tabWidget->setTabEnabled(2, true); // Activer tab_3
-        ui->tabWidget->setTabEnabled(3, true); // Activer tab_4 (Ressources)
-        ui->tabWidget->setCurrentIndex(1); // Basculer vers tab_2 après connexion
-        ui->tabWidget->setTabEnabled(0, false); // Désactiver tab (Login)
+        ui->tabWidget->setTabEnabled(1, true);
+        ui->tabWidget->setTabEnabled(2, true);
+        ui->tabWidget->setTabEnabled(3, true);
+        ui->tabWidget->setCurrentIndex(1);
+        ui->tabWidget->setTabEnabled(0, false);
         refreshTableView();
     } else {
         attempts--;
@@ -330,35 +323,6 @@ void MainWindow::on_pushButton_5_clicked()
 {
     qDebug() << "Bouton Ressources cliqué.";
     qDebug() << "Nombre d'onglets :" << ui->tabWidget->count();
-    qDebug() << "Onglet actif avant redirection :" << ui->tabWidget->currentIndex() << " (" << ui->tabWidget->tabText(ui->tabWidget->currentIndex()) << ")";
-    for (int i = 0; i < ui->tabWidget->count(); ++i) {
-        qDebug() << "Onglet" << i << ":" << ui->tabWidget->tabText(i) << "Enabled:" << ui->tabWidget->isTabEnabled(i);
-        qDebug() << "  ObjectName de l'onglet" << i << ":" << ui->tabWidget->widget(i)->objectName();
-    }
-
-    const int targetIndex = 3; // tab_4 est à l'index 3
-
-
-
-    // Vérifier si l'onglet est désactivé, et l'activer si nécessaire
-    if (!ui->tabWidget->isTabEnabled(targetIndex)) {
-        qDebug() << "L'onglet tab_4 (index" << targetIndex << ") est désactivé, activation...";
-        ui->tabWidget->setTabEnabled(targetIndex, true);
-    }
-
-    // Rediriger vers l'onglet tab_4
-    ui->tabWidget->setCurrentIndex(targetIndex);
-
-    qDebug() << "Redirection effectuée.";
-    qDebug() << "Onglet actif après redirection :" << ui->tabWidget->currentIndex() << " (" << ui->tabWidget->tabText(ui->tabWidget->currentIndex()) << ")";
-
-    // Vérifier si tableView_3 est affiché
-    if (ui->tableView_3) {
-        qDebug() << "tableView_3 est affiché dans l'onglet tab_4.";
-        ui->tableView_3->resizeColumnsToContents();
-    } else {
-        qDebug() << "Erreur : tableView_3 n'est pas trouvé dans l'onglet tab_4.";
-    }
 }
 
 void MainWindow::on_pushButton3_ajouter_clicked()
@@ -657,8 +621,21 @@ void MainWindow::on_pushButton_pdf_clicked()
         y += rowHeight;
     }
 
+    // Ajout d'une note de bas de page
+    painter.setFont(font);
+    QString footerText = "Généré par l'application de gestion des médecins - " + QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm");
+    QString footerDisplayText = fontMetrics.elidedText(footerText, Qt::ElideRight, pageWidth - 2 * margin);
+    painter.drawText(margin, pageHeight - margin, footerDisplayText);
+
     painter.end();
 
     QMessageBox::information(this, "Succès", "Le PDF a été généré avec succès !");
     QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+}
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    qDebug() << "Bouton Statistiques cliqué.";
+    DialogStatMedecin *dialog = new DialogStatMedecin(this);
+    dialog->exec();
 }
