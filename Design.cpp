@@ -1,4 +1,6 @@
 #include "design.h"
+#include "QStandardItemModel"
+#include "QStandardItem"
 
 
 void StyleButtonGreen(QPushButton* button) {
@@ -119,7 +121,6 @@ void StyleTableView(QTableView* tableView) {
         "  border: 1px solid #8fbaf3;"
         "  border-radius: 6px;"
         "  gridline-color: #b2e0f5;"
-        "  background-color: #ffffff;"
         "  selection-background-color: #00cc99;"
         "  selection-color: white;"
         "}"
@@ -131,14 +132,28 @@ void StyleTableView(QTableView* tableView) {
         "  color: #003f73;"
         "}"
         );
-    tableView->setAlternatingRowColors(true);
+
+    tableView->setAlternatingRowColors(false);
+
+    // Optional: set row color via model if it's QStandardItemModel
+    auto model = qobject_cast<QStandardItemModel*>(tableView->model());
+    if (model) {
+        for (int row = 0; row < model->rowCount(); ++row) {
+            QColor rowColor = (row % 2 == 0) ? QColor("#bdf1f6") : QColor("#ebf1ff");
+            for (int col = 0; col < model->columnCount(); ++col) {
+                QStandardItem* item = model->item(row, col);
+                if (item)
+                    item->setBackground(rowColor);
+            }
+        }
+    }
 }
 
 void StyleTextEdit(QTextEdit *textEdit) {
     textEdit->setStyleSheet(
         "QTextEdit {"
         " background-color: #f0f0f0;"
-        " color: #2e2e2e;"
+        " color: #000000;"
         " border: 1px solid #ccc;"
         " border-radius: 6px;"
         " padding: 6px;"
@@ -153,7 +168,6 @@ void StyleTableWidget(QTableWidget* tableWidget) {
         "  border: 1px solid #8fbaf3;"
         "  border-radius: 6px;"
         "  gridline-color: #b2e0f5;"
-        "  background-color: #ffffff;"
         "  selection-background-color: #00cc99;"
         "  selection-color: black;"
         "}"
@@ -169,8 +183,20 @@ void StyleTableWidget(QTableWidget* tableWidget) {
         "  color: black;"
         "}"
         );
-    tableWidget->setAlternatingRowColors(true);
+
+    tableWidget->setAlternatingRowColors(false);
+
+    // Manual alternation
+    for (int row = 0; row < tableWidget->rowCount(); ++row) {
+        QColor rowColor = (row % 2 == 0) ? QColor("#bdf1f6") : QColor("#ebf1ff");
+        for (int col = 0; col < tableWidget->columnCount(); ++col) {
+            QTableWidgetItem* item = tableWidget->item(row, col);
+            if (item)
+                item->setBackground(rowColor);
+        }
+    }
 }
+
 
 void StyleCheckBox(QCheckBox* checkBox) {
     checkBox->setStyleSheet(

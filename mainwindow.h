@@ -46,6 +46,8 @@ private:
     void OuvrirPatient();
     void OuvrirChoixStock();
 
+    void setupDesign();
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
 };

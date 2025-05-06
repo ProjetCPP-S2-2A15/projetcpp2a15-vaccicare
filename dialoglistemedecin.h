@@ -26,9 +26,9 @@ private slots:
     void ExitDialog();
     void refreshtableView();
     void OuvrirAjouter();
-    void setupDesign();
 private:
     Ui::DialogListeMedecin *ui;
+    void setupDesign();
 };
 
 

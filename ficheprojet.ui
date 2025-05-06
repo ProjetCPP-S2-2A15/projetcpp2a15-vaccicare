@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>603</width>
-    <height>536</height>
+    <width>719</width>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,7 +33,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>70</y>
+     <y>60</y>
      <width>21</width>
      <height>16</height>
     </rect>
@@ -45,8 +45,8 @@
   <widget class="QLineEdit" name="lineEditID">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>70</y>
+     <x>160</x>
+     <y>60</y>
      <width>113</width>
      <height>20</height>
     </rect>
@@ -55,7 +55,7 @@
   <widget class="QLineEdit" name="LineEditNom">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>160</x>
      <y>100</y>
      <width>113</width>
      <height>20</height>
@@ -78,7 +78,7 @@
   <widget class="QDateEdit" name="dateEditDebut">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>160</x>
      <y>130</y>
      <width>110</width>
      <height>31</height>
@@ -101,7 +101,7 @@
   <widget class="QComboBox" name="ComboBoxStatut">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>160</x>
      <y>260</y>
      <width>101</width>
      <height>24</height>
@@ -157,7 +157,7 @@
   <widget class="QLineEdit" name="LineEditBudget">
    <property name="geometry">
     <rect>
-     <x>100</x>
+     <x>160</x>
      <y>300</y>
      <width>113</width>
      <height>20</height>
@@ -167,7 +167,7 @@
   <widget class="QComboBox" name="comboBoxResponsable">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>160</x>
      <y>340</y>
      <width>75</width>
      <height>24</height>
@@ -192,7 +192,7 @@
     <rect>
      <x>50</x>
      <y>180</y>
-     <width>131</width>
+     <width>161</width>
      <height>22</height>
     </rect>
    </property>
@@ -216,7 +216,7 @@
   <widget class="QDateEdit" name="dateEditDebut_2">
    <property name="geometry">
     <rect>
-     <x>130</x>
+     <x>160</x>
      <y>210</y>
      <width>110</width>
      <height>31</height>
@@ -226,7 +226,7 @@
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>310</x>
+     <x>390</x>
      <y>40</y>
      <width>256</width>
      <height>401</height>

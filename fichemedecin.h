@@ -32,6 +32,8 @@ private:
     void Comfirmer();
     void Annuler();
 
+    void setupDesign();
+
 };
 
 #endif // FICHEMEDECIN_H

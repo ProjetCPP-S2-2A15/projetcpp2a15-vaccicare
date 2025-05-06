@@ -14,11 +14,14 @@ DialogListeMedecin::DialogListeMedecin(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setupDesign();
+
     connect(ui->Ajoutermed,&QPushButton::clicked,this,&::DialogListeMedecin::OuvrirAjouter);
     connect(ui->Supprimermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonSupprimer_clicked);
     connect(ui->Modifiermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonModifier_clicked);
     connect(ui->ButtonExit,&QPushButton::clicked,this,&DialogListeMedecin::ExitDialog);
+
+    setupDesign();
+
     refreshtableView();
 }
 
@@ -29,8 +32,6 @@ DialogListeMedecin::~DialogListeMedecin()
 
 void DialogListeMedecin::setupDesign()
 {
-    StyleLabel(ui->label);
-    StyleLabel(ui->label_4);
 
     StyleLineEdit(ui->lineEdit_rechercher);
 
@@ -39,8 +40,8 @@ void DialogListeMedecin::setupDesign()
 
     StyleButtonGreen(ui->Ajoutermed);
     StyleButtonRed(ui->Supprimermed);
-
     StyleButtonBlue(ui->Modifiermed);
+    StyleButtonDarkred(ui->ButtonExit);
 
     StyleTableView(ui->tableview);
 }

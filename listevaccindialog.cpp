@@ -41,12 +41,14 @@ void ListeVaccinDialog::setupDesign()
     StyleCheckBox(ui->checkBox_tri_DPrem);
 
     StyleButtonGreen(ui->PushButtonAjouter);
-    StyleButtonRed(ui->PushButtonModifier);
-    StyleButtonRed(ui->PushButtonRefresh);
+    StyleButtonBlue(ui->PushButtonModifier);
+    StyleButtonDarkblue(ui->PushButtonRefresh);
     StyleButtonRed(ui->PushButtonSupprimer);
+    StyleButtonDarkred(ui->ButtonExit);
+    StyleButtonDarkblue(ui->PushButtonSupprimer_2);
 
-    StyleButtonRed(ui->pushButton_rechercherNom);
-    StyleButtonRed(ui->pushButton_rechercherPays);
+    StyleButtonGreen(ui->pushButton_rechercherNom);
+    StyleButtonGreen(ui->pushButton_rechercherPays);
 
     StyleTableWidget(ui->tableViewVaccins);
 

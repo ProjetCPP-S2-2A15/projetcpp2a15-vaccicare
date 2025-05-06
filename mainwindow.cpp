@@ -8,6 +8,7 @@
 #include <QPalette>
 #include "dialoglistepatient.h"
 #include "dialoglistemedecin.h"
+#include "Design.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -34,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonStatistique, &QPushButton::clicked, this, &MainWindow::OuvrirStatistique);
     connect(ui->ButtonPatient, &QPushButton::clicked, this, &MainWindow::OuvrirPatient);
 
+    setupDesign();
 
     // Cacher les boutons
     ui->ButtonPatient->setHidden(true);
@@ -60,6 +62,20 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::setupDesign() {
+
+    StyleButtonDarkblue(ui->ButtonParametre);
+    StyleButtonGreen(ui->ButtonListeMedecin);
+    StyleButtonRed(ui->ButtonListeProjet);
+    StyleButtonBlue(ui->ButtonPatient);
+    StyleButtonGreen(ui->ButtonConsultationStock);
+    StyleButtonRed(ui->ButtonCalendrier);
+    StyleButtonBlue(ui->ButtonStatistique);
+    StyleButtonDarkred(ui->ButtonExit);
+
+}
+
 
 void MainWindow::OuvrirParametre() {}
 
