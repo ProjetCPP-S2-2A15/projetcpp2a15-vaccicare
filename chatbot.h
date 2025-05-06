@@ -1,6 +1,11 @@
 #ifndef CHATBOT_H
 #define CHATBOT_H
 
+#include <QTextEdit>
+#include <QString>
+#include <QColor>
+#include "qlabel.h"
+#include "qtextedit.h"
 #include <QDialog>
 #include <regex>
 
@@ -15,8 +20,11 @@ class Chatbot : public QDialog
 public:
     explicit Chatbot(QWidget *parent = nullptr);
     ~Chatbot();
-    void SimpleChatbot();
+    void SimpleChatbot(QTextEdit* prompt, QTextEdit* reply);
     std::string getResponse(const std::string& userInput);
+    void updateChat(const QString& userInput, QTextEdit* prompt, QTextEdit* reply);
+    void onUserInputReceived(const QString& userInput, QTextEdit* prompt, QTextEdit* reply);
+    void showBotImage();
 private:
     Ui::Chatbot *ui;
     //std::string responses ;
