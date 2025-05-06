@@ -23,6 +23,7 @@ private slots:
     void on_lineEdit_rechercher_textChanged(const QString &text);
     void on_comboBox_tri_currentTextChanged(const QString &text);
     void on_buttonModifier_clicked();
+    void ExitDialog();
     void refreshtableView();
     void OuvrirAjouter();
     void setupDesign();

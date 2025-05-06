@@ -18,10 +18,9 @@ public:
     bool modifier(int id);
     static bool supprimer(int id);
     QSqlQueryModel* afficher(const QString &searchText, const QString &criterion, const QString &sortCriterion = "Id");
-    bool fetchMedecinById(int id, QString &nom, QString &specialite, QString &grade, QString &email,
-                          QString &telephone, QString &disponibilite, int &experience,
-                          QString &statut, QString &login, QString &mot_de_passe);
+    static Medecin fetchMedecinById(int id);
     bool verifierLogin(const QString &login, const QString &mot_de_passe);
+    static int GetLastID();
 
     int id_medecin;
     QString nom;
