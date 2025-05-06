@@ -16,14 +16,16 @@ class DialogListeMedecin : public QDialog
 public:
     explicit DialogListeMedecin(QWidget *parent = nullptr);
     ~DialogListeMedecin();
+
 private slots:
-    void on_pushButton_2_supprimer_clicked();
+    void on_buttonSupprimer_clicked();
     void on_lineEdit_rechercher_textChanged(const QString &text);
     void on_comboBox_tri_currentTextChanged(const QString &text);
-private:
-    Ui::DialogListeMedecin *ui;
+    void on_buttonModifier_clicked();
     void refreshtableView();
     void OuvrirAjouter();
+private:
+    Ui::DialogListeMedecin *ui;
 };
 
 

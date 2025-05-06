@@ -15,11 +15,22 @@ class ficheMedecin : public QDialog
 public:
     explicit ficheMedecin(QWidget *parent = nullptr);
     ~ficheMedecin();
+    Medecin GetResult() const { return result;};
+    //void Valider();
+    void Annuler();
+
+private slots:
+    void Operation(const QString &op);
+    void on_Pat_Button_Confirmer_clicked();
+    void on_pushButton_Confirmer_clicked();
 
 private:
     Ui::ficheMedecin *ui;
-    void on_pushButton3_ajouter_clicked();
-    void on_pushButton_modifier_clicked();
+    Medecin result;
+    QString operation_actuelle;
+    void ExitApp();
+
+
 };
 
 #endif // FICHEMEDECIN_H

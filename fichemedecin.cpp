@@ -1,4 +1,7 @@
 #include "fichemedecin.h"
+#include "medecin.h"
+#include "qsqlerror.h"
+#include "qsqlquery.h"
 #include "ui_fichemedecin.h"
 #include<QMessageBox>
 
@@ -7,114 +10,140 @@ ficheMedecin::ficheMedecin(QWidget *parent)
     , ui(new Ui::ficheMedecin)
 {
     ui->setupUi(this);
+
+    connect(ui->Confirmer,&QPushButton::clicked,this,&ficheMedecin::on_pushButton_Confirmer_clicked);
+    connect(ui->Retourner,&QPushButton::clicked,this,&ficheMedecin::ExitApp);
 }
 
 ficheMedecin::~ficheMedecin()
 {
     delete ui;
 }
-void ficheMedecin::on_pushButton3_ajouter_clicked()
+
+void ficheMedecin::Operation(const QString &op)
 {
-    qDebug() << "Bouton Ajouter pressé !";
+    operation_actuelle = op;
+}
 
-    QString idText = ui->lineEdit_3->text().trimmed();
-    QString nom = ui->lineEdit_4->text().trimmed();
-    QString specialite = ui->lineEdit_5->text().trimmed();
-    QString grade = ui->lineEdit_7->text().trimmed();
-    QString email = ui->lineEdit_6->text().trimmed();
-    QString telephone = ui->lineEdit_10->text().trimmed();
-    QString disponibilite = ui->lineEdit_12->text().trimmed();
-    QString experienceText = ui->lineEdit_9->text().trimmed();
-    QString statut = ui->lineEdit_8->text().trimmed();
-    QString login = ui->lineEdit_13->text().trimmed();
-    QString mot_de_passe = ui->lineEdit_11->text().trimmed();
-
-    QStringList emptyFields;
-    if (idText.isEmpty()) emptyFields << "ID";
-    if (nom.isEmpty()) emptyFields << "Nom";
-    if (specialite.isEmpty()) emptyFields << "Spécialité";
-    if (grade.isEmpty()) emptyFields << "Grade";
-    if (email.isEmpty()) emptyFields << "Email";
-    if (telephone.isEmpty()) emptyFields << "Téléphone";
-    if (disponibilite.isEmpty()) emptyFields << "Disponibilité";
-    if (experienceText.isEmpty()) emptyFields << "Expérience";
-    if (statut.isEmpty()) emptyFields << "Statut";
-    if (login.isEmpty()) emptyFields << "Login";
-    if (mot_de_passe.isEmpty()) emptyFields << "Mot de passe";
-
-    if (!emptyFields.isEmpty()) {
-        QMessageBox::warning(this, "Erreur de saisie", "Les champs suivants sont vides : " + emptyFields.join(", ") + " !");
-        return;
-    }
-
-    bool idOk, expOk;
-    int id_medecin = idText.toInt(&idOk);
-    int experience = experienceText.toInt(&expOk);
-
-    if (!idOk) {
-        QMessageBox::warning(this, "Erreur de saisie", "L'ID doit être un nombre entier valide !");
-        ui->lineEdit_3->setFocus();
-        return;
-    }
-
-    if (!expOk) {
-        QMessageBox::warning(this, "Erreur de saisie", "L'expérience doit être un nombre entier valide !");
-        ui->lineEdit_9->setFocus();
-        return;
-    }
-
-    Medecin M2(id_medecin, nom, specialite, grade, email, telephone, experience, statut, disponibilite, login, mot_de_passe);
-    bool test = M2.ajouter();
-    if (test) {
-        QMessageBox::information(this, "Succès", "Médecin ajouté avec succès !");
-        //refreshtableView();
+void ficheMedecin::on_Pat_Button_Confirmer_clicked()
+{
+    if (operation_actuelle == "Ajouter") {
+        // Ajouter le patient
+        QMessageBox::information(this, "Info", "Ajout effectué");
+        accept(); // Ferme le formulaire
+    } else if (operation_actuelle == "Modifier") {
+        // Modifier le patient
+        QMessageBox::information(this, "Info", "Modification effectuée");
+        accept(); // Ferme le formulaire
+    } else if (operation_actuelle == "Supprimer") {
+        // Supprimer le patient
+        QMessageBox::information(this, "Info", "Suppression effectuée");
     } else {
-        QMessageBox::critical(this, "Erreur", "Ajout non effectué !");
-        qDebug() << "Erreur lors de l'ajout du médecin.";
+        QMessageBox::warning(this, "Erreur", "Aucune opération définie !");
+    }
+
+}
+
+void ficheMedecin::on_pushButton_Confirmer_clicked()
+{
+    QSqlQuery query;
+
+    QString id = ui->lineEdit_3->text();
+    QString nom = ui->lineEdit_4->text();
+    QString specialite = ui->lineEdit_5->text();
+    QString grade = ui->lineEdit_6->text();
+    QString email = ui->lineEdit_7->text();
+    QString telephone = ui->lineEdit_8->text();
+    QString disponibilite = ui->lineEdit_9->text();
+    QString experience = ui->lineEdit_10->text();
+    QString statut = ui->lineEdit_11->text();
+    QString login = ui->lineEdit_12->text();
+    QString mot_de_passe = ui->lineEdit_13->text();
+
+    if (operation_actuelle == "Ajouter") {
+        query.prepare("INSERT INTO chercheur (ID_CHERCHEUR, NOM, SPECIALITE, GRADE, EMAIL, TELEPHONE, DISPONIBILITE, EXPERIENCE, STATUT, LOGIN, MOT_DE_PASSE, DROIT) "
+                      "VALUES (:id, :nom, :specialite, :grade, :email, :telephone, :disponibilite, :experience, :statut, :login, :mot_de_passe, 1)");
+    } else if (operation_actuelle == "Modifier") {
+        query.prepare("UPDATE chercheur SET NOM=:nom, SPECIALITE=:specialite, GRADE=:grade, EMAIL=:email, TELEPHONE=:telephone, "
+                      "DISPONIBILITE=:disponibilite, EXPERIENCE=:experience, STATUT=:statut, LOGIN=:login, "
+                      "MOT_DE_PASSE=:mot_de_passe, DROIT= 1 WHERE ID_CHERCHEUR=:id");
+    } else if (operation_actuelle == "Supprimer") {
+        query.prepare("DELETE FROM chercheur WHERE ID_CHERCHEUR=:id");
+    } else {
+        QMessageBox::warning(this, "Erreur", "Aucune opération définie !");
+        return;
+    }
+
+    if (operation_actuelle == "Modifier") {
+    query.prepare("UPDATE chercheur SET "
+                  "NOM = :nom, "
+                  "SPECIALITE = :specialite, "
+                  "GRADE = :grade, "
+                  "EMAIL = :email, "
+                  "TELEPHONE = :telephone, "
+                  "DISPONIBILITE = :disponibilite, "
+                  "EXPERIENCE = :experience, "
+                  "STATUT = :statut, "
+                  "LOGIN = :login, "
+                  "MOT_DE_PASSE = :mot_de_passe, "
+                  "DROIT = :droit "
+                  "WHERE ID_CHERCHEUR = :id");
+
+    query.bindValue(":id", id);
+    query.bindValue(":nom", nom);
+    query.bindValue(":specialite", specialite);
+    query.bindValue(":grade", grade);
+    query.bindValue(":email", email);
+    query.bindValue(":telephone", telephone);
+    query.bindValue(":disponibilite", disponibilite);
+    query.bindValue(":experience", experience);
+    query.bindValue(":statut", statut);
+    query.bindValue(":login", login);
+    query.bindValue(":mot_de_passe", mot_de_passe);
+    query.bindValue(":droit", 1);
+
+    if (query.exec()) {
+        QMessageBox::information(this, "Info", "Modification effectuée");
+        accept();
+    } else {
+        QMessageBox::critical(this, "Erreur", "Erreur lors de la modification : " + query.lastError().text());
     }
 }
-void ficheMedecin::on_pushButton_modifier_clicked()
-{
-    bool idOk, expOk;
-    int id_medecin = ui->lineEdit_3->text().toInt(&idOk);
-    QString nom, specialite, grade, email, telephone, disponibilite, statut, login, mot_de_passe;
-    int experience;
-
-    if (!idOk) {
-        QMessageBox::warning(this, "Erreur de saisie", "Veuillez entrer un ID valide !");
-        return;
+    if(operation_actuelle != "Supprimer") {
+        query.bindValue(":nom", nom);
+        query.bindValue(":specialite", specialite);
+        query.bindValue(":grade", grade);
+        query.bindValue(":email", email);
+        query.bindValue(":telephone", telephone);
+        query.bindValue(":disponibilite", disponibilite);
+        query.bindValue(":experience", experience);
+        query.bindValue(":statut", statut);
+        query.bindValue(":login", login);
+        query.bindValue(":mot_de_passe", mot_de_passe);
+        query.bindValue(":droit", 1);
     }
+    query.bindValue(":id", id);
 
-    Medecin M;
-    if (M.fetchMedecinById(id_medecin, nom, specialite, grade, email, telephone, disponibilite, experience, statut, login, mot_de_passe)) {
-        nom = ui->lineEdit_4->text();
-        specialite = ui->lineEdit_5->text();
-        grade = ui->lineEdit_7->text();
-        email = ui->lineEdit_6->text();
-        telephone = ui->lineEdit_10->text();
-        disponibilite = ui->lineEdit_12->text();
-        experience = ui->lineEdit_9->text().toInt(&expOk);
-        statut = ui->lineEdit_8->text();
-        login = ui->lineEdit_13->text();
-        mot_de_passe = ui->lineEdit_11->text();
-
-        if (!expOk) {
-            QMessageBox::warning(this, "Erreur de saisie", "Veuillez entrer une expérience valide !");
-            return;
-        }
-
-        Medecin updatedMedecin(id_medecin, nom, specialite, grade, email, telephone, experience, statut, disponibilite, login, mot_de_passe);
-        bool success = updatedMedecin.modifier(id_medecin);
-        if (success) {
-            QMessageBox::information(this, "Succès", "Médecin modifié avec succès !");
-            qDebug() << "Le médecin a été modifié avec succès.";
-            //refreshtableView();
-        } else {
-            QMessageBox::critical(this, "Erreur", "Échec de la modification du médecin.");
-            qDebug() << "Erreur lors de la modification du médecin.";
-        }
+    // Execute and show result
+    if (query.exec()) {
+        QString msg = (operation_actuelle == "Ajouter") ? "Ajout effectué" :
+                          (operation_actuelle == "Modifier") ? "Modification effectuée" :
+                          "Suppression effectuée";
+        QMessageBox::information(this, "Info", msg);
+        accept(); // Ferme le formulaire
     } else {
-        QMessageBox::warning(this, "Erreur", "Médecin non trouvé avec cet ID.");
+        QMessageBox::critical(this, "Erreur", "Erreur SQL : " + query.lastError().text());
     }
+
+    close();
 }
+
+void ficheMedecin::Annuler() {
+    result.id_medecin = -1;  // Utilise le vrai nom du setter ici
+    close();
+}
+void ficheMedecin::ExitApp(){
+    close();
+}
+
 

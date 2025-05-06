@@ -4,6 +4,7 @@
 #include "ui_mainwindow.h"
 #include <QDialog>
 #include "dialoglistepatient.h"
+#include "dialoglistemedecin.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -29,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ButtonCalendrier->setHidden(true);
     ui->ButtonConsultationStock->setHidden(true);
     ui->ButtonStatistique->setHidden(true);
+    ui->ButtonListeMedecin->setHidden(true);
 
     bool Connected;
     Connected = Cnx.CreateConnexion();
@@ -117,6 +119,7 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
         ui->ButtonCalendrier->setHidden(false);
         ui->ButtonConsultationStock->setHidden(false);
         ui->ButtonStatistique->setHidden(false);
+        ui->ButtonListeMedecin->setHidden(false);
         break;
     case LogInDialog::Result::Doctor:
         ui->ButtonParametre->setHidden(false);

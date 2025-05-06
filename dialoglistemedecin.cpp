@@ -1,45 +1,90 @@
 #include "dialoglistemedecin.h"
+#include "qsqlerror.h"
+#include "qsqlquery.h"
+#include "qtablewidget.h"
 #include "ui_dialoglistemedecin.h"
 #include<QMessageBox>
+#include "fichemedecin.h"
+#include <QDialog>
+#include "QTableView"
 
 DialogListeMedecin::DialogListeMedecin(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::DialogListeMedecin)
 {
     ui->setupUi(this);
-      connect(ui->pushButton,&QPushButton::clicked,this,&DialogListeMedecin::OuvrirAjouter);
+    connect(ui->Ajoutermed,&QPushButton::clicked,this,&::DialogListeMedecin::on_buttonModifier_clicked);
+    connect(ui->Supprimermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonModifier_clicked);
+    connect(ui->Modifiermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonSupprimer_clicked);
 }
 
 DialogListeMedecin::~DialogListeMedecin()
 {
     delete ui;
 }
-void DialogListeMedecin::OuvrirAjouter(){
-    ficheMedecin *NewDialog = new ficheMedecin();
-    NewDialog->exec();
+void DialogListeMedecin::OuvrirAjouter() {
+    ficheMedecin *NewDialog = new ficheMedecin(this);  // Set parent for cleanup
+    if (NewDialog->exec() == QDialog::Accepted) {
+        Medecin result = NewDialog->GetResult();  // Get the Medecin object from the form
+    }
+
+    delete NewDialog;  // Clean up memory
 }
 
-void DialogListeMedecin::on_pushButton_2_supprimer_clicked()
+void DialogListeMedecin::on_buttonModifier_clicked()
 {
-    bool idOk;
-    int id_cherch = ui->lineEdit_2->text().toInt(&idOk);
+    ficheMedecin *dialog = new ficheMedecin(this);
+    dialog->exec();
+    //delete dialog;
+}
 
-    if (!idOk) {
-        QMessageBox::warning(this, "Erreur", "Veuillez entrer un ID valide !");
+void DialogListeMedecin::on_buttonSupprimer_clicked()
+{
+    QModelIndex index = ui->tableview->currentIndex();
+    int row = index.row();
+
+    if (row < 0) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner un médecin à supprimer.");
         return;
     }
 
-    Medecin M;
-    bool success = M.supprimer(id_cherch);
-    if (success) {
-        QMessageBox::information(this, "Succès", "Médecin supprimé avec succès !");
-        qDebug() << "Médecin supprimé avec succès.";
-        refreshtableView();
-    } else {
-        QMessageBox::critical(this, "Erreur", "Échec de la suppression du médecin.");
-        qDebug() << "Erreur lors de la suppression du médecin.";
+    // Supposons que la colonne 0 contient l'ID du médecin
+    int idMedecin = ui->tableview->model()->index(row, 0).data().toInt();
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirmation", "Êtes-vous sûr de vouloir supprimer ce médecin ?",
+                                  QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::Yes) {
+        if (Medecin::supprimer(idMedecin)) {
+           // FillTable(ui->comboBox_tri, ui->comboBox_tri());
+        }
     }
+
 }
+//void DialogListeMedecin::on_pushButton_2_supprimer_clicked()
+//{
+   // bool idOk;
+    //int id_cherch = ui->lineEdit_2->text().toInt(&idOk);
+
+    //if (!idOk) {
+      //  QMessageBox::warning(this, "Erreur", "Veuillez entrer un ID valide !");
+        //return;
+    //}
+
+    //QSqlQuery query;
+    //query.prepare("DELETE FROM MEDECIN WHERE ID_MEDECIN = :id");
+    //query.bindValue(":id", id_cherch);
+
+    //if (query.exec()) {
+      //  QMessageBox::information(this, "Succès", "Médecin supprimé avec succès !");
+      //  qDebug() << "Médecin supprimé avec succès.";
+        //refreshtableView(); // Recharge les données de la table
+    //} else {
+      //  QMessageBox::critical(this, "Erreur", "Échec de la suppression du médecin.");
+        //qDebug() << "Erreur lors de la suppression du médecin : " << query.lastError().text();
+    //}
+//}
 void DialogListeMedecin::refreshtableView()
 {
     Medecin medecin;
@@ -51,7 +96,7 @@ void DialogListeMedecin::refreshtableView()
     QSqlQueryModel* model = medecin.afficher(searchText, criterion, sortCriterion);
 
     if (model) {
-        ui->tableView->setModel(model);
+        ui->tableview->setModel(model);
 
         model->setHeaderData(0, Qt::Horizontal, tr("ID Médecin"));
         model->setHeaderData(1, Qt::Horizontal, tr("Nom"));
@@ -65,7 +110,7 @@ void DialogListeMedecin::refreshtableView()
         model->setHeaderData(9, Qt::Horizontal, tr("Login"));
         model->setHeaderData(10, Qt::Horizontal, tr("Mot de Passe"));
 
-        ui->tableView->resizeColumnsToContents();
+        ui->tableview->resizeColumnsToContents();
         qDebug() << "Table view updated successfully. Rows displayed:" << model->rowCount();
 
         if (model->rowCount() == 0) {
@@ -126,3 +171,4 @@ void DialogListeMedecin::on_comboBox_tri_currentTextChanged(const QString &text)
 //         qDebug() << "Erreur : tableView_3 n'est pas trouvé dans l'onglet tab_4.";
 //     }
 // }
+
