@@ -17,10 +17,10 @@ Connection::Connection() {
    db.setPassword("1234");
 
     //islem
-//    db = QSqlDatabase::addDatabase("QODBC");
-//    db.setDatabaseName("Source_Projet2A");
-//    db.setUserName("System");
-//    db.setPassword("1234");
+    db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("Source_Projet2A");
+    db.setUserName("System");
+    db.setPassword("1234");
 
     //sarah
     //db = QSqlDatabase::addDatabase("QODBC");

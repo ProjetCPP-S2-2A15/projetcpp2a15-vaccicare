@@ -12,6 +12,7 @@
 #include <QFileInfo>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QSqlError>
 
 namespace Ui {
 class HistoriqueVaccinDialog;
@@ -24,7 +25,6 @@ class HistoriqueVaccinDialog : public QDialog
 public:
     explicit HistoriqueVaccinDialog(QWidget *parent = nullptr);
     ~HistoriqueVaccinDialog();
-
     typedef struct VaccinSnapshot {
             QString nom;
             int idTypeV;
@@ -39,16 +39,16 @@ public:
         }VaccinSnapshot;
 
     QMap<int, VaccinSnapshot> copieInitialeVaccins;
-
 private:
     Ui::HistoriqueVaccinDialog *ui;
     void CloseDialog();
-    void chargerHistoriqueDepuisFichier();
-    QString genererHistorique(int id, const VaccinSnapshot &nouveau);
-    void ajouterHistoriqueDansTable(int id, int ancienStock, int nouveauStock);
-    void on_btnOuvrirDossier_clicked();
+//    void chargerHistoriqueDepuisFichier();
+//    QString genererHistorique(int id, const VaccinSnapshot &nouveau);
+//    void ajouterHistoriqueDansTable(int id, int ancienStock, int nouveauStock);
+//    void on_btnOuvrirDossier_clicked();
 
     void setupDesign();
+    void chargerHistorique();
 };
 
 #endif // HISTORIQUEVACCINDIALOG_H

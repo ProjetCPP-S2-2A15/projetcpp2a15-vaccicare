@@ -111,6 +111,7 @@ bool Vaccin::ajouter() {
 }
 
 bool Vaccin::modifier() {
+    int LastStock = getStock(id);
     QString erreur;
     if (!verifierSaisie(erreur)) {
         QMessageBox::warning(NULL, "Echoué", erreur);
@@ -130,7 +131,15 @@ bool Vaccin::modifier() {
     query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption));
     query.bindValue(":autorisation", autorisation);
 
-    return query.exec();
+    bool execbool;
+    execbool = query.exec();
+
+    if(LastStock != stockDisponible){
+        AddHistorique(id,stockDisponible,LastStock,Date::GetTodayDate());
+    }else{
+        return execbool;
+    }
+    return execbool;
 }
 
 bool Vaccin::supprimer(int id) {
@@ -376,4 +385,29 @@ int Vaccin::GetLastID(){
     }
 
     return 0;  // If no rows exist, return 0
+}
+
+
+QAbstractItemModel* Vaccin::GetDataForPDF(){
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM VACCIN WHERE ID_VACCIN > 0");
+
+    if (model->lastError().isValid()) {
+        qDebug() << "Query Error:" << model->lastError().text();
+    }
+
+    return model;
+}
+
+void Vaccin::AddHistorique(int id,int newstock,int oldstock, int date){
+    QSqlQuery query;
+    query.prepare("INSERT INTO HISTORIQUE_STOCK_VACCIN (ID_VACCIN,DATE_CHANGEMENT,ANCIEN_STOCK,NOUVEAU_STOCK) "
+                  "VALUES (:id,:date,:ancien,:nouveau)");
+
+    query.bindValue(":id", id);
+    query.bindValue(":date", date);
+    query.bindValue(":ancien", oldstock);
+    query.bindValue(":nouveau", newstock);
+
+    query.exec();
 }

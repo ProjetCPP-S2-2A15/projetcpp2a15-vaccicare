@@ -6,6 +6,7 @@
 #include <QSqlQueryModel>
 #include <QTableView>
 #include <QDate>
+#include <QDebug>
 
 class Patient
 {
@@ -50,6 +51,7 @@ public:
     QSqlQueryModel* Afficher_Tri_GROUPE_SANGUIN();
     void clearTable(QTableView *table);
     void Recherche(QTableView *table, QString x);
+    static QAbstractItemModel* GetDataForPDF();
 
 private:
     int ID_PATIENT;

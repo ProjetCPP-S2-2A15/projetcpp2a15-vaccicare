@@ -69,22 +69,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::setupDesign() {
-
-    StyleButtonDarkblue(ui->ButtonParametre);
-    StyleButtonGreen(ui->ButtonListeMedecin);
-    StyleButtonRed(ui->ButtonListeProjet);
-    StyleButtonBlue(ui->ButtonPatient);
-    StyleButtonGreen(ui->ButtonConsultationStock);
-    StyleButtonRed(ui->ButtonCalendrier);
-    StyleButtonBlue(ui->ButtonStatistique);
-    StyleButtonDarkred(ui->ButtonExit);
-}
-
 
 void MainWindow::OuvrirParametre() {}
 
-void MainWindow::OuvrirStatistique() {}
+void MainWindow::OuvrirStatistique(){
+
+}
 
 void MainWindow::OuvrirResource(){
     Dialoglisteressources *NewDialog = new Dialoglisteressources();
@@ -140,9 +130,15 @@ void MainWindow::OuvrirListeMedecin()
 void MainWindow::showLoginDialog()
 {
     LogInDialog *NewLogInDialog = new LogInDialog(this);
-    NewLogInDialog->exec();
+    int result = NewLogInDialog->exec();
 
     CurrUser = NewLogInDialog->getResult();
+
+    if (result == QDialog::Rejected) {
+            // Dialog was closed with 'X' or cancel
+            close();
+            return;
+        }
 
     if (CurrUser.Droit == LogInDialog::Result::Canceled) {
         close();
@@ -205,4 +201,21 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::OuvrirImportPDF(){
     DialogChoixTypeImportPDF *NewDialog = new DialogChoixTypeImportPDF(this);
     NewDialog->exec();
+}
+
+void MainWindow::setupDesign(){
+
+    StyleButtonGreen(ui->ButtonParametre);
+
+    StyleButtonDarkblue(ui->ButtonListeMedecin);
+    StyleButtonDarkblue(ui->ButtonListeProjet);
+    StyleButtonDarkblue(ui->ButtonPatient);
+    StyleButtonDarkblue(ui->ButtonConsultationStock);
+    StyleButtonDarkblue(ui->ButtonCalendrier);
+    StyleButtonDarkblue(ui->ButtonStatistique);
+    StyleButtonDarkblue(ui->ButtonImport);
+
+    StyleButtonGreen(ui->ButtonChat);
+    StyleButtonDarkred(ui->ButtonExit);
+
 }

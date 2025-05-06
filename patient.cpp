@@ -189,3 +189,14 @@ void Patient::Recherche(QTableView *table, QString x)
     table->setModel(model);
     table->show();
 }
+
+QAbstractItemModel* Patient::GetDataForPDF(){
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM PATIENT WHERE ID_PATIENT > 0");
+
+    if (model->lastError().isValid()) {
+        qDebug() << "Query Error:" << model->lastError().text();
+    }
+
+    return model;
+}
