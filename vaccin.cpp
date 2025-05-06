@@ -244,7 +244,7 @@ std::vector<Vaccin> Vaccin::rechercherParNom(const QString &nomRecherche) {
     std::vector<Vaccin> resultatsn;
 
     QSqlQuery query;
-    QString requete = "SELECT * FROM VACCIN WHERE NOM = '" + nomRecherche + "'";
+    QString requete = "SELECT * FROM VACCIN WHERE LOWER(NOM) LIKE '%" +nomRecherche.toLower() +"%'";
     query.exec(requete);
 
     while (query.next()) {
@@ -271,11 +271,9 @@ std::vector<Vaccin> Vaccin::rechercherParPays(const QString &paysRecherche) {
     std::vector<Vaccin> resultats;
 
     QSqlQuery query;
-    QString requete = "SELECT * FROM VACCIN WHERE PAYS_ORIGINE = '" + paysRecherche + "'";
-    query.exec(requete);
 
-    //query.prepare("SELECT * FROM VACCIN WHERE LOWER(PAYS_ORIGINE) LIKE LOWER(:paysRecherche)");
-    //query.bindValue(":paysRecherche", "%" + paysRecherche + "%");
+    query.prepare("SELECT * FROM VACCIN WHERE LOWER(PAYS_ORIGINE) LIKE '%" +paysRecherche.toLower() +"%'");
+    query.exec();
 
     while (query.next()) {
         Vaccin v;
