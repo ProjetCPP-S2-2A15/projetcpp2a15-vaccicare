@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonStatistique,&QPushButton::clicked,this,&MainWindow::OuvrirStatistique);
     connect(ui->ButtonPatient,&QPushButton::clicked,this,&MainWindow::OuvrirPatient);
 
+    this->setStyleSheet("QMainWindow { background-image: url(:/picture/background vaccicare.png); background-repeat: no-repeat; background-position: center; }");
 
     ui->ButtonPatient->setHidden(true);
     ui->ButtonParametre->setHidden(true);
@@ -48,7 +49,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::OuvrirParametre(){}
 
 void MainWindow::OuvrirStatistique(){}
@@ -58,7 +58,6 @@ void MainWindow::OuvrirResource(){
 }
 
 void MainWindow::OuvrirStockVaccin(){
-    QMessageBox::warning(this, "Erreur", "Vacc");
     ListeVaccinDialog *NewDialog = new ListeVaccinDialog();
     NewDialog->exec();
 }
@@ -94,7 +93,6 @@ void MainWindow::OuvrirListeMedecin(){
     DialogListeMedecin *NewDialog = new DialogListeMedecin();
     NewDialog->exec();
 }
-
 
 void MainWindow::showLoginDialog(){
     LogInDialog *NewLogInDialog = new LogInDialog(this);

@@ -17,9 +17,14 @@ SOURCES += \
     dialogformpatient.cpp \
     dialogchoixstock.cpp \
     dialoglistepatient.cpp \
+    ##dialogpatientin.cpp \
+    dialoglistemedecin.cpp\
     experience.cpp \
     ficheepreience.cpp \
     ficheprojet.cpp \
+    fichemedecin.cpp\
+    fichevaccin.cpp \
+    historiquevaccindialog.cpp \
     listeprojetdialog.cpp \
     listevaccindialog.cpp \
     logindialog.cpp \
@@ -31,9 +36,10 @@ SOURCES += \
     projet.cpp \
     resources.cpp \
     selectprojectdialog.cpp \
-    vaccin.cpp \
     dialoglistemedecin.cpp \
-    fichemedecin.cpp
+    fichemedecin.cpp\
+    smtp.cpp \
+    vaccin.cpp
 
 HEADERS += \
     Design.h \
@@ -43,9 +49,14 @@ HEADERS += \
     dialogformpatient.h \
     dialogchoixstock.h \
     dialoglistepatient.h \
+    ##dialogpatientin.h \
+    dialoglistemedecin.h\
     experience.h \
     ficheepreience.h \
     ficheprojet.h \
+    fichemedecin.h\
+    fichevaccin.h \
+    historiquevaccindialog.h \
     listeprojetdialog.h \
     listevaccindialog.h \
     logindialog.h \
@@ -56,17 +67,23 @@ HEADERS += \
     projet.h \
     resources.h \
     selectprojectdialog.h \
-    vaccin.h \
     dialoglistemedecin.h \
-    fichemedecin.h
+    fichemedecin.h\
+    smtp.h \
+    vaccin.h
 
 FORMS += \
     calendrierdialog.ui \
     dialogformpatient.ui \
     dialogchoixstock.ui \
     dialoglistepatient.ui \
+    dialoglistemedecin.ui\
+    ##dialogpatientin.ui \
     ficheepreience.ui \
     ficheprojet.ui \
+    fichemedecin.ui\
+    fichevaccin.ui \
+    historiquevaccindialog.ui \
     listeprojetdialog.ui \
     listevaccindialog.ui \
     logindialog.ui \

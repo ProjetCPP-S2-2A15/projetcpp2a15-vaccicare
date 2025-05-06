@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QDate>
+#include <QMap>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include "QMessageBox"
@@ -13,6 +14,7 @@ private:
 
 
 public:
+
     int id;
     QString nom;
     int idTypeV;
@@ -20,7 +22,7 @@ public:
     QString statutDev;
     QDate dateDev;
     QString paysOrigine;
-    float tempConservation;
+    int tempConservation;
     int stockDisponible;
     QDate datePeremption;
     QString autorisation;
@@ -35,14 +37,15 @@ public:
     static std::vector<Vaccin> rechercherParPays(const QString &paysRecherche);
     static int getTypeVaccinId(const QString& typeName);
     static QString getTypeVaccinName(int idTypeV);
+    static int GetLastID();
 
-    bool supprimer(int);
+    static Vaccin GetVaccinFromDb(int Id_Vaccin);
+    static bool supprimer(int id);
     bool modifier();
     bool existe(int id);
     bool verifierSaisie(QString &messageErreur);
 
     int getStock(int id);
-
 
 
 };

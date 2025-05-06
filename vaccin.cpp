@@ -1,6 +1,7 @@
 #include "vaccin.h"
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QDebug>
 
 Vaccin::Vaccin() {}
 
@@ -93,16 +94,17 @@ bool Vaccin::ajouter() {
     QSqlQuery query;
     query.prepare("INSERT INTO VACCIN (ID_VACCIN, NOM, ID_TYPE_VACCIN, AGENT_CIBLE, STATUT_DEVELOPPEMENT, DATE_DEVELOPPEMENT, PAYS_ORIGINE, TEMP_CONSERVATION, STOCK_DISPONIBLE, DATE_PEREMPTION, AUTORISATION) "
                   "VALUES (:id, :nom, :idTypeV, :agentCible, :statutDev, :dateDev, :paysOrigine, :tempConservation, :stockDisponible, :datePeremption, :autorisation)");
+
     query.bindValue(":id", id);
     query.bindValue(":nom", nom);
     query.bindValue(":idTypeV", idTypeV);
     query.bindValue(":agentCible", agentCible);
     query.bindValue(":statutDev", statutDev);
-    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev.toString("dd/MM/yyyy")));
+    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev));
     query.bindValue(":paysOrigine", paysOrigine);
     query.bindValue(":tempConservation", tempConservation);
     query.bindValue(":stockDisponible", stockDisponible);
-    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption.toString("dd/MM/yyyy")));
+    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption));
     query.bindValue(":autorisation", autorisation);
 
     return query.exec();
@@ -121,11 +123,11 @@ bool Vaccin::modifier() {
     query.bindValue(":idTypeV", idTypeV);
     query.bindValue(":agentCible", agentCible);
     query.bindValue(":statutDev", statutDev);
-    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev.toString("dd/MM/yyyy")));
+    query.bindValue(":dateDev", Date::ConvertDateToInt(dateDev));
     query.bindValue(":paysOrigine", paysOrigine);
     query.bindValue(":tempConservation", tempConservation);
     query.bindValue(":stockDisponible", stockDisponible);
-    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption.toString("dd/MM/yyyy")));
+    query.bindValue(":datePeremption", Date::ConvertDateToInt(datePeremption));
     query.bindValue(":autorisation", autorisation);
 
     return query.exec();
@@ -242,7 +244,7 @@ std::vector<Vaccin> Vaccin::rechercherParNom(const QString &nomRecherche) {
     std::vector<Vaccin> resultatsn;
 
     QSqlQuery query;
-    QString requete = "SELECT * FROM VACCIN WHERE NOM = '" + nomRecherche + "'";
+    QString requete = "SELECT * FROM VACCIN WHERE LOWER(NOM) LIKE '%" +nomRecherche.toLower() +"%'";
     query.exec(requete);
 
     while (query.next()) {
@@ -269,16 +271,9 @@ std::vector<Vaccin> Vaccin::rechercherParPays(const QString &paysRecherche) {
     std::vector<Vaccin> resultats;
 
     QSqlQuery query;
-    QString requete = "SELECT * FROM VACCIN WHERE PAYS_ORIGINE = '" + paysRecherche + "'";
-    query.exec(requete);
 
-    //query.prepare("SELECT * FROM VACCIN WHERE LOWER(PAYS_ORIGINE) LIKE LOWER(:paysRecherche)");
-    //query.bindValue(":paysRecherche", "%" + paysRecherche + "%");
-
-    /*if (!query.exec()) {
-        qDebug() << "Erreur lors de la recherche par pays:" << query.lastError().text();
-        return resultats;
-    }*/
+    query.prepare("SELECT * FROM VACCIN WHERE LOWER(PAYS_ORIGINE) LIKE '%" +paysRecherche.toLower() +"%'");
+    query.exec();
 
     while (query.next()) {
         Vaccin v;
@@ -340,21 +335,45 @@ int Vaccin::getTypeVaccinId(const QString& typeName) {
     return -1;  // Si aucun résultat n'est trouvé
 }
 
+Vaccin Vaccin::GetVaccinFromDb(int Id_Vaccin){
+
+    QSqlQuery query;
+    QString requete = "SELECT * FROM VACCIN WHERE ID_VACCIN =:id ";
+    query.prepare(requete);
+    query.bindValue(":id",Id_Vaccin);
+    query.exec();
+
+    query.next();
+    Vaccin v;
+    v.id = query.value("ID_VACCIN").toInt();
+    v.nom = query.value("NOM").toString();
+    v.idTypeV = query.value("ID_TYPE_VACCIN").toInt();
+    v.agentCible = query.value("AGENT_CIBLE").toString();
+    v.statutDev = query.value("STATUT_DEVELOPPEMENT").toString();
+    v.dateDev = Date::ConvertIntToDate(query.value("DATE_DEVELOPPEMENT").toInt());
+    v.paysOrigine = query.value("PAYS_ORIGINE").toString();
+    v.tempConservation = query.value("TEMP_CONSERVATION").toFloat();
+    v.stockDisponible = query.value("STOCK_DISPONIBLE").toInt();
+    v.datePeremption = Date::ConvertIntToDate(query.value("DATE_PEREMPTION").toInt());
+    v.autorisation = query.value("AUTORISATION").toString();
 
 
 
+    return v;
+}
 
+int Vaccin::GetLastID(){
+    QSqlQuery Querry;
+    Querry.prepare("Select MAX(ID_VACCIN) FROM VACCIN;");
+    Querry.exec();
 
+    if (Querry.next()) {  // Move to the first row
+        QVariant result = Querry.value(0);
+        if (result.isNull()) {
+            return 0;  // Return 0 if the table is empty
+        }
+        return result.toInt();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
+    return 0;  // If no rows exist, return 0
+}

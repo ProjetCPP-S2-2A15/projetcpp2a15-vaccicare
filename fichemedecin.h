@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "medecin.h"
+#include <QDebug>
 
 namespace Ui {
 class ficheMedecin;
