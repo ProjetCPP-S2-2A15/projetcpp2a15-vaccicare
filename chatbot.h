@@ -21,6 +21,7 @@ private:
     Ui::Chatbot *ui;
     //std::string responses ;
     std::vector<std::pair<std::regex, std::string>> responses;
+    void ExitApp();
 
 };
 

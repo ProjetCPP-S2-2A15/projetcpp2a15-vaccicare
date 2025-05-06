@@ -52,3 +52,7 @@ std::string Chatbot::getResponse(const std::string& userInput) {
 
     return "I'm sorry, I don't understand. Can you rephrase that?";
 }
+
+void Chatbot::ExitApp(){
+    close();
+}
