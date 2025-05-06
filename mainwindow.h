@@ -14,6 +14,7 @@
 #include "dialoglistemedecin.h"
 #include "fichemedecin.h"
 #include "dialoglistepatient.h"
+#include "dialogchoixtypeimportpdf.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -45,6 +46,7 @@ private:
     void OuvrirStatistique();
     void OuvrirPatient();
     void OuvrirChoixStock();
+    void OuvrirImportPDF();
 
     void setupDesign();
 
