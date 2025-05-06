@@ -25,6 +25,8 @@ private:
     Ui::DialogListeMedecin *ui;
     void refreshtableView();
     void OuvrirAjouter();
+
+    void setupDesign();
 };
 
 

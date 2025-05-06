@@ -33,15 +33,15 @@ ListeProjetDialog::~ListeProjetDialog()
 
 void ListeProjetDialog::SetupDesign(){
 
-    //Design For Buttons
-    StyleButton(ui->ButtonAjouter);
-    StyleButton(ui->ButtonModifier);
-    StyleButton(ui->ButtonSupprimer);
-    StyleButton(ui->ButtonCloturer);
-    StyleButton(ui->ButtonExport);
-    StyleButton(ui->ButtonRechercher);
-    StyleButton(ui->ButtonStatistics);
-    StyleButton(ui->ButtonExit);
+    // //Design For Buttons
+    // StyleButton(ui->ButtonAjouter);
+    // StyleButton(ui->ButtonModifier);
+    // StyleButton(ui->ButtonSupprimer);
+    // StyleButton(ui->ButtonCloturer);
+    // StyleButton(ui->ButtonExport);
+    // StyleButton(ui->ButtonRechercher);
+    // StyleButton(ui->ButtonStatistics);
+    // StyleButton(ui->ButtonExit);
 
     //Design For Labels
     StyleLabel(ui->label);

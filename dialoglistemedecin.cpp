@@ -1,5 +1,6 @@
 #include "dialoglistemedecin.h"
 #include "ui_dialoglistemedecin.h"
+#include "Design.h"
 #include<QMessageBox>
 
 DialogListeMedecin::DialogListeMedecin(QWidget *parent)
@@ -8,12 +9,35 @@ DialogListeMedecin::DialogListeMedecin(QWidget *parent)
 {
     ui->setupUi(this);
       connect(ui->pushButton,&QPushButton::clicked,this,&DialogListeMedecin::OuvrirAjouter);
+
+    setupDesign();
+
 }
 
 DialogListeMedecin::~DialogListeMedecin()
 {
     delete ui;
 }
+
+void DialogListeMedecin::setupDesign()
+{
+    StyleLabel(ui->label);
+    StyleLabel(ui->label_3);
+    StyleLabel(ui->label_4);
+
+    StyleLineEdit(ui->lineEdit_rechercher);
+    StyleLineEdit(ui->lineEdit_2);
+
+    StyleComboBox(ui->comboBox);
+    StyleComboBox(ui->comboBox_tri);
+
+    StyleButtonGreen(ui->pushButton);
+    StyleButtonRed(ui->pushButton_2);
+    StyleButtonDarkblue(ui->pushButton_5);
+
+    StyleTableView(ui->tableView);
+}
+
 void DialogListeMedecin::OuvrirAjouter(){
     ficheMedecin *NewDialog = new ficheMedecin();
     NewDialog->exec();

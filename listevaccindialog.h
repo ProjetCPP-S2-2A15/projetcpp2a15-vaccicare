@@ -27,6 +27,8 @@ private:
     void on_ModifierButton_clicked();
     void on_SupprimerButton_clicked();
 
+    void setupDesign();
+
 };
 
 #endif // LISTEVACCINDIALOG_H

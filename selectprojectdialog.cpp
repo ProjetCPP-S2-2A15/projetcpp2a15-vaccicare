@@ -1,5 +1,6 @@
 #include "selectprojectdialog.h"
 #include "ui_selectprojectdialog.h"
+#include "Design.h"
 
 SelectProjectDialog::SelectProjectDialog(QWidget *parent, std::vector<Projet> ListeProjet)
     : QDialog(parent),
@@ -19,11 +20,23 @@ SelectProjectDialog::SelectProjectDialog(QWidget *parent, std::vector<Projet> Li
         ui->tableWidget->setItem(i, 0, new QTableWidgetItem(m_projets[i].Data.ID_Projet));
         ui->tableWidget->setItem(i, 1, new QTableWidgetItem(m_projets[i].Data.Nom));
     }
+
+    setupDesign();
 }
 
 SelectProjectDialog::~SelectProjectDialog()
 {
     delete ui;
+}
+
+void SelectProjectDialog::setupDesign()
+{
+
+    StyleButtonDarkred(ui->ButtonExit);
+
+    StyleTableWidget(ui->tableWidget);
+
+
 }
 
 Projet SelectProjectDialog::GetProjectSelected() const {

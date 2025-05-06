@@ -18,8 +18,8 @@ FicheProjet::~FicheProjet()
 
 void FicheProjet::SetupDesign(){
     // Design For Buttons
-    StyleButton(ui->buttonBox->button(QDialogButtonBox::Ok));
-    StyleButton(ui->buttonBox->button(QDialogButtonBox::Cancel));
+    StyleButtonGreen(ui->buttonBox->button(QDialogButtonBox::Ok));
+    StyleButtonRed(ui->buttonBox->button(QDialogButtonBox::Cancel));
 
     //Design For Lables
     StyleLabel(ui->labelProjectID_4);

@@ -12,7 +12,8 @@
 #include "dialogchoixstock.h"
 #include "listevaccindialog.h"
 #include "dialoglistemedecin.h"
-#include"fichemedecin.h"
+#include "fichemedecin.h"
+#include "dialoglistepatient.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,7 @@ public:
 
 private slots:
     void showLoginDialog();
+
 private:
     LogInDialog::User CurrUser;
     void SetUpUIForUser(LogInDialog::Result CurrUser);
@@ -43,5 +45,9 @@ private:
     void OuvrirStatistique();
     void OuvrirPatient();
     void OuvrirChoixStock();
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
 };
+
 #endif // MAINWINDOW_H

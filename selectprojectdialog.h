@@ -23,6 +23,8 @@ private:
     Projet m_selectedProject;
     void onTableRowSelected(int row);
     void CloseDialog();
+
+    void setupDesign();
 };
 
 #endif // SELECTPROJECTDIALOG_H

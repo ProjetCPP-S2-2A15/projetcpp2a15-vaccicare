@@ -1,5 +1,6 @@
 #include "listevaccindialog.h"
 #include "ui_listevaccindialog.h"
+#include "Design.h"
 
 ListeVaccinDialog::ListeVaccinDialog(QWidget *parent) :
     QDialog(parent),
@@ -15,11 +16,39 @@ ListeVaccinDialog::ListeVaccinDialog(QWidget *parent) :
     connect(ui->pushButton_rechercherPays, &QPushButton::clicked, this, &ListeVaccinDialog::on_PushButton_rechercherPays_clicked);
 
     SetupTable();
+    setupDesign();
+
 }
 
 ListeVaccinDialog::~ListeVaccinDialog()
 {
     delete ui;
+}
+
+void ListeVaccinDialog::setupDesign()
+{
+
+    StyleLineEdit(ui->lineEditSnom);
+    StyleLineEdit(ui->lineEditSpays);
+
+    StyleLabel(ui->label_11);
+    StyleLabel(ui->label_12);
+
+
+    StyleCheckBox(ui->checkBox_tri_DD);
+    StyleCheckBox(ui->checkBox_tri_DPrem);
+
+    StyleButtonGreen(ui->PushButtonAjouter);
+    StyleButtonRed(ui->PushButtonModifier);
+    StyleButtonRed(ui->PushButtonRefresh);
+    StyleButtonRed(ui->PushButtonSupprimer);
+
+    StyleButtonRed(ui->pushButton_rechercherNom);
+    StyleButtonRed(ui->pushButton_rechercherPays);
+
+    StyleTableWidget(ui->tableViewVaccins);
+
+
 }
 
 void ListeVaccinDialog::on_ajouterButton_clicked(){

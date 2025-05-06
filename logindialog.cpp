@@ -1,5 +1,6 @@
 #include "logindialog.h"
 #include "ui_logindialog.h"
+#include "Design.h"
 
 LogInDialog::LogInDialog(QWidget *parent) :
     QDialog(parent),
@@ -8,12 +9,29 @@ LogInDialog::LogInDialog(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->buttonBox->button(QDialogButtonBox::Ok),&QPushButton::clicked,this,&LogInDialog::on_Log_clicked);
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel),&QPushButton::clicked,this,&LogInDialog::CloseDialog);
+
+    setupDesign();
+
 }
 
 LogInDialog::~LogInDialog()
 {
     delete ui;
 }
+
+void LogInDialog::setupDesign()
+{
+
+    StyleLabel(ui->MDP);
+    StyleLabel(ui->USR);
+
+    StyleTextEdit(ui->MDPIN);
+    StyleTextEdit(ui->USRIN);
+
+    StyleDialogButtonBox(ui->buttonBox);
+
+}
+
 
 void LogInDialog::CloseDialog(){
     ReturnDroit(-1);

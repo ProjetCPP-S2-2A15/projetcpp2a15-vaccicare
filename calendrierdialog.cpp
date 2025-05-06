@@ -4,6 +4,7 @@
 #include "qsqlquery.h"
 #include "qtextformat.h"
 #include "ui_calendrierdialog.h"
+#include "Design.h"
 #include <QListView>
 
 calendrierDialog::calendrierDialog(QWidget *parent)
@@ -13,6 +14,7 @@ calendrierDialog::calendrierDialog(QWidget *parent)
     ui->setupUi(this);
     ui->Calendrier_Info->isReadOnly();
     connect(ui->ButtonExit,&QPushButton::clicked,this,&calendrierDialog::ExitApp);
+    StyleButtonRed(ui->ButtonExit);
 }
 
 calendrierDialog::~calendrierDialog()

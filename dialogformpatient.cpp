@@ -1,5 +1,6 @@
 #include "dialogformpatient.h"
 #include "ui_dialogformpatient.h"
+#include "Design.h"
 #include <QMessageBox>
 
 Dialogformpatient::Dialogformpatient(QWidget *parent) :
@@ -10,6 +11,10 @@ Dialogformpatient::Dialogformpatient(QWidget *parent) :
 
     connect(ui->ButtonConfirmer,&QPushButton::clicked,this,&Dialogformpatient::on_Pat_Button_Confirmer_clicked);
     connect(ui->ButtonRetourner,&QPushButton::clicked,this,&Dialogformpatient::ExitApp);
+
+    StyleButtonGreen(ui->ButtonConfirmer);
+    StyleButtonRed(ui->ButtonRetourner);
+
 }
 
 Dialogformpatient::~Dialogformpatient()
