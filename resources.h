@@ -7,6 +7,7 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QVariant>
+#include <QSqlQueryModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -33,6 +34,7 @@ public:
     int date_acquisition;
     int id_fournisseur;
     int cout_acquisition;
+    static QAbstractItemModel* GetDataForPDF();
 };
 
 #endif // RESSOURCE_H

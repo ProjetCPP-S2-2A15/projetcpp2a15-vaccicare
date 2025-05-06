@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include <QPdfWriter>
 #include <QPainter>
+#include <QPrinter>
 #include <QFileDialog>
 #include <QTextDocument>
 #include <QStandardPaths>
@@ -46,7 +47,7 @@ private:
     void SelectPath();
     void SetUpUI();
     bool GenererPDFProjet(QString fileName,QDate startDate,QDate endDate);
-    bool GenererPDFPatient(QString fileName,QDate startDate,QDate endDate);
+    bool GenererPDFPatient(QString fileName);
     bool GenererPDFMedecin(QString fileName);
     bool GenererPDFRessource(QString fileName,QDate startDate,QDate endDate);
     bool GenererPDFVaccin(QString fileName,QDate startDate,QDate endDate);

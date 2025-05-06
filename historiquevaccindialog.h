@@ -24,7 +24,6 @@ class HistoriqueVaccinDialog : public QDialog
 public:
     explicit HistoriqueVaccinDialog(QWidget *parent = nullptr);
     ~HistoriqueVaccinDialog();
-
     typedef struct VaccinSnapshot {
             QString nom;
             int idTypeV;
@@ -39,7 +38,6 @@ public:
         }VaccinSnapshot;
 
     QMap<int, VaccinSnapshot> copieInitialeVaccins;
-
 private:
     Ui::HistoriqueVaccinDialog *ui;
     void CloseDialog();

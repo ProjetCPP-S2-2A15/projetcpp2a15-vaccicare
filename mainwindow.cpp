@@ -140,9 +140,15 @@ void MainWindow::OuvrirListeMedecin()
 void MainWindow::showLoginDialog()
 {
     LogInDialog *NewLogInDialog = new LogInDialog(this);
-    NewLogInDialog->exec();
+    int result = NewLogInDialog->exec();
 
     CurrUser = NewLogInDialog->getResult();
+
+    if (result == QDialog::Rejected) {
+            // Dialog was closed with 'X' or cancel
+            close();
+            return;
+        }
 
     if (CurrUser.Droit == LogInDialog::Result::Canceled) {
         close();

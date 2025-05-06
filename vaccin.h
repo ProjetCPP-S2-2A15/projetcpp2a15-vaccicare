@@ -41,6 +41,7 @@ public:
 
     static Vaccin GetVaccinFromDb(int Id_Vaccin);
     static bool supprimer(int id);
+    static QAbstractItemModel* GetDataForPDF();
     bool modifier();
     bool existe(int id);
     bool verifierSaisie(QString &messageErreur);
