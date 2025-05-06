@@ -23,6 +23,7 @@ private slots:
 private:
     Ui::Dialoglistepatient *ui;
     void ExitApp();
+    void setupDesign();
 };
 
 #endif // DIALOGLISTEPATIENT_H

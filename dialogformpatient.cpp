@@ -12,8 +12,7 @@ Dialogformpatient::Dialogformpatient(QWidget *parent) :
     connect(ui->ButtonConfirmer,&QPushButton::clicked,this,&Dialogformpatient::on_Pat_Button_Confirmer_clicked);
     connect(ui->ButtonRetourner,&QPushButton::clicked,this,&Dialogformpatient::ExitApp);
 
-    StyleButtonGreen(ui->ButtonConfirmer);
-    StyleButtonRed(ui->ButtonRetourner);
+    setupDesign();
 
 }
 
@@ -21,6 +20,27 @@ Dialogformpatient::~Dialogformpatient()
 {
     delete ui;
 }
+
+void Dialogformpatient::setupDesign() {
+
+    StyleLineEdit(ui->lineEdit);
+    StyleLineEdit(ui->lineEdit_2);
+    StyleLineEdit(ui->lineEdit_3);
+    StyleLineEdit(ui->lineEdit_4);
+    StyleLineEdit(ui->lineEdit_5);
+    StyleLineEdit(ui->lineEdit_6);
+    StyleLineEdit(ui->lineEdit_7);
+    StyleLineEdit(ui->lineEdit_8);
+    StyleLineEdit(ui->lineEdit_9);
+    StyleLineEdit(ui->lineEdit_10);
+    StyleLineEdit(ui->lineEdit_11);
+    StyleLineEdit(ui->lineEdit_12);
+
+    StyleButtonGreen(ui->ButtonConfirmer);
+    StyleButtonRed(ui->ButtonRetourner);
+
+}
+
 
 void Dialogformpatient::setOperation(const QString &op)
 {

@@ -50,6 +50,9 @@ ficheVaccin::~ficheVaccin()
 
 void ficheVaccin::setupDesign()
 {
+    StyleLabel(ui->label);
+    StyleLabel(ui->label_5);
+    StyleLabel(ui->label_9);
 
     StyleLineEdit(ui->lineEditidv);
     StyleLineEdit(ui->lineEditNom);

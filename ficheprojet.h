@@ -6,7 +6,6 @@
 #include "projet.h"
 #include <vector>
 #include "date.h"
-#include "Design.h"
 
 namespace Ui {
 class FicheProjet;

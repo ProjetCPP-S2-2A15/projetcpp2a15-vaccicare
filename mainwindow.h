@@ -48,6 +48,8 @@ private:
     void OuvrirChoixStock();
     void OuvrirImportPDF();
 
+    void setupDesign();
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
 };

@@ -1,5 +1,6 @@
 #include "listeprojetdialog.h"
 #include "ui_listeprojetdialog.h"
+#include "Design.h"
 
 ListeProjetDialog::ListeProjetDialog(QWidget *parent) :
     QDialog(parent),
@@ -22,8 +23,6 @@ ListeProjetDialog::ListeProjetDialog(QWidget *parent) :
     SetupTable();
     SetupDesign();
 
-
-
 }
 
 ListeProjetDialog::~ListeProjetDialog()
@@ -33,15 +32,13 @@ ListeProjetDialog::~ListeProjetDialog()
 
 void ListeProjetDialog::SetupDesign(){
 
-    // //Design For Buttons
-    // StyleButton(ui->ButtonAjouter);
-    // StyleButton(ui->ButtonModifier);
-    // StyleButton(ui->ButtonSupprimer);
-    // StyleButton(ui->ButtonCloturer);
-    // StyleButton(ui->ButtonExport);
-    // StyleButton(ui->ButtonRechercher);
-    // StyleButton(ui->ButtonStatistics);
-    // StyleButton(ui->ButtonExit);
+    //Design For Buttons
+    StyleButtonGreen(ui->ButtonAjouter);
+    StyleButtonBlue(ui->ButtonModifier);
+    StyleButtonRed(ui->ButtonSupprimer);
+    StyleButtonDarkblue(ui->ButtonCloturer);
+    StyleButtonBlue(ui->ButtonRechercher);
+    StyleButtonDarkred(ui->ButtonExit);
 
     //Design For Labels
     StyleLabel(ui->label);

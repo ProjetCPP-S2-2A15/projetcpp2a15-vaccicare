@@ -1,5 +1,5 @@
 #include "fichemedecin.h"
-
+#include "Design.h"
 
 ficheMedecin::ficheMedecin(QWidget *parent,bool IsModeAjout,int Id_Medecin)
     : QDialog(parent)
@@ -14,12 +14,33 @@ ficheMedecin::ficheMedecin(QWidget *parent,bool IsModeAjout,int Id_Medecin)
     this->ID_Medecin = Id_Medecin;
 
     ShowDialog();
+    setupDesign();
 }
 
 ficheMedecin::~ficheMedecin()
 {
     delete ui;
 }
+
+void ficheMedecin::setupDesign() {
+
+    StyleLineEdit(ui->lineEdit_3);
+    StyleLineEdit(ui->lineEdit_4);
+    StyleLineEdit(ui->lineEdit_5);
+    StyleLineEdit(ui->lineEdit_6);
+    StyleLineEdit(ui->lineEdit_7);
+    StyleLineEdit(ui->lineEdit_8);
+    StyleLineEdit(ui->lineEdit_9);
+    StyleLineEdit(ui->lineEdit_10);
+    StyleLineEdit(ui->lineEdit_11);
+    StyleLineEdit(ui->lineEdit_12);
+    StyleLineEdit(ui->lineEdit_13);
+
+    StyleButtonGreen(ui->Confirmer);
+    StyleButtonRed(ui->Retourner);
+
+}
+
 
 void ficheMedecin::ShowDialog(){
 
