@@ -81,10 +81,11 @@ void MainWindow::setupDesign() {
     StyleButtonDarkred(ui->ButtonExit);
 }
 
-
 void MainWindow::OuvrirParametre() {}
 
-void MainWindow::OuvrirStatistique() {}
+void MainWindow::OuvrirStatistique(){
+
+}
 
 void MainWindow::OuvrirResource(){
     Dialoglisteressources *NewDialog = new Dialoglisteressources();

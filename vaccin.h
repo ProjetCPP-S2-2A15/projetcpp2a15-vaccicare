@@ -45,7 +45,7 @@ public:
     bool modifier();
     bool existe(int id);
     bool verifierSaisie(QString &messageErreur);
-
+    void AddHistorique(int id,int newstock,int oldstock, int date);
     int getStock(int id);
 
 

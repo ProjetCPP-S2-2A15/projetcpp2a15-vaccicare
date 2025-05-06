@@ -8,18 +8,8 @@ HistoriqueVaccinDialog::HistoriqueVaccinDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->ButtonExit, &QPushButton::clicked, this, &HistoriqueVaccinDialog::CloseDialog);
-    connect(ui->pushButtontxtstock, &QPushButton::clicked, this, &HistoriqueVaccinDialog::on_btnOuvrirDossier_clicked);
 
-    chargerHistoriqueDepuisFichier();
-
-    QTableWidget* tableWidgetHistorique = ui->tableWidgethis;
-
-    tableWidgetHistorique->setColumnCount(3);
-    QStringList headers;
-    headers << "ID Vaccin" << "Ancien Stock" << "Nouveau Stock";
-    tableWidgetHistorique->setHorizontalHeaderLabels(headers);
-
-    tableWidgetHistorique->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    chargerHistorique();
 
     setupDesign();
 }
@@ -42,70 +32,37 @@ void HistoriqueVaccinDialog::CloseDialog(){
     close();
 }
 
-void HistoriqueVaccinDialog::chargerHistoriqueDepuisFichier() {
-    QFile file("historique_stock.txt");
-    if (!file.exists()) return;
-
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextStream in(&file);
-        while (!in.atEnd()) {
-            QString line = in.readLine();
-            QStringList parts = line.split(",");
-            if (parts.size() == 4) {
-                int row = ui->tableWidgethis->rowCount();
-                ui->tableWidgethis->insertRow(row);
-                for (int i = 0; i < 3; ++i) {
-                    ui->tableWidgethis->setItem(row, i, new QTableWidgetItem(parts[i]));
-                }
-            }
-        }
-        file.close();
-    }
-}
-
-QString HistoriqueVaccinDialog::genererHistorique(int id, const VaccinSnapshot &nouveau){
-    QString historique;
-    if (!copieInitialeVaccins.contains(id))
-        return "Aucun historique précédent.";
-
-    VaccinSnapshot ancien = copieInitialeVaccins[id];
-
-    // Comparer uniquement le stock
-    if (ancien.stockDisponible != nouveau.stockDisponible)
-        historique += "Stock : " + QString::number(ancien.stockDisponible) + " → " + QString::number(nouveau.stockDisponible) + "\n";
-
-    return historique.isEmpty() ? "Aucun changement détecté." : historique;
-}
-
-
-void HistoriqueVaccinDialog::ajouterHistoriqueDansTable(int id, int ancienStock, int nouveauStock) {
-
-    QString filePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/historique_stock.txt";
-
+void HistoriqueVaccinDialog::chargerHistorique() {
     QTableWidget* tableWidgetHistorique = ui->tableWidgethis;
 
-    int row = ui->tableWidgethis->rowCount();
-    ui->tableWidgethis->insertRow(row);
+    tableWidgetHistorique->setRowCount(0);  // Clear existing rows
+    tableWidgetHistorique->setColumnCount(4);
+    QStringList headers = { "ID Vaccin", "Ancien Stock", "Date Changement", "Nouveau Stock" };
+    tableWidgetHistorique->setHorizontalHeaderLabels(headers);
+    tableWidgetHistorique->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-    tableWidgetHistorique->setItem(row, 0, new QTableWidgetItem(QString::number(id)));  // ID Vaccin
-    tableWidgetHistorique->setItem(row, 1, new QTableWidgetItem(QString::number(ancienStock)));  // Old Stock
-    tableWidgetHistorique->setItem(row, 2, new QTableWidgetItem(QString::number(nouveauStock)));  // New Stock
+    QSqlQuery query;
+    if (!query.exec("SELECT ID_VACCIN, ANCIEN_STOCK, DATE_CHANGEMENT, NOUVEAU_STOCK FROM HISTORIQUE_STOCK_VACCIN ORDER BY DATE_CHANGEMENT DESC")) {
+        QMessageBox::critical(this, "Database Error", query.lastError().text());
+        return;
+    }
 
-    QFile file(filePath);
-    if (file.open(QIODevice::Append | QIODevice::Text)) {
-        QTextStream out(&file);
-        out << "ID: " << id << ", Ancien: " << ancienStock << ", Nouveau: " << nouveauStock << "\n";
-        file.close();
+    int row = 0;
+    while (query.next()) {
+        int idVaccin = query.value("ID_VACCIN").toInt();
+        int ancienStock = query.value("ANCIEN_STOCK").toInt();
+        int nouveauStock = query.value("NOUVEAU_STOCK").toInt();
+        int dateInt = query.value("DATE_CHANGEMENT").toInt();
+
+        // Convert YYYYMMDD int to readable date
+        QDate dateStr = Date::ConvertIntToDate(dateInt);
+
+        tableWidgetHistorique->insertRow(row);
+        tableWidgetHistorique->setItem(row, 0, new QTableWidgetItem(QString::number(idVaccin)));
+        tableWidgetHistorique->setItem(row, 1, new QTableWidgetItem(QString::number(ancienStock)));
+        tableWidgetHistorique->setItem(row, 2, new QTableWidgetItem(dateStr.toString()));
+        tableWidgetHistorique->setItem(row, 3, new QTableWidgetItem(QString::number(nouveauStock)));
+
+        row++;
     }
 }
-
-
-
-
-void HistoriqueVaccinDialog::on_btnOuvrirDossier_clicked()
-{
-    QString filePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/historique_stock.txt";
-    QFileInfo fileInfo(filePath);
-    QDesktopServices::openUrl(QUrl::fromLocalFile(fileInfo.absolutePath()));
-}
-
