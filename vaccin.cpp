@@ -377,3 +377,15 @@ int Vaccin::GetLastID(){
 
     return 0;  // If no rows exist, return 0
 }
+
+
+QAbstractItemModel* Vaccin::GetDataForPDF(){
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM VACCIN WHERE ID_VACCIN > 0");
+
+    if (model->lastError().isValid()) {
+        qDebug() << "Query Error:" << model->lastError().text();
+    }
+
+    return model;
+}

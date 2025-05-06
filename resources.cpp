@@ -135,3 +135,15 @@ void Resources::afficher() {
         << "Acquisition Cost:" << query.value("COUT_ACQUISITION").toInt();
     }
 }
+
+QAbstractItemModel* Resources::GetDataForPDF(){
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM RESSOURCE WHERE ID_RESSOURCE > 0");
+
+    if (model->lastError().isValid()) {
+        qDebug() << "Query Error:" << model->lastError().text();
+    }
+
+    return model;
+}
+
