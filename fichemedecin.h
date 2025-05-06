@@ -21,8 +21,6 @@ public:
     explicit ficheMedecin(QWidget *parent = nullptr,bool IsModeAjout = false,int Id_Medecin = -1);
     ~ficheMedecin();
     Medecin GetResult() const { return result;};
-    //void Valider();
-    void Annuler();
 
 private:
     Ui::ficheMedecin *ui;
@@ -34,7 +32,6 @@ private:
     int ID_Medecin;
     void Comfirmer();
     void Annuler();
-
     void setupDesign();
 
 };

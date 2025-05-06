@@ -92,6 +92,7 @@ void DialogChoixTypeImportPDF::SelectPath(){
         filePath = dir;
 }
 
+//
 bool DialogChoixTypeImportPDF::GenererPDFProjet(QString fileName,QDate startDate,QDate endDate){
     // Generate full file path (add .pdf extension if not already there)
         if (!fileName.endsWith(".pdf", Qt::CaseInsensitive))
@@ -208,7 +209,7 @@ bool DialogChoixTypeImportPDF::GenererPDFProjet(QString fileName,QDate startDate
         painter.end();
         return true;
 }
-
+//
 bool DialogChoixTypeImportPDF::GenererPDFMedecin(QString fileName){
         QAbstractItemModel* model = Medecin::GetDataByDate();
 
