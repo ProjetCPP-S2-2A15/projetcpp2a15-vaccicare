@@ -4,6 +4,7 @@
 #include <QString>
 #include <QSqlQueryModel>
 
+
 class Medecin
 {
 private:
@@ -21,6 +22,7 @@ public:
     static Medecin fetchMedecinById(int id);
     bool verifierLogin(const QString &login, const QString &mot_de_passe);
     static int GetLastID();
+    static QAbstractItemModel* GetDataByDate();
 
     int id_medecin;
     QString nom;

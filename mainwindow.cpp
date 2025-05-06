@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonConsultationStock, &QPushButton::clicked, this, &MainWindow::OuvrirChoixStock);
     connect(ui->ButtonStatistique, &QPushButton::clicked, this, &MainWindow::OuvrirStatistique);
     connect(ui->ButtonPatient, &QPushButton::clicked, this, &MainWindow::OuvrirPatient);
+    connect(ui->ButtonImport, &QPushButton::clicked, this, &MainWindow::OuvrirImportPDF);
 
 
     // Cacher les boutons
@@ -44,6 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ButtonConsultationStock->setHidden(true);
     ui->ButtonStatistique->setHidden(true);
     ui->ButtonListeMedecin->setHidden(true);
+    ui->ButtonImport->setHidden(true);
 
     // Connexion à la base de données
     bool Connected;
@@ -137,6 +139,7 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser)
         ui->ButtonConsultationStock->setHidden(false);
         ui->ButtonStatistique->setHidden(false);
         ui->ButtonListeMedecin->setHidden(false);
+        ui->ButtonImport->setHidden(false);
         break;
     case LogInDialog::Result::Doctor:
         ui->ButtonParametre->setHidden(false);
@@ -171,4 +174,9 @@ void MainWindow::resizeEvent(QResizeEvent *event)
         palette.setBrush(QPalette::Window, background.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
         this->setPalette(palette);
     }
+}
+
+void MainWindow::OuvrirImportPDF(){
+    DialogChoixTypeImportPDF *NewDialog = new DialogChoixTypeImportPDF();
+    NewDialog->exec();
 }

@@ -24,7 +24,7 @@ Medecin::Medecin()
 Medecin::Medecin(int id, QString n, QString s, QString g, QString e, QString t, int exp,
                  QString stat, QString disp, QString log, QString mdp)
     : id_medecin(id), nom(n), specialite(s), grade(g), email(e), telephone(t),
-    disponibilite(disp), experience(exp), statut(stat), login(log), mot_de_passe(mdp)
+      disponibilite(disp), experience(exp), statut(stat), login(log), mot_de_passe(mdp)
 {
 }
 
@@ -376,4 +376,15 @@ int Medecin::GetLastID(){
     query.exec();
     query.next();
     return query.value(0).toInt();
+}
+
+QAbstractItemModel* Medecin::GetDataByDate(){
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM MEDECIN WHERE ID_CHERCHEUR > 0");
+
+    if (model->lastError().isValid()) {
+        qDebug() << "Query Error:" << model->lastError().text();
+    }
+
+    return model;
 }
