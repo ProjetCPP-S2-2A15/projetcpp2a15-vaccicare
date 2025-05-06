@@ -5,12 +5,13 @@ DialogChoixTypeImportPDF::DialogChoixTypeImportPDF(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogChoixTypeImportPDF)
 {
-    connect(ui->ButtonGenerer,&QPushButton::clicked,this,&DialogChoixTypeImportPDF::GenererPDF);
-    connect(ui->ButtonRetour,&QPushButton::clicked,this,&DialogChoixTypeImportPDF::ExitDialog);
-    connect(ui->SelectPath,&QPushButton::clicked,this,&DialogChoixTypeImportPDF::ExitDialog);
     ui->setupUi(this);
 
-    //SetUpUI();
+    connect(ui->ButtonGenerer,&QPushButton::clicked,this,&DialogChoixTypeImportPDF::GenererPDF);
+    connect(ui->ButtonRetour,&QPushButton::clicked,this,&DialogChoixTypeImportPDF::ExitDialog);
+    connect(ui->SelectPath,&QPushButton::clicked,this,&DialogChoixTypeImportPDF::SelectPath);
+
+    SetUpUI();
 }
 
 DialogChoixTypeImportPDF::~DialogChoixTypeImportPDF()
@@ -29,6 +30,7 @@ void DialogChoixTypeImportPDF::SetUpUI(){
 
     const QString DEFAULT_EXPORT_PATH = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     ui->lineEditPath->setText(DEFAULT_EXPORT_PATH);
+    filePath = DEFAULT_EXPORT_PATH;
 }
 
 void DialogChoixTypeImportPDF::GenererPDF(){
@@ -77,7 +79,6 @@ void DialogChoixTypeImportPDF::GenererPDF(){
 }
 
 void DialogChoixTypeImportPDF::ExitDialog(){
-    result = -1;
     close();
 }
 
@@ -212,10 +213,11 @@ bool DialogChoixTypeImportPDF::GenererPDFMedecin(QString fileName){
         QAbstractItemModel* model = Medecin::GetDataByDate();
 
         if (!fileName.endsWith(".pdf", Qt::CaseInsensitive)) {
-            filePath += ".pdf";
+            fileName += ".pdf";
         }
 
-        QPdfWriter pdfWriter(filePath);
+        QString fullFilePath = QDir(filePath).filePath(fileName);
+        QPdfWriter pdfWriter(fullFilePath);
         QPageLayout layout(QPageSize(QPageSize::A4), QPageLayout::Landscape, QMarginsF(20, 20, 20, 20), QPageLayout::Millimeter);
         pdfWriter.setPageLayout(layout);
 

@@ -177,6 +177,6 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 }
 
 void MainWindow::OuvrirImportPDF(){
-    DialogChoixTypeImportPDF *NewDialog = new DialogChoixTypeImportPDF();
+    DialogChoixTypeImportPDF *NewDialog = new DialogChoixTypeImportPDF(this);
     NewDialog->exec();
 }
