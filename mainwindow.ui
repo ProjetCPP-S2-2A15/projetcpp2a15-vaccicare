@@ -74,6 +74,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="ButtonChat">
+       <property name="text">
+        <string>Aide</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="ButtonExit">
        <property name="text">
         <string>Exit</string>
@@ -89,7 +96,7 @@
      <x>0</x>
      <y>0</y>
      <width>1196</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

@@ -4,7 +4,6 @@
 #include "qtablewidget.h"
 #include "ui_dialoglistemedecin.h"
 #include<QMessageBox>
-#include "fichemedecin.h"
 #include <QDialog>
 #include "QTableView"
 
@@ -13,9 +12,9 @@ DialogListeMedecin::DialogListeMedecin(QWidget *parent)
     , ui(new Ui::DialogListeMedecin)
 {
     ui->setupUi(this);
-    connect(ui->Ajoutermed,&QPushButton::clicked,this,&::DialogListeMedecin::on_buttonModifier_clicked);
-    connect(ui->Supprimermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonModifier_clicked);
-    connect(ui->Modifiermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonSupprimer_clicked);
+    connect(ui->Ajoutermed,&QPushButton::clicked,this,&DialogListeMedecin::OuvrirAjouter);
+    connect(ui->Supprimermed,&QPushButton::clicked,this,&::DialogListeMedecin::on_buttonSupprimer_clicked);
+    connect(ui->Modifiermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonModifier_clicked);
 }
 
 DialogListeMedecin::~DialogListeMedecin()

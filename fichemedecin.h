@@ -20,6 +20,7 @@ public:
     //void Valider();
     void Annuler();
 
+
 private slots:
     void Operation(const QString &op);
     void on_Pat_Button_Confirmer_clicked();
@@ -30,8 +31,6 @@ private:
     Medecin result;
     QString operation_actuelle;
     void ExitApp();
-
-
 };
 
 #endif // FICHEMEDECIN_H

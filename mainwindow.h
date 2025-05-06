@@ -43,5 +43,6 @@ private:
     void OuvrirStatistique();
     void OuvrirPatient();
     void OuvrirChoixStock();
+    void OuvrirChatbot();
 };
 #endif // MAINWINDOW_H

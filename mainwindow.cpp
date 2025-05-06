@@ -5,6 +5,8 @@
 #include <QDialog>
 #include "dialoglistepatient.h"
 #include "dialoglistemedecin.h"
+#include "dialoglisteressources.h"
+#include "chatbot.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -21,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonConsultationStock,&QPushButton::clicked,this,&MainWindow::OuvrirChoixStock);
     connect(ui->ButtonStatistique,&QPushButton::clicked,this,&MainWindow::OuvrirStatistique);
     connect(ui->ButtonPatient,&QPushButton::clicked,this,&MainWindow::OuvrirPatient);
+    connect(ui->ButtonChat,&QPushButton::clicked,this,&MainWindow::OuvrirChatbot);
 
     this->setStyleSheet("QMainWindow { background-image: url(:/picture/background vaccicare.png); background-repeat: no-repeat; background-position: center; }");
 
@@ -32,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ButtonConsultationStock->setHidden(true);
     ui->ButtonStatistique->setHidden(true);
     ui->ButtonListeMedecin->setHidden(true);
+    ui->ButtonChat->setHidden(true);
 
     bool Connected;
     Connected = Cnx.CreateConnexion();
@@ -54,7 +58,8 @@ void MainWindow::OuvrirParametre(){}
 void MainWindow::OuvrirStatistique(){}
 
 void MainWindow::OuvrirResource(){
-    QMessageBox::warning(this, "Erreur", "Ress");
+    Dialoglisteressources *NewDialog = new Dialoglisteressources();
+    NewDialog->exec();
 }
 
 void MainWindow::OuvrirStockVaccin(){
@@ -64,6 +69,11 @@ void MainWindow::OuvrirStockVaccin(){
 
 void MainWindow::ExitApp(){
     close();
+}
+
+void MainWindow::OuvrirChatbot(){
+    Chatbot *NewDialog = new Chatbot();
+    NewDialog->exec();
 }
 
 void MainWindow::OuvrirChoixStock(){
@@ -118,11 +128,13 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser){
         ui->ButtonConsultationStock->setHidden(false);
         ui->ButtonStatistique->setHidden(false);
         ui->ButtonListeMedecin->setHidden(false);
+        ui->ButtonChat->setHidden(false);
         break;
     case LogInDialog::Result::Doctor:
         ui->ButtonParametre->setHidden(false);
         ui->ButtonExit->setHidden(false);
         ui->ButtonListeProjet->setHidden(false);
+        ui->ButtonChat->setHidden(false);
         break;
     case LogInDialog::Result::Secratary:
 

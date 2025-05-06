@@ -1,6 +1,7 @@
 #ifndef RESSOURCE_H
 #define RESSOURCE_H
 
+#include "qdatetime.h"
 #include <QString>
 #include <QSqlQuery>
 #include <QSqlError>
@@ -15,14 +16,6 @@ QT_END_NAMESPACE
 
 class Resources {
 private:
-    int id_ressource;
-    QString nom;
-    int id_type_ressource;
-    int quantite;
-    int disponibilite;
-    int date_acquisition;
-    int id_fournisseur;
-    int cout_acquisition;
 
 public:
     // Constructor
@@ -32,6 +25,14 @@ public:
     static bool supprimer(int id);
     bool modifier();
     static void afficher();
+    int id_ressource;
+    QString nom;
+    int id_type_ressource;
+    int quantite;
+    int disponibilite;
+    int date_acquisition;
+    int id_fournisseur;
+    int cout_acquisition;
 };
 
 #endif // RESSOURCE_H

@@ -11,7 +11,9 @@ CONFIG += c++17   #•kenet 11
 
 SOURCES += \
     Design.cpp \
+    addressource.cpp \
     calendrierdialog.cpp \
+    chatbot.cpp \
     connection.cpp \
     date.cpp \
     dialogformpatient.cpp \
@@ -19,10 +21,12 @@ SOURCES += \
     dialoglistepatient.cpp \
     ##dialogpatientin.cpp \
     dialoglistemedecin.cpp\
+    dialoglisteressources.cpp \
     experience.cpp \
     ficheepreience.cpp \
     ficheprojet.cpp \
     fichemedecin.cpp\
+    ficheressource.cpp \
     fichevaccin.cpp \
     historiquevaccindialog.cpp \
     listeprojetdialog.cpp \
@@ -36,14 +40,14 @@ SOURCES += \
     projet.cpp \
     resources.cpp \
     selectprojectdialog.cpp \
-    dialoglistemedecin.cpp \
-    fichemedecin.cpp\
     smtp.cpp \
     vaccin.cpp
 
 HEADERS += \
     Design.h \
+    addressource.h \
     calendrierdialog.h \
+    chatbot.h \
     connection.h \
     date.h \
     dialogformpatient.h \
@@ -51,10 +55,12 @@ HEADERS += \
     dialoglistepatient.h \
     ##dialogpatientin.h \
     dialoglistemedecin.h\
+    dialoglisteressources.h \
     experience.h \
     ficheepreience.h \
     ficheprojet.h \
     fichemedecin.h\
+    ficheressource.h \
     fichevaccin.h \
     historiquevaccindialog.h \
     listeprojetdialog.h \
@@ -67,21 +73,23 @@ HEADERS += \
     projet.h \
     resources.h \
     selectprojectdialog.h \
-    dialoglistemedecin.h \
-    fichemedecin.h\
     smtp.h \
     vaccin.h
 
 FORMS += \
+    addressource.ui \
     calendrierdialog.ui \
+    chatbot.ui \
     dialogformpatient.ui \
     dialogchoixstock.ui \
     dialoglistepatient.ui \
     dialoglistemedecin.ui\
     ##dialogpatientin.ui \
+    dialoglisteressources.ui \
     ficheepreience.ui \
     ficheprojet.ui \
     fichemedecin.ui\
+    ficheressource.ui \
     fichevaccin.ui \
     historiquevaccindialog.ui \
     listeprojetdialog.ui \
@@ -89,9 +97,7 @@ FORMS += \
     logindialog.ui \
     mainwindow.ui \
     projectworkflowdialog.ui \
-    selectprojectdialog.ui \
-    dialoglistemedecin.ui \
-    fichemedecin.ui
+    selectprojectdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
