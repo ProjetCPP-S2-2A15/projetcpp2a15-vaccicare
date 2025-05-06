@@ -46,6 +46,8 @@ private:
     void ExitDialog();
     void SelectPath();
     void SetUpUI();
+    void setupDesign();
+
     bool GenererPDFProjet(QString fileName,QDate startDate,QDate endDate);
     bool GenererPDFPatient(QString fileName);
     bool GenererPDFMedecin(QString fileName);

@@ -1,5 +1,6 @@
 #include "dialogchoixtypeimportpdf.h"
 #include "ui_dialogchoixtypeimportpdf.h"
+#include "Design.h"
 
 DialogChoixTypeImportPDF::DialogChoixTypeImportPDF(QWidget *parent) :
     QDialog(parent),
@@ -12,6 +13,8 @@ DialogChoixTypeImportPDF::DialogChoixTypeImportPDF(QWidget *parent) :
     connect(ui->SelectPath,&QPushButton::clicked,this,&DialogChoixTypeImportPDF::SelectPath);
 
     SetUpUI();
+    setupDesign();
+
 }
 
 DialogChoixTypeImportPDF::~DialogChoixTypeImportPDF()
@@ -310,6 +313,7 @@ bool DialogChoixTypeImportPDF::GenererPDFPatient(QString fileName){
     doc.setHtml(strStream);
     doc.print(&printer);
     return true;
+
 }
 
 bool DialogChoixTypeImportPDF::GenererPDFRessource(QString fileName){
@@ -410,8 +414,29 @@ bool DialogChoixTypeImportPDF::GenererPDFVaccin(QString fileName){
     printer.setPageSize(QPageSize(QPageSize::A4));
     printer.setOutputFileName(fullFilePath);
 
+
     QTextDocument doc;
     doc.setHtml(strStream);
     doc.print(&printer);
     return true;
 }
+
+void DialogChoixTypeImportPDF::setupDesign() {
+
+    StyleLineEdit(ui->lineEditPath);
+
+    StyleButtonGreen(ui->ButtonGenerer);
+    StyleButtonRed(ui->ButtonRetour);
+    StyleButtonDarkblue(ui->SelectPath);
+
+    StyleCheckBox(ui->checkBoxMedecin);
+    StyleCheckBox(ui->checkBoxPatient);
+    StyleCheckBox(ui->checkBoxProjet);
+    StyleCheckBox(ui->checkBoxVaccin);
+    StyleCheckBox(ui->checkBoxRessource);
+
+    StyleDateEdit(ui->dateEditStart);
+    StyleDateEdit(ui->dateEditEnd);
+
+}
+
