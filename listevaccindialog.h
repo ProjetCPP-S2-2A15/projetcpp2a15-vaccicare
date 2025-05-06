@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "fichevaccin.h"
+#include "historiquevaccindialog.h"
 
 namespace Ui {
 class ListeVaccinDialog;
@@ -26,6 +27,8 @@ private:
     void on_ajouterButton_clicked();
     void on_ModifierButton_clicked();
     void on_SupprimerButton_clicked();
+    void ExitDialog();
+    void ShowStockHistory();
 
 };
 

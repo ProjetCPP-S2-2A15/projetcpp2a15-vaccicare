@@ -24,6 +24,7 @@ SOURCES += \
     ficheprojet.cpp \
     fichemedecin.cpp\
     fichevaccin.cpp \
+    historiquevaccindialog.cpp \
     listeprojetdialog.cpp \
     listevaccindialog.cpp \
     logindialog.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
     projet.cpp \
     resources.cpp \
     selectprojectdialog.cpp \
+    smtp.cpp \
     vaccin.cpp
 
 HEADERS += \
@@ -52,6 +54,7 @@ HEADERS += \
     ficheprojet.h \
     fichemedecin.h\
     fichevaccin.h \
+    historiquevaccindialog.h \
     listeprojetdialog.h \
     listevaccindialog.h \
     logindialog.h \
@@ -62,6 +65,7 @@ HEADERS += \
     projet.h \
     resources.h \
     selectprojectdialog.h \
+    smtp.h \
     vaccin.h
 
 FORMS += \
@@ -75,6 +79,7 @@ FORMS += \
     ficheprojet.ui \
     fichemedecin.ui\
     fichevaccin.ui \
+    historiquevaccindialog.ui \
     listeprojetdialog.ui \
     listevaccindialog.ui \
     logindialog.ui \

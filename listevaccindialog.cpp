@@ -13,6 +13,8 @@ ListeVaccinDialog::ListeVaccinDialog(QWidget *parent) :
     connect(ui->PushButtonRefresh, &QPushButton::clicked, this, &ListeVaccinDialog::onClickRefreshTable);
     connect(ui->pushButton_rechercherNom, &QPushButton::clicked, this, &ListeVaccinDialog::on_PushButton_rechercherNom_clicked);
     connect(ui->pushButton_rechercherPays, &QPushButton::clicked, this, &ListeVaccinDialog::on_PushButton_rechercherPays_clicked);
+    connect(ui->ButtonExit, &QPushButton::clicked, this, &ListeVaccinDialog::ExitDialog);
+    connect(ui->PushButtonSupprimer_2, &QPushButton::clicked, this, &ListeVaccinDialog::ShowStockHistory);
 
     SetupTable();
 }
@@ -216,4 +218,13 @@ void ListeVaccinDialog::on_PushButton_rechercherPays_clicked() {
 
 
     }
+}
+
+void ListeVaccinDialog::ExitDialog(){
+    close();
+}
+
+void ListeVaccinDialog::ShowStockHistory(){
+    HistoriqueVaccinDialog *NewDialog = new HistoriqueVaccinDialog();
+    NewDialog->exec();
 }
