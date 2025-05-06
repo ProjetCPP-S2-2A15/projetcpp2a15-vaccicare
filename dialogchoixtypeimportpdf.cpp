@@ -1,5 +1,6 @@
 #include "dialogchoixtypeimportpdf.h"
 #include "ui_dialogchoixtypeimportpdf.h"
+#include "Design.h"
 
 DialogChoixTypeImportPDF::DialogChoixTypeImportPDF(QWidget *parent) :
     QDialog(parent),
@@ -12,6 +13,8 @@ DialogChoixTypeImportPDF::DialogChoixTypeImportPDF(QWidget *parent) :
     connect(ui->SelectPath,&QPushButton::clicked,this,&DialogChoixTypeImportPDF::SelectPath);
 
     SetUpUI();
+    setupDesign();
+
 }
 
 DialogChoixTypeImportPDF::~DialogChoixTypeImportPDF()
@@ -125,7 +128,7 @@ bool DialogChoixTypeImportPDF::GenererPDFProjet(QString fileName,QDate startDate
 
         // === Export TO PDF ===
         QPdfWriter writer(fullFilePath);
-        writer.setPageSize(QPagedPaintDevice::A4);
+        writer.setPageSize(QPageSize::A4);
         writer.setResolution(300);
 
         QPainter painter(&writer);
@@ -359,7 +362,7 @@ bool DialogChoixTypeImportPDF::GenererPDFPatient(QString fileName,QDate startDat
 
         // === Export TO PDF ===
         QPdfWriter writer(fullFilePath);
-        writer.setPageSize(QPagedPaintDevice::A4);
+        writer.setPageSize(QPageSize::A4);
         writer.setResolution(300);
 
         QPainter painter(&writer);
@@ -476,7 +479,7 @@ bool DialogChoixTypeImportPDF::GenererPDFRessource(QString fileName,QDate startD
 
         // === Export TO PDF ===
         QPdfWriter writer(fullFilePath);
-        writer.setPageSize(QPagedPaintDevice::A4);
+        writer.setPageSize(QPageSize::A4);
         writer.setResolution(300);
 
         QPainter painter(&writer);
@@ -593,7 +596,7 @@ bool DialogChoixTypeImportPDF::GenererPDFVaccin(QString fileName,QDate startDate
 
         // === Export TO PDF ===
         QPdfWriter writer(fullFilePath);
-        writer.setPageSize(QPagedPaintDevice::A4);
+        writer.setPageSize(QPageSize::A4);
         writer.setResolution(300);
 
         QPainter painter(&writer);
@@ -677,3 +680,23 @@ bool DialogChoixTypeImportPDF::GenererPDFVaccin(QString fileName,QDate startDate
         painter.end();
         return true;
 }
+
+void DialogChoixTypeImportPDF::setupDesign() {
+
+    StyleLineEdit(ui->lineEditPath);
+
+    StyleButtonGreen(ui->ButtonGenerer);
+    StyleButtonRed(ui->ButtonRetour);
+    StyleButtonDarkblue(ui->SelectPath);
+
+    StyleCheckBox(ui->checkBoxMedecin);
+    StyleCheckBox(ui->checkBoxPatient);
+    StyleCheckBox(ui->checkBoxProjet);
+    StyleCheckBox(ui->checkBoxVaccin);
+    StyleCheckBox(ui->checkBoxRessource);
+
+    StyleDateEdit(ui->dateEditStart);
+    StyleDateEdit(ui->dateEditEnd);
+
+}
+
