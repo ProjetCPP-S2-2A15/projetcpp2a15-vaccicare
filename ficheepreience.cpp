@@ -1,5 +1,6 @@
 #include "ficheepreience.h"
 #include "ui_ficheepreience.h"
+#include "Design.h"
 
 ficheEpreience::ficheEpreience(QWidget *parent,bool IsModeAjout,int ID_Experience) :
     QDialog(parent),
@@ -13,6 +14,7 @@ ficheEpreience::ficheEpreience(QWidget *parent,bool IsModeAjout,int ID_Experienc
     connect(ui->ButtonAnnuler,&QPushButton::clicked,this,&ficheEpreience::Annuler);
 
     SetupUI();
+    setupDesign();
 }
 
 ficheEpreience::~ficheEpreience()
@@ -36,6 +38,22 @@ void ficheEpreience::SetupUI(){
         ui->TextEditDescription->setText(result.Description);
     }
 }
+
+void ficheEpreience::setupDesign()
+{
+    StyleLabel(ui->label);
+    StyleLabel(ui->label_2);
+    StyleLabel(ui->label_3);
+
+    StyleLineEdit(ui->LineEditId);
+    StyleLineEdit(ui->LineEditNom);
+
+    StyleButtonGreen(ui->ButtonValider);
+    StyleButtonRed(ui->ButtonAnnuler);
+
+    StyleTextEdit(ui->TextEditDescription);
+}
+
 
 void ficheEpreience::Valider(){
     result.Description = ui->TextEditDescription->toPlainText();

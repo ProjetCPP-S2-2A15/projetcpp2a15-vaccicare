@@ -26,6 +26,8 @@ private:
     void SetupUI();
     void Annuler();
     void Valider();
+
+    void setupDesign();
 };
 
 #endif // FICHEEPREIENCE_H

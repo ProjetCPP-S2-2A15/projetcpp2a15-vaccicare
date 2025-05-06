@@ -1,5 +1,6 @@
 #include "ficheprojet.h"
 #include "ui_ficheprojet.h"
+#include "Design.h"
 
 FicheProjet::FicheProjet(int projectID,bool IsModeAjouter, QWidget *parent)
     : QDialog(parent), ui(new Ui::FicheProjet), m_projectID(projectID) {
@@ -18,8 +19,8 @@ FicheProjet::~FicheProjet()
 
 void FicheProjet::SetupDesign(){
     // Design For Buttons
-    StyleButton(ui->buttonBox->button(QDialogButtonBox::Ok));
-    StyleButton(ui->buttonBox->button(QDialogButtonBox::Cancel));
+    StyleButtonGreen(ui->buttonBox->button(QDialogButtonBox::Ok));
+    StyleButtonRed(ui->buttonBox->button(QDialogButtonBox::Cancel));
 
     //Design For Lables
     StyleLabel(ui->labelProjectID_4);

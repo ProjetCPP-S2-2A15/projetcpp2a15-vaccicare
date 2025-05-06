@@ -31,6 +31,8 @@ private:
     void ModifiyExperience();
     void AddExperience();
 
+    void setupDesign();
+
 };
 
 #endif // PROJECTWORKFLOWDIALOG_H

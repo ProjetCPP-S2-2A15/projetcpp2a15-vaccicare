@@ -24,7 +24,7 @@ Medecin::Medecin()
 Medecin::Medecin(int id, QString n, QString s, QString g, QString e, QString t, int exp,
                  QString stat, QString disp, QString log, QString mdp)
     : id_medecin(id), nom(n), specialite(s), grade(g), email(e), telephone(t),
-    disponibilite(disp), experience(exp), statut(stat), login(log), mot_de_passe(mdp)
+      disponibilite(disp), experience(exp), statut(stat), login(log), mot_de_passe(mdp)
 {
 }
 
@@ -255,32 +255,31 @@ bool Medecin::supprimer(int id)
     return success;
 }
 
-bool Medecin::fetchMedecinById(int id, QString &nom, QString &specialite, QString &grade, QString &email,
-                               QString &telephone, QString &disponibilite, int &experience,
-                               QString &statut, QString &login, QString &mot_de_passe)
-{
+Medecin Medecin::fetchMedecinById(int id){
     QSqlQuery query;
     query.prepare("SELECT * FROM MEDECIN WHERE ID_CHERCHEUR = :id");
     query.bindValue(":id", id);
 
+    Medecin M;
     if (query.exec()) {
         if (query.next()) {
-            nom = query.value("NOM").toString();
-            specialite = query.value("SPECIALITE").toString();
-            grade = query.value("GRADE").toString();
-            email = query.value("EMAIL").toString();
-            telephone = query.value("TELEPHONE").toString();
-            disponibilite = query.value("DISPONIBILITE").toString();
-            experience = query.value("EXPERIENCE").toInt();
-            statut = query.value("STATUT").toString();
-            login = query.value("LOGIN").toString();
-            mot_de_passe = query.value("MOT_DE_PASSE").toString();
-            return true;
+
+            M.nom = query.value("NOM").toString();
+            M.specialite = query.value("SPECIALITE").toString();
+            M.grade = query.value("GRADE").toString();
+            M.email = query.value("EMAIL").toString();
+            M.telephone = query.value("TELEPHONE").toString();
+            M.disponibilite = query.value("DISPONIBILITE").toString();
+            M.experience = query.value("EXPERIENCE").toInt();
+            M.statut = query.value("STATUT").toString();
+            M.login = query.value("LOGIN").toString();
+            M.mot_de_passe = query.value("MOT_DE_PASSE").toString();
+            return M;
         }
     } else {
         qDebug() << "Error fetching doctor by ID:" << query.lastError().text();
     }
-    return false;
+    return M;
 }
 
 QSqlQueryModel* Medecin::afficher(const QString &searchText, const QString &criterion, const QString &sortCriterion)
@@ -353,6 +352,7 @@ QSqlQueryModel* Medecin::afficher(const QString &searchText, const QString &crit
     qDebug() << "Query executed successfully. Row count:" << model->rowCount();
     return model;
 }
+
 bool Medecin::verifierLogin(const QString &login, const QString &mot_de_passe)
 {
     QSqlQuery query;
@@ -368,4 +368,23 @@ bool Medecin::verifierLogin(const QString &login, const QString &mot_de_passe)
         qDebug() << "Erreur lors de la vérification du login :" << query.lastError().text();
     }
     return false;
+}
+
+int Medecin::GetLastID(){
+    QSqlQuery query;
+    query.prepare("SELECT MAX(ID_CHERCHEUR) FROM MEDECIN");
+    query.exec();
+    query.next();
+    return query.value(0).toInt();
+}
+
+QAbstractItemModel* Medecin::GetDataByDate(){
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM MEDECIN WHERE ID_CHERCHEUR > 0");
+
+    if (model->lastError().isValid()) {
+        qDebug() << "Query Error:" << model->lastError().text();
+    }
+
+    return model;
 }

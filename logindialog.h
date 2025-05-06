@@ -37,6 +37,9 @@ private:
     void CloseDialog();
     void ReturnDroit(int DroitId);
     User SetUserData(Result Droit,QString Username, QString Password ,int UserId);
+
+    void setupDesign();
+
 };
 
 #endif // LOGINDIALOG_H

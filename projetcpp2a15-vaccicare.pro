@@ -16,6 +16,7 @@ SOURCES += \
     chatbot.cpp \
     connection.cpp \
     date.cpp \
+    dialogchoixtypeimportpdf.cpp \
     dialogformpatient.cpp \
     dialogchoixstock.cpp \
     dialoglistepatient.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     chatbot.h \
     connection.h \
     date.h \
+    dialogchoixtypeimportpdf.h \
     dialogformpatient.h \
     dialogchoixstock.h \
     dialoglistepatient.h \
@@ -80,6 +82,7 @@ FORMS += \
     addressource.ui \
     calendrierdialog.ui \
     chatbot.ui \
+    dialogchoixtypeimportpdf.ui \
     dialogformpatient.ui \
     dialogchoixstock.ui \
     dialoglistepatient.ui \
@@ -103,3 +106,5 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += resources.qrc

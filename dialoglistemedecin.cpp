@@ -3,38 +3,81 @@
 #include "qsqlquery.h"
 #include "qtablewidget.h"
 #include "ui_dialoglistemedecin.h"
-#include<QMessageBox>
 #include <QDialog>
 #include "QTableView"
+#include "Design.h"
+#include <QMessageBox>
+#include<QMessageBox>
 
 DialogListeMedecin::DialogListeMedecin(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::DialogListeMedecin)
 {
     ui->setupUi(this);
-    connect(ui->Ajoutermed,&QPushButton::clicked,this,&DialogListeMedecin::OuvrirAjouter);
-    connect(ui->Supprimermed,&QPushButton::clicked,this,&::DialogListeMedecin::on_buttonSupprimer_clicked);
+
+    connect(ui->Ajoutermed,&QPushButton::clicked,this,&::DialogListeMedecin::OuvrirAjouter);
+    connect(ui->Supprimermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonSupprimer_clicked);
     connect(ui->Modifiermed,&QPushButton::clicked,this,&DialogListeMedecin::on_buttonModifier_clicked);
+    connect(ui->ButtonExit,&QPushButton::clicked,this,&DialogListeMedecin::ExitDialog);
+
+    setupDesign();
+
+    refreshtableView();
 }
 
 DialogListeMedecin::~DialogListeMedecin()
 {
     delete ui;
 }
+
+void DialogListeMedecin::setupDesign()
+{
+
+    StyleLineEdit(ui->lineEdit_rechercher);
+
+    StyleComboBox(ui->comboBox);
+    StyleComboBox(ui->comboBox_tri);
+
+    StyleButtonGreen(ui->Ajoutermed);
+    StyleButtonRed(ui->Supprimermed);
+    StyleButtonBlue(ui->Modifiermed);
+    StyleButtonDarkred(ui->ButtonExit);
+
+    StyleTableView(ui->tableview);
+}
+
 void DialogListeMedecin::OuvrirAjouter() {
-    ficheMedecin *NewDialog = new ficheMedecin(this);  // Set parent for cleanup
-    if (NewDialog->exec() == QDialog::Accepted) {
-        Medecin result = NewDialog->GetResult();  // Get the Medecin object from the form
+    ficheMedecin *NewDialog = new ficheMedecin(this,true,Medecin::GetLastID() + 1);  // Set parent for cleanup
+    NewDialog->exec();
+    Medecin result = NewDialog->GetResult();  // Get the Medecin object from the form
+    if(result.id_medecin != -1){
+        result.ajouter();
+        refreshtableView();
+
     }
 
-    delete NewDialog;  // Clean up memory
+
 }
 
 void DialogListeMedecin::on_buttonModifier_clicked()
 {
-    ficheMedecin *dialog = new ficheMedecin(this);
-    dialog->exec();
-    //delete dialog;
+    QModelIndex index = ui->tableview->currentIndex();
+    int row = index.row();
+
+    if (row < 0) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner un médecin à supprimer.");
+        return;
+    }
+
+    int idMedecin = ui->tableview->model()->index(row, 0).data().toInt();
+
+    ficheMedecin *NewDialog = new ficheMedecin(this,false,idMedecin);
+    NewDialog->exec();
+    Medecin result = NewDialog->GetResult();  // Get the Medecin object from the form
+    if(result.id_medecin != -1){
+        result.modifier(idMedecin);
+        refreshtableView();
+    }
 }
 
 void DialogListeMedecin::on_buttonSupprimer_clicked()
@@ -56,34 +99,12 @@ void DialogListeMedecin::on_buttonSupprimer_clicked()
 
     if (reply == QMessageBox::Yes) {
         if (Medecin::supprimer(idMedecin)) {
-           // FillTable(ui->comboBox_tri, ui->comboBox_tri());
+            refreshtableView();
         }
     }
 
 }
-//void DialogListeMedecin::on_pushButton_2_supprimer_clicked()
-//{
-   // bool idOk;
-    //int id_cherch = ui->lineEdit_2->text().toInt(&idOk);
 
-    //if (!idOk) {
-      //  QMessageBox::warning(this, "Erreur", "Veuillez entrer un ID valide !");
-        //return;
-    //}
-
-    //QSqlQuery query;
-    //query.prepare("DELETE FROM MEDECIN WHERE ID_MEDECIN = :id");
-    //query.bindValue(":id", id_cherch);
-
-    //if (query.exec()) {
-      //  QMessageBox::information(this, "Succès", "Médecin supprimé avec succès !");
-      //  qDebug() << "Médecin supprimé avec succès.";
-        //refreshtableView(); // Recharge les données de la table
-    //} else {
-      //  QMessageBox::critical(this, "Erreur", "Échec de la suppression du médecin.");
-        //qDebug() << "Erreur lors de la suppression du médecin : " << query.lastError().text();
-    //}
-//}
 void DialogListeMedecin::refreshtableView()
 {
     Medecin medecin;
@@ -136,38 +157,7 @@ void DialogListeMedecin::on_comboBox_tri_currentTextChanged(const QString &text)
     refreshtableView();
 }
 
-// void DialogListeMedecin::on_pushButton_5_clicked()
-// {
-
-//     qDebug() << "Bouton Ressources cliqué.";
-//     qDebug() << "Nombre d'onglets :" << ui->tabWidget->count();
-//     qDebug() << "Onglet actif avant redirection :" << ui->tabWidget->currentIndex() << " (" << ui->tabWidget->tabText(ui->tabWidget->currentIndex()) << ")";
-//     for (int i = 0; i < ui->tabWidget->count(); ++i) {
-//         qDebug() << "Onglet" << i << ":" << ui->tabWidget->tabText(i) << "Enabled:" << ui->tabWidget->isTabEnabled(i);
-//         qDebug() << "  ObjectName de l'onglet" << i << ":" << ui->tabWidget->widget(i)->objectName();
-//     }
-
-//     const int targetIndex = 3;
-
-
-
-//     if (!ui->tabWidget->isTabEnabled(targetIndex)) {
-//         qDebug() << "L'onglet tab_4 (index" << targetIndex << ") est désactivé, activation...";
-//         ui->tabWidget->setTabEnabled(targetIndex, true);
-//     }
-
-
-//     ui->tabWidget->setCurrentIndex(targetIndex);
-
-//     qDebug() << "Redirection effectuée.";
-//     qDebug() << "Onglet actif après redirection :" << ui->tabWidget->currentIndex() << " (" << ui->tabWidget->tabText(ui->tabWidget->currentIndex()) << ")";
-
-
-//     if (ui->tableView_3) {
-//         qDebug() << "tableView_3 est affiché dans l'onglet tab_4.";
-//         ui->tableView_3->resizeColumnsToContents();
-//     } else {
-//         qDebug() << "Erreur : tableView_3 n'est pas trouvé dans l'onglet tab_4.";
-//     }
-// }
+void DialogListeMedecin::ExitDialog(){
+    close();
+}
 

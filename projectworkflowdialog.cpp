@@ -1,5 +1,6 @@
 #include "projectworkflowdialog.h"
 #include "ui_projectworkflowdialog.h"
+#include "Design.h"
 
 ProjectWorkFlowDialog::ProjectWorkFlowDialog(QWidget *parent ,int User_Id) :
     QDialog(parent),
@@ -26,10 +27,31 @@ ProjectWorkFlowDialog::ProjectWorkFlowDialog(QWidget *parent ,int User_Id) :
     }
     ShowDialog(CurrProject);
 
+    setupDesign();
+
 }
 
 ProjectWorkFlowDialog::~ProjectWorkFlowDialog(){
     delete ui;
+}
+
+void ProjectWorkFlowDialog::setupDesign()
+{
+
+    StyleTextEdit(ui->textEdit);
+
+    StyleLabel(ui->label);
+    StyleLabel(ui->label_2);
+    StyleLabel(ui->label_3);
+
+    StyleButtonGreen(ui->ButtonAjouter);
+    StyleButtonBlue(ui->ButtonModifier);
+    StyleButtonDarkred(ui->ButtonExit);
+    StyleButtonRed(ui->ButtonSupprimer);
+
+    StyleTableWidget(ui->tableWidget);
+
+
 }
 
 void ProjectWorkFlowDialog::ShowDialog(Projet WorkingProject){

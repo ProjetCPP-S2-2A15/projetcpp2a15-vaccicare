@@ -47,6 +47,8 @@ private:
     QString genererHistorique(int id, const VaccinSnapshot &nouveau);
     void ajouterHistoriqueDansTable(int id, int ancienStock, int nouveauStock);
     void on_btnOuvrirDossier_clicked();
+
+    void setupDesign();
 };
 
 #endif // HISTORIQUEVACCINDIALOG_H

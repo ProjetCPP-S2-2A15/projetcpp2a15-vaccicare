@@ -29,7 +29,7 @@
 //#include <QSsl>
 //#include <QSslSocket> // Add this for SSL support
 #include <QMessageBox>
-
+#include "Design.h"
 #include <QScopedPointer>
 //#include "smtp.h"
 
@@ -43,12 +43,30 @@ Dialoglistepatient::Dialoglistepatient(QWidget *parent)
     connect(ui->ButtonModifier,&QPushButton::clicked,this,&Dialoglistepatient::on_buttonSupprimer_clicked);
     //connect(ui->ButtonPDF,&QPushButton::clicked,this,&Dialoglistepatient::on_buttonPDF_clicked);
     connect(ui->ButtonRetourner,&QPushButton::clicked,this,&Dialoglistepatient::ExitApp);
+
+    setupDesign();
 }
 
 Dialoglistepatient::~Dialoglistepatient()
 {
     delete ui;
 }
+
+void Dialoglistepatient::setupDesign() {
+
+    StyleButtonGreen(ui->ButtonAjouter);
+    StyleButtonRed(ui->ButtonSupprimer);
+    StyleButtonBlue(ui->ButtonModifier);
+    StyleButtonDarkred(ui->ButtonRetourner);
+
+    StyleTextEdit(ui->recherche);
+    StyleComboBox(ui->recherche_par);
+    StyleComboBox(ui->tri);
+
+    StyleTableView(ui->tableView);
+
+}
+
 
 //void Dialoglistepatient::on_Pat_Button_ExportPDF_clicked()
 //{

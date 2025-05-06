@@ -23,6 +23,8 @@ private:
     void Comfirmer();
     void chargerTypesVaccin();
     bool IsModeAjout;
+
+    void setupDesign();
 };
 
 #endif // FICHEVACCIN_H

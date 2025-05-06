@@ -28,6 +28,8 @@ private:
     QString operation_actuelle;
     void ExitApp();
     Patient result;
+
+    void setupDesign();
 };
 
 #endif // DIALOGFORMPATIENT_H

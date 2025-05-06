@@ -1,5 +1,6 @@
 #include "fichevaccin.h"
 #include "ui_fichevaccin.h"
+#include "Design.h"
 
 
 ficheVaccin::ficheVaccin(QWidget *parent ,bool IsModeAjout , int ID_Vaccin) :
@@ -14,6 +15,8 @@ ficheVaccin::ficheVaccin(QWidget *parent ,bool IsModeAjout , int ID_Vaccin) :
     connect(ui->ButtonConfirmer,&QPushButton::clicked,this,&ficheVaccin::Comfirmer);
 
     chargerTypesVaccin();
+    setupDesign();
+
     //chargerHistoriqueDepuisFichier();
 
     ui->comboBoxAgent->addItems({"Virus","Bactérie","Parasite","Champignon","Autre"});
@@ -43,6 +46,31 @@ ficheVaccin::ficheVaccin(QWidget *parent ,bool IsModeAjout , int ID_Vaccin) :
 ficheVaccin::~ficheVaccin()
 {
     delete ui;
+}
+
+void ficheVaccin::setupDesign()
+{
+    StyleLabel(ui->label);
+    StyleLabel(ui->label_5);
+    StyleLabel(ui->label_9);
+
+    StyleLineEdit(ui->lineEditidv);
+    StyleLineEdit(ui->lineEditNom);
+    StyleLineEdit(ui->lineEditPays);
+    StyleLineEdit(ui->lineEditTemp);
+    StyleLineEdit(ui->lineEditStock);
+
+    StyleComboBox(ui->comboBoxAgent);
+    StyleComboBox(ui->comboBoxTypev);
+    StyleComboBox(ui->comboBoxStatut);
+    StyleComboBox(ui->comboBoxAutorisation);
+
+    StyleButtonGreen(ui->ButtonConfirmer);
+    StyleButtonRed(ui->ButtonAnnuler);
+
+    StyleDateEdit(ui->dateEditDateDev);
+    StyleDateEdit(ui->dateEditPeremption);
+
 }
 
 void ficheVaccin::chargerTypesVaccin() {

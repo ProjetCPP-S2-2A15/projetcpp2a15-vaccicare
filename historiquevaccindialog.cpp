@@ -1,6 +1,6 @@
 #include "historiquevaccindialog.h"
 #include "ui_historiquevaccindialog.h"
-
+#include "Design.h"
 
 HistoriqueVaccinDialog::HistoriqueVaccinDialog(QWidget *parent) :
     QDialog(parent),
@@ -20,11 +20,22 @@ HistoriqueVaccinDialog::HistoriqueVaccinDialog(QWidget *parent) :
     tableWidgetHistorique->setHorizontalHeaderLabels(headers);
 
     tableWidgetHistorique->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    setupDesign();
 }
 
 HistoriqueVaccinDialog::~HistoriqueVaccinDialog()
 {
     delete ui;
+}
+
+void HistoriqueVaccinDialog::setupDesign() {
+
+    StyleButtonDarkred(ui->ButtonExit);
+    StyleButtonDarkblue(ui->pushButtontxtstock);
+
+    StyleTableWidget(ui->tableWidgethis);
+
 }
 
 void HistoriqueVaccinDialog::CloseDialog(){

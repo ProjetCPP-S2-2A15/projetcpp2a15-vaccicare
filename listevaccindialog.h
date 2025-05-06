@@ -30,6 +30,8 @@ private:
     void ExitDialog();
     void ShowStockHistory();
 
+    void setupDesign();
+
 };
 
 #endif // LISTEVACCINDIALOG_H
