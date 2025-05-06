@@ -16,6 +16,14 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    QPixmap bkgnd(":/images/backgroundV.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setAutoFillBackground(true);
+    this->setPalette(palette);
+
+
     // Connexion des boutons
     connect(ui->ButtonParametre, &QPushButton::clicked, this, &MainWindow::OuvrirParametre);
     connect(ui->ButtonExit, &QPushButton::clicked, this, &MainWindow::ExitApp);
@@ -26,16 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonStatistique, &QPushButton::clicked, this, &MainWindow::OuvrirStatistique);
     connect(ui->ButtonPatient, &QPushButton::clicked, this, &MainWindow::OuvrirPatient);
 
-    // Définir l'image de fond avec QPixmap
-    QPixmap background(":/image/background_vaccicare.png");
-    if (!background.isNull()) {
-        QPalette palette;
-        palette.setBrush(QPalette::Window, background.scaled(this->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-        this->setPalette(palette);
-        this->setAutoFillBackground(true);
-    } else {
-        QMessageBox::warning(this, "Erreur", "Impossible de charger l'image de fond.");
-    }
 
     // Cacher les boutons
     ui->ButtonPatient->setHidden(true);

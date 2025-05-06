@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/image">
-        <file>picture/background vaccicare.png</file>
+    <qresource prefix="/">
+        <file>images/backgroundV.png</file>
     </qresource>
 </RCC>

@@ -38,11 +38,11 @@ void DialogListeMedecin::setupDesign()
     StyleComboBox(ui->comboBox);
     StyleComboBox(ui->comboBox_tri);
 
-    StyleButtonGreen(ui->pushButton);
-    StyleButtonRed(ui->pushButton_2);
-    StyleButtonDarkblue(ui->pushButton_5);
+    StyleButtonGreen(ui->Ajoutermed);
+    StyleButtonRed(ui->Supprimermed);
+    StyleButtonDarkblue(ui->Modifiermed);
 
-    StyleTableView(ui->tableView);
+    StyleTableView(ui->tableview);
 }
 
 void DialogListeMedecin::OuvrirAjouter() {

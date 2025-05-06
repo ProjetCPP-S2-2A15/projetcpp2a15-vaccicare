@@ -36,8 +36,6 @@ SOURCES += \
     projet.cpp \
     resources.cpp \
     selectprojectdialog.cpp \
-    dialoglistemedecin.cpp \
-    fichemedecin.cpp\
     smtp.cpp \
     vaccin.cpp
 
@@ -67,8 +65,6 @@ HEADERS += \
     projet.h \
     resources.h \
     selectprojectdialog.h \
-    dialoglistemedecin.h \
-    fichemedecin.h\
     smtp.h \
     vaccin.h
 
@@ -89,14 +85,11 @@ FORMS += \
     logindialog.ui \
     mainwindow.ui \
     projectworkflowdialog.ui \
-    selectprojectdialog.ui \
-    dialoglistemedecin.ui \
-    fichemedecin.ui
+    selectprojectdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES += resources.qrc \
-    resources.qrc
+RESOURCES += resources.qrc
