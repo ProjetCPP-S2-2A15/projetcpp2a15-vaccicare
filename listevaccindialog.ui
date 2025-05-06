@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>470</width>
+    <width>563</width>
     <height>598</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@
   <widget class="QCheckBox" name="checkBox_tri_DD">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>240</x>
      <y>100</y>
      <width>171</width>
      <height>24</height>
@@ -44,7 +44,7 @@
     <rect>
      <x>180</x>
      <y>20</y>
-     <width>161</width>
+     <width>211</width>
      <height>26</height>
     </rect>
    </property>
@@ -54,7 +54,7 @@
     <rect>
      <x>40</x>
      <y>150</y>
-     <width>401</width>
+     <width>481</width>
      <height>381</height>
     </rect>
    </property>
@@ -62,7 +62,7 @@
   <widget class="QPushButton" name="pushButton_rechercherPays">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>420</x>
      <y>60</y>
      <width>93</width>
      <height>29</height>
@@ -75,7 +75,7 @@
   <widget class="QPushButton" name="PushButtonRefresh">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>420</x>
      <y>100</y>
      <width>93</width>
      <height>29</height>
@@ -88,7 +88,7 @@
   <widget class="QPushButton" name="PushButtonSupprimer">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>240</x>
      <y>550</y>
      <width>93</width>
      <height>29</height>
@@ -101,7 +101,7 @@
   <widget class="QPushButton" name="PushButtonModifier">
    <property name="geometry">
     <rect>
-     <x>190</x>
+     <x>130</x>
      <y>550</y>
      <width>93</width>
      <height>29</height>
@@ -116,7 +116,7 @@
     <rect>
      <x>180</x>
      <y>60</y>
-     <width>161</width>
+     <width>211</width>
      <height>26</height>
     </rect>
    </property>
@@ -137,7 +137,7 @@
   <widget class="QPushButton" name="pushButton_rechercherNom">
    <property name="geometry">
     <rect>
-     <x>350</x>
+     <x>420</x>
      <y>20</y>
      <width>93</width>
      <height>29</height>
@@ -150,7 +150,7 @@
   <widget class="QPushButton" name="PushButtonAjouter">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>20</x>
      <y>550</y>
      <width>93</width>
      <height>29</height>
@@ -163,7 +163,7 @@
   <widget class="QCheckBox" name="checkBox_tri_DPrem">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>80</x>
      <y>100</y>
      <width>151</width>
      <height>24</height>
@@ -171,6 +171,32 @@
    </property>
    <property name="text">
     <string>Tri Par Date Prem</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="ButtonExit">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>550</y>
+     <width>93</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="PushButtonSupprimer_2">
+   <property name="geometry">
+    <rect>
+     <x>350</x>
+     <y>550</y>
+     <width>93</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Historique Stock</string>
    </property>
   </widget>
  </widget>

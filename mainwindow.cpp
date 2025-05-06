@@ -6,6 +6,9 @@
 #include <QMessageBox>
 #include <QPixmap>
 #include <QPalette>
+#include "dialoglistepatient.h"
+#include "dialoglistemedecin.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

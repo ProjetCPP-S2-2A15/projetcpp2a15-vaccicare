@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QDate>
+#include <QMap>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include "QMessageBox"
@@ -13,6 +14,7 @@ private:
 
 
 public:
+
     int id;
     QString nom;
     int idTypeV;
@@ -44,7 +46,6 @@ public:
     bool verifierSaisie(QString &messageErreur);
 
     int getStock(int id);
-
 
 
 };
