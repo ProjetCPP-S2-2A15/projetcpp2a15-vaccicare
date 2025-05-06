@@ -4,6 +4,10 @@
 #include <QDialog>
 #include "medecin.h"
 #include <QDebug>
+#include "qsqlerror.h"
+#include "qsqlquery.h"
+#include "ui_fichemedecin.h"
+#include <QMessageBox>
 
 namespace Ui {
 class ficheMedecin;
@@ -14,23 +18,19 @@ class ficheMedecin : public QDialog
     Q_OBJECT
 
 public:
-    explicit ficheMedecin(QWidget *parent = nullptr);
+    explicit ficheMedecin(QWidget *parent = nullptr,bool IsModeAjout = false,int Id_Medecin = -1);
     ~ficheMedecin();
     Medecin GetResult() const { return result;};
-    //void Valider();
-    void Annuler();
-
-private slots:
-    void Operation(const QString &op);
-    void on_Pat_Button_Confirmer_clicked();
-    void on_pushButton_Confirmer_clicked();
 
 private:
     Ui::ficheMedecin *ui;
     Medecin result;
     QString operation_actuelle;
-    void ExitApp();
-
+    void ShowDialog();
+    bool IsModeAjout;
+    int ID_Medecin;
+    void Comfirmer();
+    void Annuler();
 
 };
 
