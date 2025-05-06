@@ -39,6 +39,7 @@ void DialogListeMedecin::setupDesign()
 
     StyleButtonGreen(ui->Ajoutermed);
     StyleButtonRed(ui->Supprimermed);
+
     StyleButtonBlue(ui->Modifiermed);
 
     StyleTableView(ui->tableview);
