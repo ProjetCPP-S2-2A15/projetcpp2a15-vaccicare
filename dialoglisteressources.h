@@ -23,6 +23,8 @@ private slots:
 private:
     Ui::Dialoglisteressources *ui;
     void ExitApp();
+
+    void setupDesign();
 };
 
 #endif // DIALOGLISTERESSOURCES_H

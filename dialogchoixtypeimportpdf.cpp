@@ -1,4 +1,5 @@
 #include "dialogchoixtypeimportpdf.h"
+#include "build/Desktop_Qt_6_5_3_MinGW_64_bit-Debug/ui_dialogchoixtypeimportpdf.h"
 #include "ui_dialogchoixtypeimportpdf.h"
 #include "Design.h"
 
@@ -127,7 +128,7 @@ bool DialogChoixTypeImportPDF::GenererPDFProjet(QString fileName,QDate startDate
 
     // === Export TO PDF ===
     QPdfWriter writer(fullFilePath);
-    writer.setPageSize(QPagedPaintDevice::A4);
+    writer.setPageSize(QPageSize::A4);
     writer.setResolution(300);
 
     QPainter painter(&writer);

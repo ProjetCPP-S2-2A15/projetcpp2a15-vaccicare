@@ -32,6 +32,8 @@ private:
     std::vector<std::pair<std::regex, std::string>> responses;
     void ExitApp();
 
+    void setupDesign();
+
 };
 
 #endif // CHATBOT_H

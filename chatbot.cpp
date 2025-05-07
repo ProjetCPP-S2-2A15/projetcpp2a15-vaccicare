@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <regex>
+#include "Design.h"
 
 Chatbot::Chatbot(QWidget *parent)
     : QDialog(parent)
@@ -16,6 +17,9 @@ Chatbot::Chatbot(QWidget *parent)
     connect(ui->BTC, &QPushButton::clicked, this, [this]() {
         // Get the user input and pass it to SimpleChatbot for processing
         SimpleChatbot(ui->Prompt, ui->Reply);
+
+    setupDesign();
+
     });
 }
 
@@ -144,4 +148,14 @@ void Chatbot::updateChat(const QString& userInput, QTextEdit* prompt, QTextEdit*
 
 void Chatbot::ExitApp(){
     close();
+}
+
+void Chatbot::setupDesign() {
+
+    StyleButtonGreen(ui->BTC);
+    StyleButtonGreen(ui->BTR);
+
+    StyleTextEdit(ui->Prompt);
+    StyleTextEdit(ui->Reply);
+
 }

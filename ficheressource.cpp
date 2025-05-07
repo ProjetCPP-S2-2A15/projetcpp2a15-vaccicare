@@ -3,6 +3,7 @@
 #include "resources.h"
 #include <QDialog>
 #include <QMessageBox>
+#include "Design.h"
 
 ficheressource::ficheressource(QWidget *parent)
     : QDialog(parent)
@@ -12,6 +13,8 @@ ficheressource::ficheressource(QWidget *parent)
     ui->setupUi(this);
     connect(ui->ButtonC,&QPushButton::clicked,this,&ficheressource::Valider);
     connect(ui->ButtonR,&QPushButton::clicked,this,&ficheressource::ExitApp);
+
+    SetupDesign();
 }
 
 ficheressource::~ficheressource()
@@ -118,3 +121,22 @@ void ficheressource::Annuler() {
 void ficheressource::ExitApp(){
     close();
 }
+
+void ficheressource::SetupDesign(){
+
+    StyleLineEdit(ui->lineEdit);
+    StyleLineEdit(ui->lineEdit_2);
+    StyleLineEdit(ui->lineEdit_3);
+    StyleLineEdit(ui->lineEdit_4);
+    StyleLineEdit(ui->lineEdit_5);
+    StyleLineEdit(ui->lineEdit_6);
+    StyleLineEdit(ui->lineEdit_7);
+    StyleLineEdit(ui->lineEdit_8);
+
+    StyleButtonGreen(ui->ButtonC);
+    StyleButtonRed(ui->ButtonR);
+
+
+}
+
+

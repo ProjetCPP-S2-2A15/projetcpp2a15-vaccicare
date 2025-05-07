@@ -27,6 +27,8 @@ private:
     QString operation_actuelle;
     Resources result = Resources(0,"",0,0,0,0,0,0);
     void ExitApp();
+
+    void SetupDesign();
 };
 
 #endif // FICHERESSOURCE_H

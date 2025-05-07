@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QTableView>
 #include <QAbstractItemView>
+#include "Design.h"
 
 
 Dialoglisteressources::Dialoglisteressources(QWidget *parent)
@@ -19,6 +20,9 @@ Dialoglisteressources::Dialoglisteressources(QWidget *parent)
     connect(ui->SupR,&QPushButton::clicked,this,&Dialoglisteressources::on_buttonSupprimer_clicked);
     //connect(ui->ButtonPDF,&QPushButton::clicked,this,&Dialoglistepatient::on_buttonPDF_clicked);
     //connect(ui->ButtonRetourner,&QPushButton::clicked,this,&::Dialoglisteressources::ExitApp);
+
+    setupDesign();
+
 }
 
 Dialoglisteressources::~Dialoglisteressources()
@@ -86,4 +90,17 @@ void Dialoglisteressources::on_buttonSupprimer_clicked()
 
 void Dialoglisteressources::ExitApp(){
     close();
+}
+
+void Dialoglisteressources::setupDesign(){
+
+    StyleButtonBlue(ui->ModR);
+    StyleButtonGreen(ui->AjtR);
+    StyleButtonRed(ui->SupR);
+
+    StyleComboBox(ui->triR);
+    StyleComboBox(ui->recherchepar);
+
+    StyleTextEdit(ui->rechercherR);
+    StyleTableView(ui->tableR);
 }
