@@ -144,7 +144,7 @@ QStringList AddRessource::fetchResourcesFromDB()
 }
 
 void AddRessource::notif() {
-    int quantite;
+    int quantite = 0 ;
     QString nomRessource;
     QSqlQuery query;
     query.prepare("SELECT QUANTITE FROM RESSOURCE WHERE NOM = :nom");

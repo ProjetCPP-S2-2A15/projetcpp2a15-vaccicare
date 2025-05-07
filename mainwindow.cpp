@@ -27,11 +27,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonListeMedecin, &QPushButton::clicked, this, &MainWindow::OuvrirListeMedecin);
     connect(ui->ButtonCalendrier, &QPushButton::clicked, this, &MainWindow::OuvrirCalendrier);
     connect(ui->ButtonConsultationStock, &QPushButton::clicked, this, &MainWindow::OuvrirChoixStock);
-    connect(ui->ButtonStatistique, &QPushButton::clicked, this, &MainWindow::OuvrirStatistique);
     connect(ui->ButtonPatient, &QPushButton::clicked, this, &MainWindow::OuvrirPatient);
     connect(ui->ButtonImport, &QPushButton::clicked, this, &MainWindow::OuvrirImportPDF);
     connect(ui->ButtonChat,&QPushButton::clicked,this,&MainWindow::OuvrirChatbot);
     connect(ui->ButtonGenererRessource,&QPushButton::clicked,this,&MainWindow::OuvrirGenererRessource);
+    connect(ui->ButtonStat, &QPushButton::clicked, this, &MainWindow::OuvrirChoixStat);
 
 
     setupDesign();
@@ -50,11 +50,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ButtonListeProjet->setHidden(true);
     ui->ButtonCalendrier->setHidden(true);
     ui->ButtonConsultationStock->setHidden(true);
-    ui->ButtonStatistique->setHidden(true);
     ui->ButtonListeMedecin->setHidden(true);
     ui->ButtonImport->setHidden(true);
     ui->ButtonChat->setHidden(true);
     ui->ButtonGenererRessource->setHidden(true);
+    ui->ButtonStat->setHidden(true);
 
     // Connexion à la base de données
     bool Connected;
@@ -72,12 +72,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::OuvrirParametre() {}
-
-void MainWindow::OuvrirStatistique(){
-
-}
 
 void MainWindow::OuvrirResource(){
     Dialoglisteressources *NewDialog = new Dialoglisteressources();
@@ -160,10 +155,10 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser)
         ui->ButtonListeProjet->setHidden(false);
         ui->ButtonCalendrier->setHidden(false);
         ui->ButtonConsultationStock->setHidden(false);
-        ui->ButtonStatistique->setHidden(false);
         ui->ButtonListeMedecin->setHidden(false);
         ui->ButtonImport->setHidden(false);
         ui->ButtonChat->setHidden(false);
+        ui->ButtonStat->setHidden(false);
         break;
     case LogInDialog::Result::Doctor:
         ui->ButtonParametre->setHidden(false);
@@ -216,8 +211,8 @@ void MainWindow::setupDesign(){
     StyleButtonDarkblue(ui->ButtonPatient);
     StyleButtonDarkblue(ui->ButtonConsultationStock);
     StyleButtonDarkblue(ui->ButtonCalendrier);
-    StyleButtonDarkblue(ui->ButtonStatistique);
     StyleButtonDarkblue(ui->ButtonImport);
+    StyleButtonDarkblue(ui->ButtonStat);
 
     StyleButtonGreen(ui->ButtonChat);
     StyleButtonDarkred(ui->ButtonExit);
@@ -226,5 +221,10 @@ void MainWindow::setupDesign(){
 
 void MainWindow::OuvrirGenererRessource(){
     AddRessource *NewDialog = new AddRessource(this);
+    NewDialog->exec();
+}
+
+void MainWindow::OuvrirChoixStat(){
+    DialogChoixStat *NewDialog = new DialogChoixStat(this);
     NewDialog->exec();
 }

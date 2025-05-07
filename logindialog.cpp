@@ -29,6 +29,7 @@ void LogInDialog::setupDesign()
     StyleTextEdit(ui->USRIN);
 
     StyleDialogButtonBox(ui->buttonBox);
+    StyleButtonDarkblue(ui->ButtonScanCard);
 
 }
 

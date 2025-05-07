@@ -29,7 +29,7 @@ Chatbot::~Chatbot()
 }
 
 void Chatbot::showBotImage() {
-    QPixmap pixmap("C:/Users/Takwa/Documents/GitHub/projetcpp2a15-vaccicare/images/Vaccino.png");
+    QPixmap pixmap("D:/OpenGlChess/OpenGlFramework/projetcpp2a15-vaccicare/images/Vaccino.png");
     if (!pixmap.isNull()) {
         // Set the frame to be transparent
         ui->frame->setStyleSheet("QFrame { background: transparent; border: none; }");

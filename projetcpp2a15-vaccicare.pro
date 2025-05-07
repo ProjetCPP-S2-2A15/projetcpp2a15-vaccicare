@@ -10,6 +10,7 @@ CONFIG += c++17   #•kenet 11
 
 SOURCES += \
     Design.cpp \
+    StatTvaccin.cpp \
     addressource.cpp \
     arduino.cpp \
     calendrierdialog.cpp \
@@ -18,12 +19,14 @@ SOURCES += \
     chatbot.cpp \
     connection.cpp \
     date.cpp \
+    dialogchoixstat.cpp \
     dialogchoixtypeimportpdf.cpp \
     dialogformpatient.cpp \
     dialogchoixstock.cpp \
     dialoglistepatient.cpp \
     dialoglistemedecin.cpp\
     dialoglisteressources.cpp \
+    dialogstatmedecin.cpp \
     experience.cpp \
     ficheepreience.cpp \
     ficheprojet.cpp \
@@ -44,10 +47,12 @@ SOURCES += \
     resources.cpp \
     selectprojectdialog.cpp \
     smtp.cpp \
+    statsscreen.cpp \
     vaccin.cpp
 
 HEADERS += \
     Design.h \
+    StatTvaccin.h \
     addressource.h \
     arduino.h \
     calendrierdialog.h \
@@ -56,12 +61,14 @@ HEADERS += \
     chatbot.h \
     connection.h \
     date.h \
+    dialogchoixstat.h \
     dialogchoixtypeimportpdf.h \
     dialogformpatient.h \
     dialogchoixstock.h \
     dialoglistepatient.h \
     dialoglistemedecin.h\
     dialoglisteressources.h \
+    dialogstatmedecin.h \
     experience.h \
     ficheepreience.h \
     ficheprojet.h \
@@ -81,6 +88,7 @@ HEADERS += \
     resources.h \
     selectprojectdialog.h \
     smtp.h \
+    statsscreen.h \
     vaccin.h
 
 FORMS += \
@@ -88,12 +96,14 @@ FORMS += \
     calendrierdialog.ui \
     cardreaderdialog.ui \
     chatbot.ui \
+    dialogchoixstat.ui \
     dialogchoixtypeimportpdf.ui \
     dialogformpatient.ui \
     dialogchoixstock.ui \
     dialoglistepatient.ui \
     dialoglistemedecin.ui\
     dialoglisteressources.ui \
+    dialogstatmedecin.ui \
     ficheepreience.ui \
     ficheprojet.ui \
     fichemedecin.ui\
@@ -105,7 +115,8 @@ FORMS += \
     logindialog.ui \
     mainwindow.ui \
     projectworkflowdialog.ui \
-    selectprojectdialog.ui
+    selectprojectdialog.ui \
+    statsscreen.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
