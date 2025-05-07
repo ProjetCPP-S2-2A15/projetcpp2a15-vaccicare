@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>933</width>
+      <width>1020</width>
       <height>41</height>
      </rect>
     </property>
@@ -70,6 +70,13 @@
       <widget class="QPushButton" name="ButtonStatistique">
        <property name="text">
         <string>Statistics</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ButtonGenererRessource">
+       <property name="text">
+        <string>Generer Ressource</string>
        </property>
       </widget>
      </item>
