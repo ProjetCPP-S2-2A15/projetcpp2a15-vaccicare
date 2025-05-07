@@ -35,8 +35,8 @@ void DialogListeMedecin::setupDesign()
 
     StyleLineEdit(ui->lineEdit_rechercher);
 
-    StyleComboBox(ui->comboBox);
     StyleComboBox(ui->comboBox_tri);
+    StyleComboBox(ui->comboBox);
 
     StyleButtonGreen(ui->Ajoutermed);
     StyleButtonRed(ui->Supprimermed);

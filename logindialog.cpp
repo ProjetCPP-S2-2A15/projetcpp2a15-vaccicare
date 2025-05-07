@@ -30,6 +30,8 @@ void LogInDialog::setupDesign()
 
     StyleDialogButtonBox(ui->buttonBox);
 
+    StyleButtonDarkred(ui->ButtonScanCard);
+
 }
 
 
