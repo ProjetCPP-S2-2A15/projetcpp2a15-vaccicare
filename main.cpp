@@ -99,8 +99,8 @@ int main(int argc, char *argv[])
 
     // Clean up
     c.FermerConnexion(); // Close database connection
-    arduino.close_arduino(); // Close Arduino serial connection
+  arduino.close_arduino(); // Close Arduino serial connection
 
-    return result;
+   return result;
 }
 

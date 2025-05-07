@@ -47,11 +47,11 @@ bool Patient::Ajouter()
     query.bindValue(":DATE_NAISSANCE", DATE_NAISSANCE);
     query.bindValue(":SEXE", SEXE);
     query.bindValue(":ADRESSE", ADRESSE);
-    query.bindValue(":TELEPHONE", TELEPHONE);
+    query.bindValue(":TELEPHONE", QString::number(TELEPHONE));
     query.bindValue(":EMAIL", EMAIL);
     query.bindValue(":GROUPE_SANGUIN", GROUPE_SANGUIN);
-    query.bindValue(":STATUT_VACCINAL", STATUT_VACCINAL);
-    query.bindValue(":DATE_VACCIN", DATE_VACCIN);
+    query.bindValue(":STATUT_VACCINAL", 1);
+    query.bindValue(":DATE_VACCIN", Date::ConvertDateToInt(DATE_VACCIN));
     query.bindValue(":ID_PROJET_TESTER", ID_PROJET_TESTER);
     return query.exec();
 }
@@ -66,11 +66,11 @@ bool Patient::Modifier()
     query.bindValue(":DATE_NAISSANCE", DATE_NAISSANCE);
     query.bindValue(":SEXE", SEXE);
     query.bindValue(":ADRESSE", ADRESSE);
-    query.bindValue(":TELEPHONE", TELEPHONE);
+    query.bindValue(":TELEPHONE", QString::number(TELEPHONE));
     query.bindValue(":EMAIL", EMAIL);
     query.bindValue(":GROUPE_SANGUIN", GROUPE_SANGUIN);
-    query.bindValue(":STATUT_VACCINAL", STATUT_VACCINAL);
-    query.bindValue(":DATE_VACCIN", DATE_VACCIN);
+    query.bindValue(":STATUT_VACCINAL", 1);
+    query.bindValue(":DATE_VACCIN", Date::ConvertDateToInt(DATE_VACCIN));
     query.bindValue(":ID_PROJET_TESTER", ID_PROJET_TESTER);
     return query.exec();
 }
@@ -85,21 +85,10 @@ bool Patient::Supprimer(int ID_PATIENT)
 
 QSqlQueryModel* Patient::Afficher()
 {
-    QSqlQueryModel* model = new QSqlQueryModel();
-    model->setQuery("SELECT TO_CHAR(ID_PATIENT) AS ID_PATIENT, NOM, PRENOM, TO_CHAR(DATE_NAISSANCE, 'DD/MM/YYYY') AS DATE_NAISSANCE, SEXE, ADRESSE, TO_CHAR(TELEPHONE) AS TELEPHONE, EMAIL, GROUPE_SANGUIN, STATUT_VACCINAL, TO_CHAR(DATE_VACCIN, 'DD/MM/YYYY') AS DATE_VACCIN, TO_CHAR(ID_PROJET_TESTER) AS ID_PROJET_TESTER FROM PATIENT");
-    model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID_PATIENT"));
-    model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
-    model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
-    model->setHeaderData(3, Qt::Horizontal, QObject::tr("DATE_NAISSANCE"));
-    model->setHeaderData(4, Qt::Horizontal, QObject::tr("SEXE"));
-    model->setHeaderData(5, Qt::Horizontal, QObject::tr("ADRESSE"));
-    model->setHeaderData(6, Qt::Horizontal, QObject::tr("TELEPHONE"));
-    model->setHeaderData(7, Qt::Horizontal, QObject::tr("EMAIL"));
-    model->setHeaderData(8, Qt::Horizontal, QObject::tr("GROUPE_SANGUIN"));
-    model->setHeaderData(9, Qt::Horizontal, QObject::tr("STATUT_VACCINAL"));
-    model->setHeaderData(10, Qt::Horizontal, QObject::tr("DATE_VACCIN"));
-    model->setHeaderData(11, Qt::Horizontal, QObject::tr("ID_PROJET_TESTER"));
-    return model;
+        QSqlQueryModel* model = new QSqlQueryModel();
+        model->setQuery("SELECT * FROM PATIENT WHERE ID_PATIENT >0");
+        return model;
+
 }
 
 QSqlQueryModel* Patient::Afficher_ID()
@@ -199,4 +188,20 @@ QAbstractItemModel* Patient::GetDataForPDF(){
     }
 
     return model;
+}
+
+int Patient::GetLastId(){
+    QSqlQuery Querry;
+    Querry.prepare("Select MAX(ID_PATIENT) FROM PATIENT;");
+    Querry.exec();
+
+    if (Querry.next()) {  // Move to the first row
+        QVariant result = Querry.value(0);
+        if (result.isNull()) {
+            return 0;  // Return 0 if the table is empty
+        }
+        return result.toInt();
+    }
+
+    return 0;  // If no rows exist, return 0
 }

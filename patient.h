@@ -6,6 +6,7 @@
 #include <QSqlQueryModel>
 #include <QTableView>
 #include <QDate>
+#include "date.h"
 #include <QDebug>
 
 class Patient
@@ -43,8 +44,8 @@ public:
 
     bool Ajouter();
     bool Modifier();
-    bool Supprimer(int ID_PATIENT);
-    QSqlQueryModel* Afficher();
+    static bool Supprimer(int ID_PATIENT);
+    static QSqlQueryModel* Afficher();
     QSqlQueryModel* Afficher_ID();
     QSqlQueryModel* Afficher_Tri_NOM();
     QSqlQueryModel* Afficher_Tri_STATUT_VACCINAL();
@@ -52,7 +53,7 @@ public:
     void clearTable(QTableView *table);
     void Recherche(QTableView *table, QString x);
     static QAbstractItemModel* GetDataForPDF();
-
+    static int GetLastId();
 private:
     int ID_PATIENT;
     QString NOM;
