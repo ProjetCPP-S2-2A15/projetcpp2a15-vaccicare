@@ -50,6 +50,25 @@ Dialogformpatient::~Dialogformpatient()
 
 void Dialogformpatient::setupDesign() {
 
+    StyleLineEdit(ui->Pat_Adresse);
+    StyleLineEdit(ui->Pat_Email);
+    StyleLineEdit(ui->Pat_Line_ID);
+    StyleLineEdit(ui->Pat_Line_Id_Testeur);
+    StyleLineEdit(ui->Pat_Line_Nom);
+    StyleLineEdit(ui->Pat_Line_Prenom);
+    StyleLineEdit(ui->Pat_Telephone);
+
+
+    StyleComboBox(ui->Pat_Combo_Sexe);
+    StyleComboBox(ui->Pat_Combo_Statut);
+    StyleComboBox(ui->Pat_Combo_groupe);
+
+    StyleButtonGreen(ui->ButtonConfirmer);
+    StyleButtonRed(ui->ButtonRetourner);
+
+
+    StyleDateEdit(ui->Pat_Date_Vaccin);
+    StyleDateEdit(ui->Pat_Date_naissance);
 
 
 }
