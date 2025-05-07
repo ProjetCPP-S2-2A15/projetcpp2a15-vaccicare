@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>976</width>
+    <width>662</width>
     <height>641</height>
    </rect>
   </property>
@@ -176,9 +176,9 @@
   <widget class="QPushButton" name="ButtonExit">
    <property name="geometry">
     <rect>
-     <x>550</x>
-     <y>550</y>
-     <width>93</width>
+     <x>240</x>
+     <y>590</y>
+     <width>201</width>
      <height>29</height>
     </rect>
    </property>
@@ -197,6 +197,19 @@
    </property>
    <property name="text">
     <string>Historique Stock</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="AjoutFromPDF">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>550</y>
+     <width>131</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ajout From PDF</string>
    </property>
   </widget>
  </widget>

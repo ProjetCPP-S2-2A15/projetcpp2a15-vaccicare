@@ -14,6 +14,7 @@ ProjectWorkFlowDialog::ProjectWorkFlowDialog(QWidget *parent ,int User_Id) :
     connect(ui->ButtonAjouter,&QPushButton::clicked,this,&ProjectWorkFlowDialog::AddExperience);
     connect(ui->ButtonModifier,&QPushButton::clicked,this,&ProjectWorkFlowDialog::ModifiyExperience);
     connect(ui->ButtonSupprimer,&QPushButton::clicked,this,&ProjectWorkFlowDialog::DeleteExperience);
+    connect(ui->ButtonImport,&QPushButton::clicked,this,&ProjectWorkFlowDialog::ImportPdf);
 
     ProjectsForUser = Projet::ReadProjectListFromDB(UserId);
     if(ProjectsForUser.size() == 0){
@@ -145,4 +146,27 @@ void ProjectWorkFlowDialog::CloseDialog(){
                              QMessageBox::Ok);
         close();
     }
+}
+
+void ProjectWorkFlowDialog::ImportPdf(){
+    PDFScanner *Scanner = new PDFScanner();
+    QString filePath = Scanner->SelectPDF();
+    if(filePath != ""){
+        bool Scanned;
+        Scanned = Scanner->ScanPDF(filePath);
+        if(!Scanned){
+            QMessageBox::warning(this, "File Error", "Failed to open scanned_output.txt");
+        }
+    }
+    delete Scanner;
+    const QString filepath = QCoreApplication::applicationDirPath() + "/scanned_output.txt";
+    QFile file(filepath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "File Error", "Failed to open scanned_output.txt");
+        return;
+    }
+    QTextStream in(&file);
+    QString fileContents = in.readAll();
+    file.close();
+    ui->textEdit->setText(fileContents);
 }

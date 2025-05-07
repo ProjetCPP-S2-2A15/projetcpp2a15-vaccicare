@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "fichevaccin.h"
 #include "historiquevaccindialog.h"
+#include "pdfscanner.h"
 
 namespace Ui {
 class ListeVaccinDialog;
@@ -29,7 +30,7 @@ private:
     void on_SupprimerButton_clicked();
     void ExitDialog();
     void ShowStockHistory();
-
+    void ImportFromPDF();
     void setupDesign();
 
 };

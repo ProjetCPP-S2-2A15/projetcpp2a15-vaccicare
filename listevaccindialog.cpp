@@ -16,6 +16,8 @@ ListeVaccinDialog::ListeVaccinDialog(QWidget *parent) :
     connect(ui->pushButton_rechercherPays, &QPushButton::clicked, this, &ListeVaccinDialog::on_PushButton_rechercherPays_clicked);
     connect(ui->ButtonExit, &QPushButton::clicked, this, &ListeVaccinDialog::ExitDialog);
     connect(ui->PushButtonSupprimer_2, &QPushButton::clicked, this, &ListeVaccinDialog::ShowStockHistory);
+    connect(ui->AjoutFromPDF, &QPushButton::clicked, this, &ListeVaccinDialog::ImportFromPDF);
+
 
     SetupTable();
     setupDesign();
@@ -258,4 +260,67 @@ void ListeVaccinDialog::ExitDialog(){
 void ListeVaccinDialog::ShowStockHistory(){
     HistoriqueVaccinDialog *NewDialog = new HistoriqueVaccinDialog();
     NewDialog->exec();
+}
+
+void ListeVaccinDialog::ImportFromPDF(){
+    PDFScanner *Scanner = new PDFScanner();
+    QString filePath = Scanner->SelectPDF();
+    if(filePath != ""){
+        bool Scanned;
+        Scanned = Scanner->ScanPDF(filePath);
+        if(!Scanned){
+            QMessageBox::warning(this, "File Error", "Failed to open scanned_output.txt");
+        }
+    }
+
+    const QString filepath = QCoreApplication::applicationDirPath() + "/scanned_output.txt";
+    QFile file(filepath);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            QMessageBox::warning(this, "File Error", "Failed to open scanned_output.txt");
+            return;
+        }
+
+        QTextStream in(&file);
+        while (!in.atEnd()) {
+            QString line = in.readLine().trimmed();
+            if (line.isEmpty()) continue;
+
+            QStringList fields = line.split(';');
+            if (fields.size() < 11) {
+                QMessageBox::warning(this, "Format Error", "Invalid line: " + line);
+                continue;
+            }
+
+            // Parse fields
+            int id = fields[0].toInt();
+            QString nom = fields[1];
+            int idTypeV = fields[2].toInt();
+            QString agentCible = fields[3];
+            QString statutDev = fields[4];
+            QDate dateDev = QDate::fromString(fields[5], "yyyyMMdd");
+            QString paysOrigine = fields[6];
+            int tempConservation = fields[7].toInt();
+            int stockDisponible = fields[8].toInt();
+            QDate datePeremption = QDate::fromString(fields[9], "yyyyMMdd");
+            QString autorisation = fields[10];
+
+            Vaccin vaccin(id, nom, idTypeV, agentCible, statutDev, dateDev,
+                          paysOrigine, tempConservation, stockDisponible,
+                          datePeremption, autorisation);
+
+            // Check for duplicate ID before inserting
+            if (vaccin.idExists(id)) {
+                QMessageBox::information(this, "Duplicate ID", "Vaccine ID already exists: " + QString::number(id));
+                continue;
+            }
+
+            if (!vaccin.ajouter()) {
+                QMessageBox::warning(this, "Database Error", "Failed to insert vaccine: " + nom);
+            }
+        }
+
+        file.close();
+
+        // Refresh the table after import
+        FillTable(ui->checkBox_tri_DD->isChecked(), ui->checkBox_tri_DPrem->isChecked());
 }

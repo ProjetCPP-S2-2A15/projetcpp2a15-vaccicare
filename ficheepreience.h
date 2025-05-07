@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "experience.h"
+#include "pdfscanner.h"
+#include <QMessageBox>
 
 namespace Ui {
 class ficheEpreience;
@@ -26,7 +28,7 @@ private:
     void SetupUI();
     void Annuler();
     void Valider();
-
+    void ImportPdf();
     void setupDesign();
 };
 

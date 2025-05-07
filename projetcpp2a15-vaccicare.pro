@@ -36,6 +36,7 @@ SOURCES += \
     mainwindow.cpp \
     medecin.cpp \
     patient.cpp \
+    pdfscanner.cpp \
     projectworkflowdialog.cpp \
     projet.cpp \
     resources.cpp \
@@ -69,6 +70,7 @@ HEADERS += \
     mainwindow.h \
     medecin.h \
     patient.h \
+    pdfscanner.h \
     projectworkflowdialog.h \
     projet.h \
     resources.h \
@@ -105,3 +107,44 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += resources.qrc
+
+DISTFILES += \
+    popler/bin/Lerc.dll \
+    popler/bin/cairo.dll \
+    popler/bin/charset.dll \
+    popler/bin/deflate.dll \
+    popler/bin/expat.dll \
+    popler/bin/fontconfig-1.dll \
+    popler/bin/freetype.dll \
+    popler/bin/iconv.dll \
+    popler/bin/jpeg8.dll \
+    popler/bin/lcms2.dll \
+    popler/bin/libcrypto-3-x64.dll \
+    popler/bin/libcurl.dll \
+    popler/bin/libexpat.dll \
+    popler/bin/liblzma.dll \
+    popler/bin/libpng16.dll \
+    popler/bin/libssh2.dll \
+    popler/bin/libtiff.dll \
+    popler/bin/libzstd.dll \
+    popler/bin/openjp2.dll \
+    popler/bin/pdfattach.exe \
+    popler/bin/pdfdetach.exe \
+    popler/bin/pdffonts.exe \
+    popler/bin/pdfimages.exe \
+    popler/bin/pdfinfo.exe \
+    popler/bin/pdfseparate.exe \
+    popler/bin/pdftocairo.exe \
+    popler/bin/pdftohtml.exe \
+    popler/bin/pdftoppm.exe \
+    popler/bin/pdftops.exe \
+    popler/bin/pdftotext.exe \
+    popler/bin/pdfunite.exe \
+    popler/bin/pixman-1-0.dll \
+    popler/bin/poppler-cpp.dll \
+    popler/bin/poppler-glib.dll \
+    popler/bin/poppler.dll \
+    popler/bin/tiff.dll \
+    popler/bin/zlib.dll \
+    popler/bin/zstd.dll \
+    popler/bin/zstd.exe

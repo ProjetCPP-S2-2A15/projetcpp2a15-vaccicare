@@ -30,7 +30,7 @@ private:
     void DeleteExperience();
     void ModifiyExperience();
     void AddExperience();
-
+    void ImportPdf();
     void setupDesign();
 
 };

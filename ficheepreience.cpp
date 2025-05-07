@@ -12,6 +12,7 @@ ficheEpreience::ficheEpreience(QWidget *parent,bool IsModeAjout,int ID_Experienc
 
     connect(ui->ButtonValider,&QPushButton::clicked,this,&ficheEpreience::Valider);
     connect(ui->ButtonAnnuler,&QPushButton::clicked,this,&ficheEpreience::Annuler);
+    connect(ui->ButtonImport,&QPushButton::clicked,this,&ficheEpreience::ImportPdf);
 
     SetupUI();
     setupDesign();
@@ -66,3 +67,27 @@ void ficheEpreience::Annuler(){
     result.ID_Experience = -1;
     close();
 }
+
+void ficheEpreience::ImportPdf(){
+    PDFScanner *Scanner = new PDFScanner();
+    QString filePath = Scanner->SelectPDF();
+    if(filePath != ""){
+        bool Scanned;
+        Scanned = Scanner->ScanPDF(filePath);
+        if(!Scanned){
+            QMessageBox::warning(this, "File Error", "Failed to open scanned_output.txt");
+        }
+    }
+    delete Scanner;
+    const QString filepath = QCoreApplication::applicationDirPath() + "/scanned_output.txt";
+    QFile file(filepath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "File Error", "Failed to open scanned_output.txt");
+        return;
+    }
+    QTextStream in(&file);
+    QString fileContents = in.readAll();
+    file.close();
+    ui->TextEditDescription->setText(fileContents);
+}
+
