@@ -45,6 +45,7 @@ Dialoglistepatient::Dialoglistepatient(QWidget *parent)
 
     ui->tableView->setModel(Patient::Afficher());
     setupDesign();
+    sendVaccinationReminders();
 }
 
 Dialoglistepatient::~Dialoglistepatient()
@@ -127,4 +128,50 @@ void Dialoglistepatient::on_buttonSupprimer_clicked()
 
 void Dialoglistepatient::ExitApp(){
     close();
+}
+
+void Dialoglistepatient::sendVaccinationReminders(){
+    QSqlQuery query;
+    QDate tomorrowDate = QDate::currentDate().addDays(1);
+
+    if (query.exec("SELECT EMAIL, NOM, PRENOM, DATE_VACCIN FROM PATIENT WHERE DATE_VACCIN IS NOT NULL")) {
+        while (query.next()) {
+            QString email = query.value(0).toString().trimmed();
+            QString nom = query.value(1).toString();
+            QString prenom = query.value(2).toString();
+            QDate vaccinationDate = QDateTime::fromString(query.value(3).toString(), Qt::ISODate).date();
+
+            if (vaccinationDate != tomorrowDate) continue;
+
+            if (!email.contains("@") || email.isEmpty()) {
+                QMessageBox::warning(this, tr("Qt Simple SMTP client"), tr("Invalid email address: %1\n\n").arg(email));
+                continue;
+            }
+
+            QString subject = "Rappel de Vaccination";
+            QString message = QString(
+                "Cher(e) %1 %2,\r\n\r\n"
+                "Nous vous rappelons que votre vaccination est prevue pour demain, le %3.\r\n"
+                "Veuillez vous presenter a l'heure convenue.\r\n\r\n"
+                "Cordialement,\r\n"
+                "L'equipe medicale"
+            ).arg(prenom).arg(nom).arg(vaccinationDate.toString("dd/MM/yyyy"));
+
+            Smtp* smtp = new Smtp("takwabelghith03@gmail.com", "xndxbwaviyzgiphh", "smtp.gmail.com", 465);
+            connect(smtp, &Smtp::status, this, [this, email, smtp](const QString &status) {
+                QTimer::singleShot(0, this, [this, status]() {
+                    if (status == "Message sent") {
+                        QMessageBox::information(this, tr("Qt Simple SMTP client"), tr("Message sent!\n\n"));
+                    } else {
+                        QMessageBox::warning(this, tr("Qt Simple SMTP client"), tr("Failed to send email: %1\n\n").arg(status));
+                    }
+                });
+                smtp->deleteLater();
+            });
+
+            smtp->sendMail("takwabelghith03@gmail.com", email, subject, message);
+        }
+    } else {
+        QMessageBox::warning(this, tr("Qt Simple SMTP client"), tr("Error executing query: %1\n\n").arg(query.lastError().text()));
+    }
 }

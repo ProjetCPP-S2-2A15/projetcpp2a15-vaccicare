@@ -81,9 +81,9 @@
   <widget class="QPushButton" name="ButtonScanCard">
    <property name="geometry">
     <rect>
-     <x>50</x>
+     <x>29</x>
      <y>220</y>
-     <width>80</width>
+     <width>101</width>
      <height>25</height>
     </rect>
    </property>

@@ -24,6 +24,7 @@ private:
     Ui::Dialoglistepatient *ui;
     void ExitApp();
     void setupDesign();
+    void sendVaccinationReminders();
 };
 
 #endif // DIALOGLISTEPATIENT_H

@@ -16,6 +16,7 @@
 #include "dialoglistepatient.h"
 #include "dialogchoixtypeimportpdf.h"
 #include "addressource.h"
+#include "dialogchoixstat.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -44,13 +45,13 @@ private:
     void OuvrirStockVaccin();
     void OuvrirListeProjet();
     void OuvrirListeMedecin();
-    void OuvrirStatistique();
     void OuvrirPatient();
     void OuvrirChoixStock();
     void setupDesign();
     void OuvrirImportPDF();
     void OuvrirChatbot();
     void OuvrirGenererRessource();
+    void OuvrirChoixStat();
 protected:
     void resizeEvent(QResizeEvent *event) override;
 };
