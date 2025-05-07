@@ -8,6 +8,7 @@
 #include "qtextedit.h"
 #include <QDialog>
 #include <regex>
+#include <QDebug>
 
 namespace Ui {
 class Chatbot;

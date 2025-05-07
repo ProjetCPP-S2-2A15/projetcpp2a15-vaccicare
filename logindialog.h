@@ -6,6 +6,7 @@
 #include "connection.h"
 #include <QPushButton>
 #include <QMessageBox>
+#include "cardreaderdialog.h"
 
 namespace Ui {
 class LogInDialog;
@@ -37,7 +38,7 @@ private:
     void CloseDialog();
     void ReturnDroit(int DroitId);
     User SetUserData(Result Droit,QString Username, QString Password ,int UserId);
-
+    void UseCard();
     void setupDesign();
 
 };

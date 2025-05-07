@@ -9,7 +9,7 @@ LogInDialog::LogInDialog(QWidget *parent) :
     ui->setupUi(this);
     connect(ui->buttonBox->button(QDialogButtonBox::Ok),&QPushButton::clicked,this,&LogInDialog::on_Log_clicked);
     connect(ui->buttonBox->button(QDialogButtonBox::Cancel),&QPushButton::clicked,this,&LogInDialog::CloseDialog);
-
+    connect(ui->ButtonScanCard,&QPushButton::clicked,this,&LogInDialog::UseCard);
     setupDesign();
 
 }
@@ -101,4 +101,9 @@ LogInDialog::User LogInDialog::SetUserData(Result Droit,QString Username, QStrin
     Temp.Password = Password;
     Temp.Id_User = UserId;
     return Temp;
+}
+
+void LogInDialog::UseCard(){
+    CardReaderDialog *NewDialog = new CardReaderDialog(this);
+    NewDialog->exec();
 }

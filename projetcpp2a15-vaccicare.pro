@@ -13,6 +13,8 @@ SOURCES += \
     addressource.cpp \
     arduino.cpp \
     calendrierdialog.cpp \
+    cardreader.cpp \
+    cardreaderdialog.cpp \
     chatbot.cpp \
     connection.cpp \
     date.cpp \
@@ -49,6 +51,8 @@ HEADERS += \
     addressource.h \
     arduino.h \
     calendrierdialog.h \
+    cardreader.h \
+    cardreaderdialog.h \
     chatbot.h \
     connection.h \
     date.h \
@@ -82,6 +86,7 @@ HEADERS += \
 FORMS += \
     addressource.ui \
     calendrierdialog.ui \
+    cardreaderdialog.ui \
     chatbot.ui \
     dialogchoixtypeimportpdf.ui \
     dialogformpatient.ui \
