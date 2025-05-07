@@ -15,6 +15,7 @@
 #include "fichemedecin.h"
 #include "dialoglistepatient.h"
 #include "dialogchoixtypeimportpdf.h"
+#include "addressource.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -49,6 +50,7 @@ private:
     void setupDesign();
     void OuvrirImportPDF();
     void OuvrirChatbot();
+    void OuvrirGenererRessource();
 protected:
     void resizeEvent(QResizeEvent *event) override;
 };

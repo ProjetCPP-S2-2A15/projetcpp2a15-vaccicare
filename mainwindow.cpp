@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ButtonPatient, &QPushButton::clicked, this, &MainWindow::OuvrirPatient);
     connect(ui->ButtonImport, &QPushButton::clicked, this, &MainWindow::OuvrirImportPDF);
     connect(ui->ButtonChat,&QPushButton::clicked,this,&MainWindow::OuvrirChatbot);
+    connect(ui->ButtonGenererRessource,&QPushButton::clicked,this,&MainWindow::OuvrirGenererRessource);
+
 
     setupDesign();
 
@@ -52,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->ButtonListeMedecin->setHidden(true);
     ui->ButtonImport->setHidden(true);
     ui->ButtonChat->setHidden(true);
+    ui->ButtonGenererRessource->setHidden(true);
 
     // Connexion à la base de données
     bool Connected;
@@ -167,6 +170,7 @@ void MainWindow::SetUpUIForUser(LogInDialog::Result CurrUser)
         ui->ButtonExit->setHidden(false);
         ui->ButtonListeProjet->setHidden(false);
         ui->ButtonChat->setHidden(false);
+        ui->ButtonGenererRessource->setHidden(false);
         break;
     case LogInDialog::Result::Secratary:
         break;
@@ -218,4 +222,9 @@ void MainWindow::setupDesign(){
     StyleButtonGreen(ui->ButtonChat);
     StyleButtonDarkred(ui->ButtonExit);
 
+}
+
+void MainWindow::OuvrirGenererRessource(){
+    AddRessource *NewDialog = new AddRessource(this);
+    NewDialog->exec();
 }
