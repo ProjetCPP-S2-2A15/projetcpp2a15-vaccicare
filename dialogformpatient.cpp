@@ -3,14 +3,41 @@
 #include "Design.h"
 #include <QMessageBox>
 
-Dialogformpatient::Dialogformpatient(QWidget *parent) :
+Dialogformpatient::Dialogformpatient(QWidget *parent,bool IsModeAjout,int ID_Patient) :
     QDialog(parent),
     ui(new Ui::Dialogformpatient)
 {
     ui->setupUi(this);
 
-    connect(ui->ButtonConfirmer,&QPushButton::clicked,this,&Dialogformpatient::on_Pat_Button_Confirmer_clicked);
+    connect(ui->ButtonConfirmer,&QPushButton::clicked,this,&Dialogformpatient::Valider);
     connect(ui->ButtonRetourner,&QPushButton::clicked,this,&Dialogformpatient::ExitApp);
+
+    this->IsModeAjout = IsModeAjout;
+    this->ID_Patient = ID_Patient;
+
+    if(IsModeAjout){
+        ui->Pat_Line_ID->setText(QString::number(ID_Patient));
+    }else{
+        QSqlQuery query1;
+        query1.prepare("SELECT * FROM PATIENT WHERE ID_PATIENT=:id");
+        query1.bindValue(":id",ID_Patient);
+                if (query1.exec()) {
+            while (query1.next()) {
+                ui->Pat_Line_ID->setText(query1.value(0).toString());
+                ui->Pat_Line_Nom->setText(query1.value(1).toString());
+                ui->Pat_Line_Prenom->setText(query1.value(2).toString());
+                ui->Pat_Date_naissance->setDate(query1.value(3).toDate());
+                ui->Pat_Combo_Sexe->setCurrentText(query1.value(4).toString());
+                ui->Pat_Adresse->setText(query1.value(5).toString());
+                ui->Pat_Telephone->setText(query1.value(6).toString());
+                ui->Pat_Email->setText(query1.value(7).toString());
+                ui->Pat_Combo_groupe->setCurrentText(query1.value(8).toString());
+                ui->Pat_Combo_Statut->setCurrentText(query1.value(9).toString());
+                ui->Pat_Date_Vaccin->setDate(query1.value(10).toDate());
+                ui->Pat_Line_Id_Testeur->setText(query1.value(11).toString());
+            }
+        }
+    }
 
     setupDesign();
 
@@ -23,66 +50,37 @@ Dialogformpatient::~Dialogformpatient()
 
 void Dialogformpatient::setupDesign() {
 
-    StyleLineEdit(ui->lineEdit);
-    StyleLineEdit(ui->lineEdit_2);
-    StyleLineEdit(ui->lineEdit_3);
-    StyleLineEdit(ui->lineEdit_4);
-    StyleLineEdit(ui->lineEdit_5);
-    StyleLineEdit(ui->lineEdit_6);
-    StyleLineEdit(ui->lineEdit_7);
-    StyleLineEdit(ui->lineEdit_8);
-    StyleLineEdit(ui->lineEdit_9);
-    StyleLineEdit(ui->lineEdit_10);
-    StyleLineEdit(ui->lineEdit_11);
-    StyleLineEdit(ui->lineEdit_12);
 
-    StyleButtonGreen(ui->ButtonConfirmer);
-    StyleButtonRed(ui->ButtonRetourner);
 
 }
 
 
-void Dialogformpatient::setOperation(const QString &op)
-{
-    operation_actuelle = op;
-}
 
-void Dialogformpatient::on_Pat_Button_Confirmer_clicked()
-{
-    if (operation_actuelle == "Ajouter") {
-        // Ajouter le patient
-        QMessageBox::information(this, "Info", "Ajout effectué");
-        accept(); // Ferme le formulaire
-    } else if (operation_actuelle == "Modifier") {
-        // Modifier le patient
-        QMessageBox::information(this, "Info", "Modification effectuée");
-        accept(); // Ferme le formulaire
-    } else if (operation_actuelle == "Supprimer") {
-        // Supprimer le patient
-        QMessageBox::information(this, "Info", "Suppression effectuée");
-    } else {
-        QMessageBox::warning(this, "Erreur", "Aucune opération définie !");
-    }
-
-}
 void Dialogformpatient::ExitApp(){
     close();
 }
 
 void Dialogformpatient::Valider() {
-    result.setID_PATIENT(ui->lineEdit->text().toInt());
-    result.setNOM(ui->lineEdit_2->text());
-    result.setPRENOM(ui->lineEdit_3->text());
-    result.setDATE_NAISSANCE(QDate::fromString(ui->lineEdit_4->text(), "yyyy-MM-dd"));
-    result.setSEXE(ui->lineEdit_5->text());
-    result.setADRESSE(ui->lineEdit_6->text());
-    result.setTELEPHONE(ui->lineEdit_7->text().toInt());
-    result.setEMAIL(ui->lineEdit_8->text());
-    result.setGROUPE_SANGUIN(ui->lineEdit_9->text());
-    result.setSTATUT_VACCINAL(ui->lineEdit_10->text());
-    result.setDATE_VACCIN(QDate::fromString(ui->lineEdit_11->text(), "yyyy-MM-dd"));
-    result.setID_PROJET_TESTER(ui->lineEdit_12->text().toInt());
 
+    int ID_PATIENT = ui->Pat_Line_ID->text().toInt();
+    QString ID_String = ui->Pat_Line_ID->text();
+    QString NOM = ui->Pat_Line_Nom->text();
+    QString PRENOM = ui->Pat_Line_Prenom->text();
+    QDate DATE_NAISSANCE = ui->Pat_Date_naissance->date();
+    QString SEXE = ui->Pat_Combo_Sexe->currentText();
+    QString ADRESSE = ui->Pat_Adresse->text();
+    QString TELEPHONE_String = ui->Pat_Telephone->text();
+    int TELEPHONE = TELEPHONE_String.toInt();
+    QString EMAIL = ui->Pat_Email->text();
+    QString GROUPE_SANGUIN = ui->Pat_Combo_groupe->currentText();
+    QString STATUT_VACCINAL = ui->Pat_Combo_Statut->currentText();
+    QDate DATE_VACCIN = ui->Pat_Date_Vaccin->date();
+    int ID_PROJET_TESTER = ui->Pat_Line_Id_Testeur->text().toInt();
+    QString ID_PROJET_String = ui->Pat_Line_Id_Testeur->text();
+
+
+    Patient P(ID_PATIENT, NOM, PRENOM, DATE_NAISSANCE, SEXE, ADRESSE, TELEPHONE, EMAIL, GROUPE_SANGUIN, STATUT_VACCINAL, DATE_VACCIN, ID_PROJET_TESTER);
+    result = P;
     close();
 }
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1074</width>
-    <height>669</height>
+    <width>504</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,333 +16,612 @@
   <widget class="QPushButton" name="ButtonConfirmer">
    <property name="geometry">
     <rect>
-     <x>860</x>
-     <y>320</y>
-     <width>121</width>
-     <height>29</height>
+     <x>110</x>
+     <y>560</y>
+     <width>80</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="text">
-    <string>Confirmer</string>
+    <string>Comfirmer</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QPushButton" name="ButtonRetourner">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>60</y>
-     <width>991</width>
-     <height>531</height>
+     <x>210</x>
+     <y>560</y>
+     <width>80</width>
+     <height>25</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+   <property name="text">
+    <string>Retourner</string>
    </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+  </widget>
+  <widget class="QGroupBox" name="Pat_GroupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>511</width>
+     <height>541</height>
+    </rect>
    </property>
-   <widget class="QLabel" name="datenp">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="title">
+    <string>Patients</string>
+   </property>
+   <widget class="QLabel" name="Res_Label_Nom">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>130</y>
-      <width>111</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Date_Naissance</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="sexep">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>170</y>
-      <width>63</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Sexe</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="adressep">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>210</y>
-      <width>63</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Adresse</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="telp">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>250</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Télèphone</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="mailp">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>290</y>
-      <width>63</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>E-mail</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="grpsangp">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>330</y>
-      <width>111</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Groupe_Sanguin</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="svp">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>370</y>
-      <width>111</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Status_Vaccinal</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="dvp">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>410</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Date_Vaccin</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="idptstp">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>450</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>ID_Testeur_Projet</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>212</x>
-      <y>5</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_3">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
+      <x>30</x>
       <y>80</y>
-      <width>431</width>
+      <width>99</width>
       <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Nom :</string>
+    </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_5">
+   <widget class="QLabel" name="Res_Label_DA">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>170</y>
-      <width>431</width>
+      <x>30</x>
+      <y>360</y>
+      <width>151</width>
       <height>31</height>
      </rect>
     </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_6">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>210</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Groupe Sanguin :</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_7">
+   <widget class="QLineEdit" name="Pat_Line_Nom">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>250</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_8">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>290</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_9">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>330</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_10">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>370</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_11">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>410</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_12">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>450</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>40</y>
-      <width>431</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="prenomp">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
+      <x>240</x>
       <y>80</y>
-      <width>63</width>
-      <height>20</height>
+      <width>209</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Prénom</string>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+		border: 1px solid #230a98;
+		border-radius: 5px;
+}
+QLineEdit:hover {
+		border: 1px solid #7359f0;
+}</string>
     </property>
    </widget>
-   <widget class="QLabel" name="nomp">
+   <widget class="QLineEdit" name="Pat_Line_ID">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>240</x>
       <y>40</y>
-      <width>63</width>
-      <height>20</height>
+      <width>209</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Nom</string>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+		border: 1px solid #230a98;
+		border-radius: 5px;
+}
+QLineEdit:hover {
+		border: 1px solid #7359f0;
+}</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Normal</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="idp">
+   <widget class="QLabel" name="Res_Label_ID">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>10</y>
-      <width>101</width>
-      <height>20</height>
+      <x>30</x>
+      <y>40</y>
+      <width>99</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="text">
-     <string>ID_Patient</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ButtonRetourner">
-    <property name="geometry">
-     <rect>
-      <x>830</x>
-      <y>300</y>
-      <width>121</width>
-      <height>29</height>
-     </rect>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
-     <string>Retourner</string>
+     <string>ID Patient :</string>
     </property>
    </widget>
-   <widget class="QDateEdit" name="dateEdit">
+   <widget class="QLineEdit" name="Pat_Line_Prenom">
     <property name="geometry">
      <rect>
-      <x>710</x>
+      <x>240</x>
       <y>120</y>
-      <width>111</width>
+      <width>209</width>
       <height>31</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+		border: 1px solid #230a98;
+		border-radius: 5px;
+}
+QLineEdit:hover {
+		border: 1px solid #7359f0;
+}</string>
+    </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_4">
+   <widget class="QLabel" name="Res_Label_Prenom">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>130</y>
-      <width>431</width>
-      <height>26</height>
+      <x>30</x>
+      <y>120</y>
+      <width>99</width>
+      <height>31</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Prenom :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Res_Label_DD">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>400</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Statut Vaccinal :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Res_Label_CIN">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>160</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Date de Naissance :</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Pat_Adresse">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>240</y>
+      <width>209</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+		border: 1px solid #230a98;
+		border-radius: 5px;
+}
+QLineEdit:hover {
+		border: 1px solid #7359f0;
+}</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Res_Label_NPerso">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>240</y>
+      <width>99</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Adresse : </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Res_Label_Tarif">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>280</y>
+      <width>99</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Telephone :</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Pat_Telephone">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>280</y>
+      <width>209</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+		border: 1px solid #230a98;
+		border-radius: 5px;
+}
+QLineEdit:hover {
+		border: 1px solid #7359f0;
+}</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Res_Label_Email">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>200</y>
+      <width>99</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Sexe :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Res_Label_RFID">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>440</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Date du Vaccin :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Res_Label_Type">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>320</y>
+      <width>99</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Email :</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="Res_Label_RFID_2">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>480</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>ID Testeur du Projet :</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="Pat_Line_Id_Testeur">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>480</y>
+      <width>209</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+		border: 1px solid #230a98;
+		border-radius: 5px;
+}
+QLineEdit:hover {
+		border: 1px solid #7359f0;
+}</string>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="Pat_Date_Vaccin">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>440</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QDateEdit
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    selection-background-color: #111;
+    selection-color: yellow;
+    color: black;
+    border-style: solid;
+    border: 1px solid #230a98;
+    border-radius: 5;
+    padding: 1px 0px 1px 20px;
+}</string>
+    </property>
+    <property name="currentSection">
+     <enum>QDateTimeEdit::DaySection</enum>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Pat_Combo_groupe">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>360</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    selection-background-color: #111;
+    selection-color: yellow;
+    color: black;
+    border-style: solid;
+    border: 1px solid #230a98;
+    border-radius: 5;
+    padding: 1px 0px 1px 20px;
+}</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>A+</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>A-</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>B+</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>B-</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>AB+</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>AB-</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>O+</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>O-</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="Pat_Combo_Statut">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>400</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    selection-background-color: #111;
+    selection-color: yellow;
+    color: black;
+    border-style: solid;
+    border: 1px solid #230a98;
+    border-radius: 5;
+    padding: 1px 0px 1px 20px;
+}</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Vaccine</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Non Vaccine</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>En attente</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLineEdit" name="Pat_Email">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>320</y>
+      <width>209</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLineEdit {
+		border: 1px solid #230a98;
+		border-radius: 5px;
+}
+QLineEdit:hover {
+		border: 1px solid #7359f0;
+}</string>
+    </property>
+   </widget>
+   <widget class="QDateEdit" name="Pat_Date_naissance">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>160</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QDateEdit
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    selection-background-color: #111;
+    selection-color: yellow;
+    color: black;
+    border-style: solid;
+    border: 1px solid #230a98;
+    border-radius: 5;
+    padding: 1px 0px 1px 20px;
+}</string>
+    </property>
+    <property name="currentSection">
+     <enum>QDateTimeEdit::DaySection</enum>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="Pat_Combo_Sexe">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>200</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    selection-background-color: #111;
+    selection-color: yellow;
+    color: black;
+    border-style: solid;
+    border: 1px solid #230a98;
+    border-radius: 5;
+    padding: 1px 0px 1px 20px;
+}</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Homme</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Femme</string>
+     </property>
+    </item>
    </widget>
   </widget>
-  <zorder>frame</zorder>
-  <zorder>ButtonConfirmer</zorder>
  </widget>
  <resources/>
  <connections/>
