@@ -14,21 +14,18 @@ class ficheressource : public QDialog
     Q_OBJECT
 
 public:
-    explicit ficheressource(QWidget *parent = nullptr);
+    explicit ficheressource(QWidget *parent = nullptr,bool IsModeAjout = false, int ID_RESSOURCE = 0);
     ~ficheressource();
-    void setOperation(const QString &op);
     Resources GetResult() const { return result;};
-private slots:
-    void on_Pat_Button_Confirmer_clicked();
+    void ShowDialog();
+    bool IsModeAjout;
+    int ID_Ressource;
     void Valider();
     void Annuler();
 private:
     Ui::ficheressource *ui;
-    QString operation_actuelle;
-    Resources result = Resources(0,"",0,0,0,0,0,0);
-    void ExitApp();
-
     void SetupDesign();
+    Resources result;
 };
 
 #endif // FICHERESSOURCE_H

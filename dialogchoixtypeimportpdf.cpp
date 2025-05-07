@@ -128,7 +128,7 @@ bool DialogChoixTypeImportPDF::GenererPDFProjet(QString fileName,QDate startDate
 
     // === Export TO PDF ===
     QPdfWriter writer(fullFilePath);
-    writer.setPageSize(QPagedPaintDevice::A4);
+    writer.setPageSize(QPageSize::A4);
     writer.setResolution(300);
 
     QPainter painter(&writer);

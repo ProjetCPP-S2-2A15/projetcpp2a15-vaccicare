@@ -10,6 +10,7 @@ Resources::Resources(int id, QString n, int type, int q, int dispo, int date, in
     : id_ressource(id), nom(n), id_type_ressource(type), quantite(q), disponibilite(dispo),
     date_acquisition(date), id_fournisseur(fournisseur), cout_acquisition(cout) {}
 
+Resources::Resources(){}
 // Add a resource to the database
 bool Resources::ajouter() {
     // Input validation checkpoints
@@ -122,18 +123,12 @@ bool Resources::modifier() {
 }
 
 // Display all resources
-void Resources::afficher() {
-    QSqlQuery query("SELECT * FROM RESSOURCE");
-    while (query.next()) {
-        qDebug() << "ID:" << query.value("ID_RESSOURCE").toInt()
-        << "Name:" << query.value("NOM").toString()
-        << "Type:" << query.value("ID_TYPE_RESSOURCE").toInt()
-        << "Quantity:" << query.value("QUANTITE").toInt()
-        << "Availability:" << query.value("DISPONIBILITE").toInt()
-        << "Acquisition Date:" << query.value("DATE_ACQUISITION").toInt()
-        << "Supplier:" << query.value("ID_FOURNISSEUR").toInt()
-        << "Acquisition Cost:" << query.value("COUT_ACQUISITION").toInt();
-    }
+QSqlQueryModel* Resources::Afficher()
+{
+    QSqlQueryModel* model = new QSqlQueryModel();
+    model->setQuery("SELECT * FROM RESSOURCE WHERE ID_RESSOURCE >0");
+    return model;
+
 }
 
 QAbstractItemModel* Resources::GetDataForPDF(){
@@ -147,3 +142,18 @@ QAbstractItemModel* Resources::GetDataForPDF(){
     return model;
 }
 
+int Resources::getLastId(){
+    QSqlQuery Querry;
+    Querry.prepare("Select MAX(ID_RESSOURCE) FROM RESSOURCE;");
+    Querry.exec();
+
+    if (Querry.next()) {  // Move to the first row
+        QVariant result = Querry.value(0);
+        if (result.isNull()) {
+            return 0;  // Return 0 if the table is empty
+        }
+        return result.toInt();
+    }
+
+    return 0;  // If no rows exist, return 0
+}

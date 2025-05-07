@@ -21,11 +21,12 @@ private:
 public:
     // Constructor
     Resources(int id, QString n, int type, int q, int dispo, int date, int fournisseur, int cout);
+    Resources();
 
     bool ajouter();
     static bool supprimer(int id);
     bool modifier();
-    static void afficher();
+    static QSqlQueryModel* Afficher();
     int id_ressource;
     QString nom;
     int id_type_ressource;
@@ -35,6 +36,7 @@ public:
     int id_fournisseur;
     int cout_acquisition;
     static QAbstractItemModel* GetDataForPDF();
+    static int getLastId();
 };
 
 #endif // RESSOURCE_H

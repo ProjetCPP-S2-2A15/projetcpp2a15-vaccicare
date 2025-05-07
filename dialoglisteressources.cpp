@@ -2,27 +2,24 @@
 #include "ui_dialoglisteressources.h"
 #include "ficheressource.h"
 #include "resources.h"
-#include "ui_ficheressource.h"
-#include <QDialog>
 #include <QMessageBox>
-#include <QTableView>
-#include <QAbstractItemView>
+#include <QDebug>
 #include "Design.h"
-
+#include <QAbstractItemModel>
 
 Dialoglisteressources::Dialoglisteressources(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::Dialoglisteressources)
 {
     ui->setupUi(this);
-    connect(ui->AjtR,&QPushButton::clicked,this,&Dialoglisteressources::on_buttonAjouter_clicked);
-    connect(ui->ModR,&QPushButton::clicked,this,&Dialoglisteressources::on_buttonModifier_clicked);
-    connect(ui->SupR,&QPushButton::clicked,this,&Dialoglisteressources::on_buttonSupprimer_clicked);
-    //connect(ui->ButtonPDF,&QPushButton::clicked,this,&Dialoglistepatient::on_buttonPDF_clicked);
-    //connect(ui->ButtonRetourner,&QPushButton::clicked,this,&::Dialoglisteressources::ExitApp);
+    connect(ui->AjtR, &QPushButton::clicked, this, &Dialoglisteressources::on_buttonAjouter_clicked);
+    connect(ui->ModR, &QPushButton::clicked, this, &Dialoglisteressources::on_buttonModifier_clicked);
+    connect(ui->SupR, &QPushButton::clicked, this, &Dialoglisteressources::on_buttonSupprimer_clicked);
+    connect(ui->ButtonRetourner, &QPushButton::clicked, this, &Dialoglisteressources::ExitApp);
+    ui->tableview->setModel(Resources::Afficher());
 
     setupDesign();
-
+     ui->tableview->setModel(Resources::Afficher());
 }
 
 Dialoglisteressources::~Dialoglisteressources()
@@ -30,67 +27,67 @@ Dialoglisteressources::~Dialoglisteressources()
     delete ui;
 }
 
-void Dialoglisteressources::on_buttonAjouter_clicked(){
-    ficheressource *NewDialog = new ficheressource(this);
-    NewDialog->setOperation("Ajouter");
-    NewDialog->exec();
-    Resources result = NewDialog->GetResult();
+void Dialoglisteressources::on_buttonAjouter_clicked()
+{
+    ficheressource *dialog = new ficheressource(this, true, Resources::getLastId() + 1);
+    dialog->exec();
+    Resources result = dialog->GetResult();
     if(result.id_ressource != -1){
-        result.ajouter();
-       // FillTable(ui->checkBox_tri_DD->isChecked(),ui->checkBox_tri_DPrem->isChecked());
+        result.ajouter(); // Ajoute directement à la base
+        ui->tableview->setModel(Resources::Afficher());
     }
 }
 
-void Dialoglisteressources::on_buttonModifier_clicked(){
-    QModelIndex index = ui->tableR->currentIndex();
-    int row = index.row();
-    if (row < 0) {
-        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner un vaccin à modifier.");
+void Dialoglisteressources::on_buttonModifier_clicked()
+{
+    QModelIndexList selectedRows = ui->tableview->selectionModel()->selectedRows();
+    if (selectedRows.isEmpty()) {
+        QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner une ressource à modifier.");
         return;
     }
 
-    int id_ressource = ui->tableR->model()->index(row, 0).data().toInt();
-    ficheressource *NewDialog = new ficheressource(this);
-    NewDialog->setOperation("Modifier");
-    NewDialog->exec();
-    Resources result = NewDialog->GetResult();
+    int row = selectedRows.first().row();
+    QAbstractItemModel *model = ui->tableview->model();
+    int idRessource = model->data(model->index(row, 0)).toInt();  // Supposé que l'ID est en colonne 0
+
+    ficheressource *dialog = new ficheressource(this, false, idRessource);
+    dialog->exec();
+    Resources result = dialog->GetResult();
     if(result.id_ressource != -1){
-        result.modifier();
-        //FillTable(ui->checkBox_tri_DD->isChecked(),ui->checkBox_tri_DPrem->isChecked());
+        result.modifier(); // Met à jour la ressource dans la base
+        ui->tableview->setModel(Resources::Afficher());
     }
 }
 
 void Dialoglisteressources::on_buttonSupprimer_clicked()
 {
-    QModelIndex index = ui->tableR->currentIndex();
-    int row = index.row();
-    if (row < 0) {
+    QModelIndexList selectedRows = ui->tableview->selectionModel()->selectedRows();
+    if (selectedRows.isEmpty()) {
         QMessageBox::warning(this, "Aucune sélection", "Veuillez sélectionner une ressource à supprimer.");
         return;
     }
 
-    int id_ressource = ui->tableR->model()->index(row, 0).data().toInt();
-
-    ficheressource *f = new ficheressource(this);
-    f->setOperation("Supprimer");
+    int row = selectedRows.first().row();
+    QAbstractItemModel *model = ui->tableview->model();
+    int idRessource = model->data(model->index(row, 0)).toInt();  // Supposé que l'ID est en colonne 0
 
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Confirmation", "Êtes-vous sûr de vouloir supprimer cette ressource ?",
                                   QMessageBox::Yes | QMessageBox::No);
 
     if (reply == QMessageBox::Yes) {
-        int id_ressource = ui->tableR->model()->index(row, 0).data().toInt();
-        bool success = Resources::supprimer(id_ressource); // Appel réel à la méthode de suppression
+        if (Resources::supprimer(idRessource)) {
+            ui->tableview->setModel(Resources::Afficher());
+        }
     }
-
-
-    delete f;
 }
 
 
-void Dialoglisteressources::ExitApp(){
-    close();
+void Dialoglisteressources::ExitApp()
+{
+    this->close();
 }
+
 
 void Dialoglisteressources::setupDesign(){
 
@@ -98,9 +95,9 @@ void Dialoglisteressources::setupDesign(){
     StyleButtonGreen(ui->AjtR);
     StyleButtonRed(ui->SupR);
 
-    StyleComboBox(ui->triR);
-    StyleComboBox(ui->recherchepar);
+    StyleComboBox(ui->comboBox);
+    StyleComboBox(ui->comboBox_tri);
 
-    StyleTextEdit(ui->rechercherR);
-    StyleTableView(ui->tableR);
+    StyleTextEdit(ui->lineEdit_rechercher);
+    StyleTableView(ui->tableview);
 }
