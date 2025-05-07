@@ -1,6 +1,5 @@
 QT       += core gui printsupport
-QT       += sql charts network multimedia multimediawidgets network
-
+QT       += sql charts network multimedia multimediawidgets network serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17   #•kenet 11
@@ -12,6 +11,7 @@ CONFIG += c++17   #•kenet 11
 SOURCES += \
     Design.cpp \
     addressource.cpp \
+    arduino.cpp \
     calendrierdialog.cpp \
     chatbot.cpp \
     connection.cpp \
@@ -47,6 +47,7 @@ SOURCES += \
 HEADERS += \
     Design.h \
     addressource.h \
+    arduino.h \
     calendrierdialog.h \
     chatbot.h \
     connection.h \
