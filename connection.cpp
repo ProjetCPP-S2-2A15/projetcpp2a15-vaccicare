@@ -11,10 +11,10 @@ Connection::Connection() {
     //db.setPassword("1234");
 
     //takwa
-//    db = QSqlDatabase::addDatabase("QODBC");
-//    db.setDatabaseName("VACCICARE");
-//    db.setUserName("SYSTEM");
-//   db.setPassword("1234");
+  db = QSqlDatabase::addDatabase("QODBC");
+    db.setDatabaseName("VACCICARE");
+    db.setUserName("SYSTEM");
+   db.setPassword("1234");
 
     //islem
     db = QSqlDatabase::addDatabase("QODBC");
